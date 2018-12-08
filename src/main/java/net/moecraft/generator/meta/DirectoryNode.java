@@ -6,26 +6,20 @@
 
 package net.moecraft.generator.meta;
 
-import com.kenvix.utils.FileTool;
-
 import java.io.File;
-import java.io.IOException;
 import java.util.HashSet;
 
 public class DirectoryNode {
-    private HashSet<FileNode> files = new HashSet<>();
-    private File   dir;
+    private HashSet<FileNode>      fileNodes      = new HashSet<>();
+    private HashSet<DirectoryNode> directoryNodes = new HashSet<>();
+    private File                   directory;
 
     public DirectoryNode(File dir) {
-        this.dir = dir;
-    }
-
-    public HashSet<FileNode> getFiles() {
-        return files;
+        this.directory = dir;
     }
 
     public FileNode addFileNode(FileNode node) {
-        files.add(node);
+        fileNodes.add(node);
         return node;
     }
 
@@ -34,11 +28,36 @@ public class DirectoryNode {
     }
 
     public DirectoryNode removeFileNode(FileNode node) {
-        files.remove(node);
+        fileNodes.remove(node);
         return this;
     }
 
-    public File getDirectory() {
+    public DirectoryNode addDirectoryNode(DirectoryNode dir) {
+        directoryNodes.add(dir);
         return dir;
+    }
+
+    public DirectoryNode addDirectoryNode(File dir) {
+        return addDirectoryNode(new DirectoryNode(dir));
+    }
+
+    public File getDirectory() {
+        return directory;
+    }
+
+    public HashSet<DirectoryNode> getDirectoryNodes() {
+        return directoryNodes;
+    }
+
+    public HashSet<FileNode> getFileNodes() {
+        return fileNodes;
+    }
+
+    public boolean hasChildDirectory() {
+        return !directoryNodes.isEmpty();
+    }
+
+    public boolean hasFile() {
+        return !fileNodes.isEmpty();
     }
 }

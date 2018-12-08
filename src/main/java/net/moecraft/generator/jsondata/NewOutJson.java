@@ -4,7 +4,7 @@
 // Written by Kenvix <i@kenvix.com>
 //--------------------------------------------------
 
-package net.moecraft.generator.outjson;
+package net.moecraft.generator.jsondata;
 
-public abstract class NewOutJson implements OutJson {
+public abstract class NewOutJson implements OutJsonData {
 }

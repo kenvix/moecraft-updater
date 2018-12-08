@@ -16,20 +16,25 @@ public class FileScanner implements Scanner {
         MetaResult    result = in.getResult();
         DirectoryNode directoryNode = result.addDirectoryNode(type, dir);
         Logger.getGlobal().info("Scanning directory " + dir.getPath());
-        result.addDirectoryNode(type, directoryNode);
+        scan(dir, directoryNode);
+        return result;
+    }
+
+    public DirectoryNode scan(File dir, DirectoryNode parentNode) {
+        DirectoryNode directoryNode = parentNode.addDirectoryNode(dir);
         File[] list = dir.listFiles();
         if(list != null) {
             for (File file : list) {
                 if(file.isFile()) {
                     Logger.getGlobal().info("+ File: " + file.getName());
-                    directoryNode.addDirectoryNode(file);
+                    directoryNode.addFileNode(file);
                 } else {
-                    scan(file, type, in);
+                    scan(file, directoryNode);
                 }
             }
         } else {
             Logger.getGlobal().warning("Failed to open directory " + dir.getPath());
         }
-        return result;
+        return directoryNode;
     }
 }

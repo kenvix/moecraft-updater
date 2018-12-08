@@ -6,13 +6,14 @@
 
 package net.moecraft.generator.meta.scanner;
 
+import net.moecraft.generator.meta.DirectoryNode;
 import net.moecraft.generator.meta.MetaNodeType;
 import net.moecraft.generator.meta.MetaResult;
 import net.moecraft.generator.meta.MetaScanner;
 
 import java.io.File;
 
-@FunctionalInterface
 public interface Scanner {
     MetaResult scan(File dir, MetaNodeType type, MetaScanner in);
+    DirectoryNode scan(File dir, DirectoryNode parentNode);
 }

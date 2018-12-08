@@ -6,6 +6,7 @@
 
 package net.moecraft.generator;
 
+import net.moecraft.generator.jsondata.balthild.BalthildJsonData;
 import net.moecraft.generator.meta.MetaScanner;
 import net.moecraft.generator.meta.scanner.FileScanner;
 
@@ -21,6 +22,9 @@ public class Main {
     public static void main(String[] args) {
         try {
             basePath = (new File("")).getCanonicalPath();
+            MetaScanner scanner = new MetaScanner(new File("./"));
+
+            out.println((new BalthildJsonData()).encode(basePath, scanner.scan(new FileScanner())));
         } catch (Exception ex) {
             Logger.getGlobal().log(Level.SEVERE, "Unexpected Exception.");
             ex.printStackTrace();
@@ -59,9 +63,7 @@ public class Main {
             System.err.println(ex.toString());
             System.exit(1);
         }*/
-        MetaScanner scanner = new MetaScanner(new File("./"));
 
-        out.println(scanner.scan(new FileScanner()).getDirectoryNodes());
     }
 /*
     private static CommandLine getCmd(String[] args) throws ParseException {

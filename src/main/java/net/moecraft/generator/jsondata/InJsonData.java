@@ -4,13 +4,13 @@
 // Written by Kenvix <i@kenvix.com>
 //--------------------------------------------------
 
-package net.moecraft.generator.outjson;
+package net.moecraft.generator.jsondata;
 
 import net.moecraft.generator.meta.MetaResult;
 
 import java.io.IOException;
 
 @FunctionalInterface
-public interface OutJson {
-    String encode(String basePath, MetaResult result) throws IOException;
+public interface InJsonData {
+    MetaResult decode(String basePath, String data) throws IOException;
 }

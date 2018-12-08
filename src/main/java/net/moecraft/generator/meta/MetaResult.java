@@ -9,25 +9,33 @@ import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.logging.Logger;
 
 public class MetaResult {
     private HashMap<MetaNodeType, HashSet<DirectoryNode>> directoryNodes;
-    private HashMap<MetaNodeType, DirectoryNode> fileNodes;
-    private String description = null;
-    private long time = new Date().getTime();
+    private HashMap<MetaNodeType, DirectoryNode>          fileNodes;
+    private String                                        description = null;
+    private long                                          time        = new Date().getTime();
 
-    MetaResult() {
+    {
         directoryNodes = new HashMap<>();
         fileNodes = new HashMap<>();
-        for(MetaNodeType type : MetaNodeType.values()) {
-            if(type.getClass().isAnnotationPresent(DirectoryMetaNode.class))
-                directoryNodes.put(type, new HashSet<>());
-            else if(type.getClass().isAnnotationPresent(FileMetaNode.class))
-                fileNodes.put(type, new DirectoryNode(new File(".")));
+        for (MetaNodeType type : MetaNodeType.values()) {
+           try {
+               if (type.getClass().getField(type.name()).isAnnotationPresent(DirectoryMetaNode.class))
+                   directoryNodes.put(type, new HashSet<>());
+               else if (type.getClass().getField(type.name()).isAnnotationPresent(FileMetaNode.class))
+                   fileNodes.put(type, new DirectoryNode(new File(".")));
+           } catch (Exception ex) {
+               Logger.getGlobal().warning("Invalid field during MetaResult:MetaNodeType initialize. may cause NullPointerException.");
+               ex.printStackTrace();
+           }
         }
     }
 
     public DirectoryNode addDirectoryNode(MetaNodeType type, DirectoryNode dir) {
+        if(!directoryNodes.containsKey(type))
+            directoryNodes.put(type, new HashSet<>());
         directoryNodes.get(type).add(dir);
         return dir;
     }
@@ -56,6 +64,18 @@ public class MetaResult {
 
     public HashMap<MetaNodeType, HashSet<DirectoryNode>> getDirectoryNodes() {
         return directoryNodes;
+    }
+
+    public HashSet<DirectoryNode> getDirectoryNodesByType(MetaNodeType type) {
+        return directoryNodes.get(type);
+    }
+
+    public HashMap<MetaNodeType, DirectoryNode> getFileNodes() {
+        return fileNodes;
+    }
+
+    public DirectoryNode getFileNodesByType(MetaNodeType type) {
+        return fileNodes.get(type);
     }
 
     public long getTime() {
