@@ -5,11 +5,11 @@
 //--------------------------------------------------
 
 package net.moecraft.generator;
-
 import net.moecraft.generator.jsondata.balthild.BalthildJsonData;
+import net.moecraft.generator.meta.GeneratorConfig;
 import net.moecraft.generator.meta.MetaScanner;
 import net.moecraft.generator.meta.scanner.FileScanner;
-import sun.rmi.runtime.Log;
+import org.apache.commons.cli.*;
 
 import java.io.File;
 import java.util.logging.Level;
@@ -18,19 +18,25 @@ import java.util.logging.Logger;
 import static java.lang.System.out;
 
 public class Main {
-    private static String basePath;
-
     public static void main(String[] args) {
         try {
-            File baseDir = new File("./MoeCraft");
-            if(!baseDir.exists()) {
-                Logger.getGlobal().log(Level.SEVERE, "MoeCraft root directory not found. Please create a directory called 'MoeCraft' and run this program again.");
+            CommandLine cmd = getCmd(args);
+            File baseMoeCraftDir = new File(cmd.hasOption('p') ? cmd.getOptionValue('p') : "./MoeCraft");
+            if(!baseMoeCraftDir.exists()) {
+                Logger.getGlobal().log(Level.SEVERE, "MoeCraft root directory not found on '" + baseMoeCraftDir.getCanonicalPath() + "'. Please create a directory called 'MoeCraft' and run this program again.");
                 System.exit(9);
             }
-            basePath = baseDir.getCanonicalPath();
-            MetaScanner scanner = new MetaScanner(baseDir);
+            String basePath = baseMoeCraftDir.getCanonicalPath();
+            Logger.getGlobal().log(Level.FINEST, "Current path: " + basePath);
 
-            out.println((new BalthildJsonData()).encode(basePath, scanner.scan(new FileScanner())));
+            File generatorConfigFile = new File(cmd.hasOption('c') ? cmd.getOptionValue('c') : "./generator_config.json");
+            GeneratorConfig.getInstance(basePath, generatorConfigFile);
+            MetaScanner scanner = new MetaScanner(new FileScanner());
+            if(!baseMoeCraftDir.exists()) {
+                Logger.getGlobal().log(Level.SEVERE, "generator_config.json not found on '" + generatorConfigFile.getCanonicalPath() + "'. Please specify where generator_config.json is and run this program again.");
+                System.exit(8);
+            }
+            out.println((new BalthildJsonData()).encode(basePath, scanner.scan()));
         } catch (Exception ex) {
             Logger.getGlobal().log(Level.SEVERE, "Unexpected Exception.");
             ex.printStackTrace();
@@ -71,22 +77,21 @@ public class Main {
         }*/
 
     }
-/*
+
     private static CommandLine getCmd(String[] args) throws ParseException {
-        /*
         Options ops = new Options();
-        ops.addOption("p", "path",false, "Path to MoeCraft root directory");
-        ops.addOption("h", "help",false, "Print help message");
-        ops.addOption("i", "interval",true, "Interval(seconds) of check updates on pixiv");
+        ops.addOption("p", "path",true, "Path to MoeCraft root directory. Default ./MoeCraft");
+        ops.addOption("c", "config",true, "Path to generator_config.json. Default ./generator_config.json");
+        ops.addOption("h", "help",false, "Print help messages.");
         DefaultParser parser = new DefaultParser();
-        CommandLine cmd = parser.parse(ops, args);
-        if(cmd.hasOption("h")) {
+        CommandLine   cmd    = parser.parse(ops, args);
+        if(cmd.hasOption('h')) {
             HelpFormatter formatter = new HelpFormatter();
             formatter.printHelp("pixivbg", getHeader(), ops, "", true);
             System.exit(0);
         }
         return cmd;
-    }*/
+    }
 
     private static String getHeader() {
         return "MoeCraft Updater Meta Generator // Written by Kenvix";

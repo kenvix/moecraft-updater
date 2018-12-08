@@ -13,10 +13,10 @@ import java.util.logging.Logger;
 
 public class MetaResult {
     private HashMap<MetaNodeType, HashSet<DirectoryNode>> directoryNodes;
-    private HashMap<MetaNodeType, DirectoryNode>          fileNodes;
-    private String                                        description = null;
-    private String version = null;
-    private long   time    = new Date().getTime();
+    private HashMap<MetaNodeType, DirectoryNode> fileNodes;
+    private String                               description = null;
+    private String                               version = null;
+    private long                                 time    = new Date().getTime();
 
     {
         directoryNodes = new HashMap<>();

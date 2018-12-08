@@ -7,9 +7,11 @@
 package net.moecraft.generator.meta;
 
 import com.kenvix.utils.FileTool;
+import com.kenvix.utils.StringTool;
 import jdk.nashorn.internal.objects.Global;
 import jdk.nashorn.internal.parser.JSONParser;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,18 +22,61 @@ import java.util.logging.Logger;
 public class GeneratorConfig extends MetaResult {
     private File file;
     private String basePath;
-    private HashSet<String> excludedFileRule = new HashSet<>();
-    private HashSet<String> excludedDirectoryRule = new HashSet<>();
-    private static GeneratorConfig instance = null;
+    private        HashSet<String> excludedFileRule      = new HashSet<>();
+    private        HashSet<String> excludedDirectoryRule = new HashSet<>();
+    private static GeneratorConfig instance              = null;
 
-    public GeneratorConfig getInstance(String basePath, File file) throws IOException {
+    /**
+     * Get an instance of GeneratorConfig
+     * @param basePath base path of application
+     * @param file generator_config.json
+     * @return GeneratorConfig
+     * @throws IOException failed to read file
+     */
+    public static GeneratorConfig getInstance(String basePath, File file) throws IOException {
         return instance == null ? (instance = new GeneratorConfig(basePath, file)) : instance;
     }
 
-    public GeneratorConfig getInstance() throws IllegalStateException {
+    /**
+     * Directly get an instance of GeneratorConfig if it has been initialized.
+     * @return GeneratorConfig
+     * @throws IllegalStateException throws if GeneratorConfig has not been initialized.
+     */
+    public static GeneratorConfig getInstance() throws IllegalStateException {
         if(instance == null)
             throw new IllegalStateException("GeneratorConfig not initialized!!!");
         return instance;
+    }
+
+    public HashSet<String> getExcludedDirectoryRule() {
+        return excludedDirectoryRule;
+    }
+
+    public HashSet<String> getExcludedFileRule() {
+        return excludedFileRule;
+    }
+
+    public boolean isFileExcluded(File file) {
+        boolean excluded = false;
+        for (String rule : excludedFileRule) {
+            if (StringTool.wildcardMatch(rule, file.getName()))
+                excluded = true;
+        }
+        return excluded;
+    }
+
+    public boolean isDirectoryExcluded(File dir) {
+        boolean excluded = false;
+        try {
+            for (String rule : excludedDirectoryRule) {
+                if (StringTool.wildcardMatch(rule, FileTool.getRelativePath(basePath, dir.getCanonicalPath())))
+                    excluded = true;
+            }
+        } catch (IOException ex) {
+            Logger.getGlobal().info("Failed to detect whether directory is excluded: " + dir.getName());
+            ex.printStackTrace();
+        }
+        return excluded;
     }
 
     private GeneratorConfig(String basePath, File file) throws IOException {
@@ -42,8 +87,9 @@ public class GeneratorConfig extends MetaResult {
     }
 
     private void scan() throws IOException {
-        JSONParser parser = new JSONParser(FileTool.readAllText(file.getAbsolutePath()), Global.instance(), false);
-        JSONObject json = (JSONObject) parser.parse();
+        String jsonText = FileTool.readAllText(file.getAbsolutePath());
+        JSONTokener jsonTokener = new JSONTokener(jsonText);
+        JSONObject json = new JSONObject(jsonTokener);
         setDescription(json.getString("description"));
         setVersion(json.getString("version"));
         searchFileItems("synced_dirs", MetaNodeType.SyncedDirectory, json);
@@ -79,7 +125,7 @@ public class GeneratorConfig extends MetaResult {
                             addFileNode(type, fileNode);
                         }
                     } else {
-                        Logger.getGlobal().log(Level.INFO, "Declaring a not-found or invalid file/directory" + dir + ". Skip...");
+                        Logger.getGlobal().log(Level.INFO, "Declaring a not-found or invalid file " + dir + ". Skip...");
                     }
                 } else {
                     Logger.getGlobal().info("Detected invalid config item " + key + " on " + type.name());
@@ -93,6 +139,4 @@ public class GeneratorConfig extends MetaResult {
     public File getFile() {
         return file;
     }
-
-
 }

@@ -22,3 +22,9 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 @interface DirectoryMetaNode {
 }
+
+@Documented
+@Inherited
+@Retention(RetentionPolicy.RUNTIME)
+@interface ScanableMetaNode {
+}

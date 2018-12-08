@@ -3,18 +3,16 @@ package net.moecraft.generator.meta;
 import net.moecraft.generator.meta.scanner.Scanner;
 
 import java.io.File;
+import java.lang.reflect.Field;
+import java.util.logging.Logger;
 
 public class MetaScanner {
-    private File dir;
-    private MetaResult result;
+    private MetaResult result = new MetaResult();
+    private Scanner scanner;
+    private GeneratorConfig config = GeneratorConfig.getInstance();
 
-    public MetaScanner(File dir) {
-        this.dir = dir;
-        this.result = new MetaResult();
-    }
-
-    public File getDir() {
-        return dir;
+    public MetaScanner(Scanner scanner) {
+        this.scanner = scanner;
     }
 
     /**
@@ -31,9 +29,20 @@ public class MetaScanner {
         return this;
     }
 
-    public MetaResult scan(Scanner scanner) {
-        for (MetaNodeType type : MetaNodeType.values())
-            scanner.scan(dir, type, this);
+    public MetaResult scan() {
+        for (MetaNodeType type : MetaNodeType.values()) {
+            try {
+                Field field = type.getClass().getField(type.name());
+                if(field.isAnnotationPresent(ScanableMetaNode.class)) {
+                    if(field.isAnnotationPresent(DirectoryMetaNode.class))
+                        config.getDirectoryNodesByType(type).forEach(dir -> scanner.scan(dir.getDirectory(), type, this));
+                    else if (field.isAnnotationPresent(FileMetaNode.class))
+                        config.getFileNodesByType(type).getFileNodes().forEach(file -> result.addFileNode(type, file));
+                }
+            } catch (NoSuchFieldException ex) {
+                Logger.getGlobal().info("Scanner : no such field: " + ex.getMessage());
+            }
+        }
         return result;
     }
 }

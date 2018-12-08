@@ -7,9 +7,9 @@
 package net.moecraft.generator.meta;
 
 public enum MetaNodeType {
-    @DirectoryMetaNode SyncedDirectory,
-    @FileMetaNode SyncedFile,
-    @FileMetaNode DefaultFile,
+    @ScanableMetaNode @DirectoryMetaNode SyncedDirectory,
+    @ScanableMetaNode @FileMetaNode SyncedFile,
+    @ScanableMetaNode @FileMetaNode DefaultFile,
     @FileMetaNode ExcludedFile,
     @DirectoryMetaNode ExcludedDirectory,
 }

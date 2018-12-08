@@ -47,16 +47,20 @@ public class FileTool {
 
     /**
      * Get relative path of a file
+     *
      * @param base Base path
      * @param path file path
      * @return result
      */
     public static String getRelativePath(String base, String path) {
-        if(path.startsWith("./") || path.startsWith(".\\"))
-            return path.substring(2);
-        if(path.startsWith(base)) {
+        base = base.replace('\\', '/');
+        if (base.endsWith("/"))
+            base = base.substring(base.length() - 1);
+        if (path.startsWith("./") || path.startsWith(".\\"))
+                return path.substring(2);
+        if (path.startsWith(base)) {
             path = path.substring(base.length());
-            if(path.startsWith("/") || path.startsWith("\\"))
+            if (path.startsWith("/") || path.startsWith("\\"))
                 path = path.substring(1);
             return path;
         }

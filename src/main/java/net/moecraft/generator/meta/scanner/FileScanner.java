@@ -13,6 +13,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class FileScanner implements Scanner {
+    private static GeneratorConfig config = GeneratorConfig.getInstance();
+
     public MetaResult scan(File dir, MetaNodeType type, MetaScanner in) {
         MetaResult    result = in.getResult();
         DirectoryNode directoryNode = result.addDirectoryNode(type, dir);
@@ -27,10 +29,13 @@ public class FileScanner implements Scanner {
         if(list != null) {
             for (File file : list) {
                 if(file.isFile()) {
-                    Logger.getGlobal().log(Level.FINEST, "+ File: " + file.getName());
-                    directoryNode.addFileNode(file);
+                    if(!config.isFileExcluded(file)) {
+                        Logger.getGlobal().log(Level.FINEST, "+ File: " + file.getName());
+                        directoryNode.addFileNode(file);
+                    }
                 } else {
-                    scan(file, directoryNode);
+                    if(!config.isDirectoryExcluded(file))
+                        scan(file, directoryNode);
                 }
             }
         } else {
