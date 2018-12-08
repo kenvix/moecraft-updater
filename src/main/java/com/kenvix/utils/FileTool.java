@@ -54,6 +54,7 @@ public class FileTool {
      */
     public static String getRelativePath(String base, String path) {
         base = base.replace('\\', '/');
+        path = path.replace('\\', '/');
         if (base.endsWith("/"))
             base = base.substring(base.length() - 1);
         if (path.startsWith("./") || path.startsWith(".\\"))

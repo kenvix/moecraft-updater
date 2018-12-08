@@ -7,6 +7,7 @@
 package net.moecraft.generator.jsondata.balthild;
 
 import com.kenvix.utils.FileTool;
+import net.moecraft.generator.jsondata.GeneratorEngine;
 import net.moecraft.generator.jsondata.InJsonData;
 import net.moecraft.generator.meta.DirectoryNode;
 import net.moecraft.generator.meta.FileNode;
@@ -17,16 +18,17 @@ import org.json.JSONObject;
 import org.json.JSONArray;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashSet;
 
-public class BalthildJsonData implements OutJsonData {
+public class BalthildJsonData implements GeneratorEngine {
     private String basePath;
 
     public String encode(String basePath, MetaResult result) throws IOException {
         this.basePath = basePath;
         JSONObject object = new JSONObject();
-        object.put("updated_at", result.getTime()/1000);
+        object.put("updated_at", result.getTime() / 1000);
         JSONArray syncedDirs = new JSONArray();
         scanDir(syncedDirs, result.getDirectoryNodesByType(MetaNodeType.SyncedDirectory));
         object.put("synced_dirs", syncedDirs);
@@ -49,9 +51,16 @@ public class BalthildJsonData implements OutJsonData {
         return object.toString();
     }
 
+    public void save(String basePath, Object in) throws IOException, ClassCastException {
+        String result = (String) in;
+        FileWriter writer = new FileWriter(basePath + "/metadata.json");
+        writer.write(result);
+        writer.close();
+    }
+
     private void scanDir(JSONArray result, HashSet<DirectoryNode> directoryNodes) throws IOException {
         for (DirectoryNode dir : directoryNodes) {
-            if(dir.hasChildDirectory()) {
+            if (dir.hasChildDirectory()) {
                 scanDir(result, dir.getDirectoryNodes());
             } else {
                 JSONArray dirFiles = new JSONArray();
