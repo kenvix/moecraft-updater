@@ -9,13 +9,14 @@ package net.moecraft.generator.meta.scanner;
 import net.moecraft.generator.meta.*;
 
 import java.io.File;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class FileScanner implements Scanner {
     public MetaResult scan(File dir, MetaNodeType type, MetaScanner in) {
         MetaResult    result = in.getResult();
         DirectoryNode directoryNode = result.addDirectoryNode(type, dir);
-        Logger.getGlobal().info("Scanning directory " + dir.getPath());
+        Logger.getGlobal().log(Level.FINER, "Scanning directory " + dir.getPath());
         scan(dir, directoryNode);
         return result;
     }
@@ -26,7 +27,7 @@ public class FileScanner implements Scanner {
         if(list != null) {
             for (File file : list) {
                 if(file.isFile()) {
-                    Logger.getGlobal().info("+ File: " + file.getName());
+                    Logger.getGlobal().log(Level.FINEST, "+ File: " + file.getName());
                     directoryNode.addFileNode(file);
                 } else {
                     scan(file, directoryNode);

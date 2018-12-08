@@ -8,7 +8,10 @@ package com.kenvix.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.math.BigInteger;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.MessageDigest;
 
 public class FileTool {
@@ -58,5 +61,9 @@ public class FileTool {
             return path;
         }
         return path;
+    }
+
+    public static String readAllText(String filePath) throws IOException {
+        return new String(Files.readAllBytes(Paths.get(filePath)));
     }
 }

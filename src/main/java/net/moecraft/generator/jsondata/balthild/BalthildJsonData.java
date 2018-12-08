@@ -20,7 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 
-public class BalthildJsonData implements OutJsonData, InJsonData {
+public class BalthildJsonData implements OutJsonData {
     private String basePath;
 
     public String encode(String basePath, MetaResult result) throws IOException {
@@ -47,11 +47,6 @@ public class BalthildJsonData implements OutJsonData, InJsonData {
             }
         }};
         return object.toString();
-    }
-
-    public MetaResult decode(String basePath, String data) {
-        MetaResult result = new MetaResult();
-        return result;
     }
 
     private void scanDir(JSONArray result, HashSet<DirectoryNode> directoryNodes) throws IOException {

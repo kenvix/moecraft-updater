@@ -15,7 +15,8 @@ public class MetaResult {
     private HashMap<MetaNodeType, HashSet<DirectoryNode>> directoryNodes;
     private HashMap<MetaNodeType, DirectoryNode>          fileNodes;
     private String                                        description = null;
-    private long                                          time        = new Date().getTime();
+    private String version = null;
+    private long   time    = new Date().getTime();
 
     {
         directoryNodes = new HashMap<>();
@@ -26,6 +27,10 @@ public class MetaResult {
                    directoryNodes.put(type, new HashSet<>());
                else if (type.getClass().getField(type.name()).isAnnotationPresent(FileMetaNode.class))
                    fileNodes.put(type, new DirectoryNode(new File(".")));
+               else {
+                   directoryNodes.put(type, new HashSet<>());
+                   fileNodes.put(type, new DirectoryNode(new File(".")));
+               }
            } catch (Exception ex) {
                Logger.getGlobal().warning("Invalid field during MetaResult:MetaNodeType initialize. may cause NullPointerException.");
                ex.printStackTrace();
@@ -56,6 +61,16 @@ public class MetaResult {
     public String getDescription() {
         return description;
     }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public MetaResult setVersion(String version) {
+        this.version = version;
+        return this;
+    }
+
 
     public MetaResult setDescription(String description) {
         this.description = description;

@@ -1,0 +1,44 @@
+{
+  "description": "MoeCraft 5 / Update 1",
+  "version": "5.1",
+  "synced_dirs": [
+    "HMCLData/Library",
+    ".minecraft/versions",
+    ".minecraft/mods",
+    ".minecraft/scripts",
+    ".minecraft/config/cofh",
+    ".minecraft/config/unidict"
+  ],
+  "synced_files": [
+    "Launcher.jar",
+    "Launcher.exe",
+    "HMCLData/authlib-injector.jar",
+    ".minecraft/CustomSkinLoader/CustomSkinLoader.json",
+    ".minecraft/resourcepacks/Moecraft-texture.zip",
+    ".minecraft/config/IC2.ini",
+    ".minecraft/config/IC2/shaped_recipes.ini",
+    ".minecraft/config/mekanism.cfg",
+    ".minecraft/config/industrialforegoing.cfg",
+    ".minecraft/config/forestry/common.cfg",
+    ".minecraft/libraries/net/minecraftforge/forge/1.12.2-14.23.4.2705/forge-1.12.2-14.23.4.2705.jar",
+    ".minecraft/libraries/jline/jline/2.13/jline-2.13.jar",
+    ".minecraft/libraries/org/ow2/asm/asm-all/5.2/asm-all-5.2.jar"
+  ],
+  "default_files": [
+    "HMCLData/hmcl.json",
+    ".minecraft/servers.dat",
+    ".minecraft/config/smoothfont.cfg",
+    ".minecraft/options.txt"
+  ],
+  "excluded_files": [
+    "*.class",
+    "*.log"
+  ],
+  "excluded_dir": [
+    ".minecraft/crash-reports",
+    ".minecraft/logs",
+    ".minecraft/saves",
+    ".minecraft/journeymap",
+    ".minecraft/local"
+  ]
+}

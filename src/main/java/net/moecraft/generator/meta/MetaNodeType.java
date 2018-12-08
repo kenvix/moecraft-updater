@@ -10,5 +10,6 @@ public enum MetaNodeType {
     @DirectoryMetaNode SyncedDirectory,
     @FileMetaNode SyncedFile,
     @FileMetaNode DefaultFile,
-    Other
+    @FileMetaNode ExcludedFile,
+    @DirectoryMetaNode ExcludedDirectory,
 }

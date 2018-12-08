@@ -9,6 +9,7 @@ package net.moecraft.generator;
 import net.moecraft.generator.jsondata.balthild.BalthildJsonData;
 import net.moecraft.generator.meta.MetaScanner;
 import net.moecraft.generator.meta.scanner.FileScanner;
+import sun.rmi.runtime.Log;
 
 import java.io.File;
 import java.util.logging.Level;
@@ -21,8 +22,13 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            basePath = (new File("")).getCanonicalPath();
-            MetaScanner scanner = new MetaScanner(new File("./"));
+            File baseDir = new File("./MoeCraft");
+            if(!baseDir.exists()) {
+                Logger.getGlobal().log(Level.SEVERE, "MoeCraft root directory not found. Please create a directory called 'MoeCraft' and run this program again.");
+                System.exit(9);
+            }
+            basePath = baseDir.getCanonicalPath();
+            MetaScanner scanner = new MetaScanner(baseDir);
 
             out.println((new BalthildJsonData()).encode(basePath, scanner.scan(new FileScanner())));
         } catch (Exception ex) {
