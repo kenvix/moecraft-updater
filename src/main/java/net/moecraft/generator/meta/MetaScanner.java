@@ -6,18 +6,22 @@ import java.io.File;
 
 public class MetaScanner {
     private File dir;
-    private MetaResult result = new MetaResult();
-    private MetaNodeType type;
+    private MetaResult result;
 
-    public MetaScanner(MetaNodeType type, File dir) {
+    public MetaScanner(File dir) {
         this.dir = dir;
-        this.type = type;
+        this.result = new MetaResult();
     }
 
     public File getDir() {
         return dir;
     }
 
+    /**
+     * Get scanned result
+     * Warning: this method does not scan files!!
+     * @return result
+     */
     public MetaResult getResult() {
         return result;
     }
@@ -28,10 +32,8 @@ public class MetaScanner {
     }
 
     public MetaResult scan(Scanner scanner) {
-        return scanner.scan(dir, this);
-    }
-
-    public MetaNodeType getMetaNodeType() {
-        return type;
+        for (MetaNodeType type : MetaNodeType.values())
+            scanner.scan(dir, type, this);
+        return result;
     }
 }

@@ -4,7 +4,7 @@
 // Written by Kenvix <i@kenvix.com>
 //--------------------------------------------------
 
-package net.moecraft.generator.meta;
+package com.kenvix.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -40,5 +40,23 @@ public class FileTool {
         }
         BigInteger bigInt = new BigInteger(1, digest.digest());
         return bigInt.toString(16);
+    }
+
+    /**
+     * Get relative path of a file
+     * @param base Base path
+     * @param path file path
+     * @return result
+     */
+    public static String getRelativePath(String base, String path) {
+        if(path.startsWith("./") || path.startsWith(".\\"))
+            return path.substring(2);
+        if(path.startsWith(base)) {
+            path = path.substring(base.length());
+            if(path.startsWith("/") || path.startsWith("\\"))
+                path = path.substring(1);
+            return path;
+        }
+        return path;
     }
 }

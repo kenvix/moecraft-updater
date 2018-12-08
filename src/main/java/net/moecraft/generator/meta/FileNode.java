@@ -6,11 +6,14 @@
 
 package net.moecraft.generator.meta;
 
+import com.kenvix.utils.FileTool;
+
 import java.io.File;
+import java.io.IOException;
 
 public class FileNode {
     private File   file;
-    private String md5 = null;
+    private String md5          = null;
 
     public FileNode(File file) {
         this.file = file;

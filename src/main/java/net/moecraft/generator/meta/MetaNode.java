@@ -1,14 +1,15 @@
 //--------------------------------------------------
-// Enum MetaNodeType
+// Class MetaNode
 //--------------------------------------------------
 // Written by Kenvix <i@kenvix.com>
 //--------------------------------------------------
 
 package net.moecraft.generator.meta;
 
-public enum MetaNodeType {
-    @DirectoryMetaNode SyncedDirectory,
-    @FileMetaNode SyncedFile,
-    @FileMetaNode DefaultFile,
-    Other
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+@Retention(RetentionPolicy.RUNTIME)
+@interface FileMetaNode {
+
 }

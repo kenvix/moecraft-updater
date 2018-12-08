@@ -12,9 +12,8 @@ import java.io.File;
 import java.util.logging.Logger;
 
 public class FileScanner implements Scanner {
-    public MetaResult scan(File dir, MetaScanner in) {
+    public MetaResult scan(File dir, MetaNodeType type, MetaScanner in) {
         MetaResult    result = in.getResult();
-        MetaNodeType  type = in.getMetaNodeType();
         DirectoryNode directoryNode = result.addDirectoryNode(type, dir);
         Logger.getGlobal().info("Scanning directory " + dir.getPath());
         result.addDirectoryNode(type, directoryNode);
@@ -23,9 +22,9 @@ public class FileScanner implements Scanner {
             for (File file : list) {
                 if(file.isFile()) {
                     Logger.getGlobal().info("+ File: " + file.getName());
-                    directoryNode.addFileNode(file);
+                    directoryNode.addDirectoryNode(file);
                 } else {
-                    scan(file, in);
+                    scan(file, type, in);
                 }
             }
         } else {
