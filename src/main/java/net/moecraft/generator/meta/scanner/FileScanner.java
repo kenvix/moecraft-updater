@@ -19,12 +19,12 @@ public class FileScanner implements Scanner {
         MetaResult    result = in.getResult();
         DirectoryNode directoryNode = result.addDirectoryNode(type, dir);
         Logger.getGlobal().log(Level.FINER, "Scanning directory " + dir.getPath());
-        scan(dir, directoryNode);
+        scan(dir, directoryNode, true);
         return result;
     }
 
-    public DirectoryNode scan(File dir, DirectoryNode parentNode) {
-        DirectoryNode directoryNode = parentNode.addDirectoryNode(dir);
+    public DirectoryNode scan(File dir, DirectoryNode parentNode, boolean isRootDirectory) {
+        DirectoryNode directoryNode = isRootDirectory ? parentNode : parentNode.addDirectoryNode(dir);
         File[] list = dir.listFiles();
         if(list != null) {
             for (File file : list) {
@@ -35,7 +35,7 @@ public class FileScanner implements Scanner {
                     }
                 } else {
                     if(!config.isDirectoryExcluded(file))
-                        scan(file, directoryNode);
+                        scan(file, directoryNode, false);
                 }
             }
         } else {

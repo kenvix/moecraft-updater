@@ -5,7 +5,7 @@
 //--------------------------------------------------
 
 package net.moecraft.generator;
-import net.moecraft.generator.jsondata.balthild.BalthildJsonData;
+import net.moecraft.generator.jsonengine.balthild.BalthildEngine;
 import net.moecraft.generator.meta.GeneratorConfig;
 import net.moecraft.generator.meta.MetaResult;
 import net.moecraft.generator.meta.MetaScanner;
@@ -23,6 +23,7 @@ public class Main {
         try {
             Logger.getGlobal().setLevel(Level.FINE);
             CommandLine cmd = getCmd(args);
+            out.println(getHeader());
             File baseMoeCraftDir = new File(cmd.hasOption('p') ? cmd.getOptionValue('p') : "./MoeCraft");
             if(!baseMoeCraftDir.exists()) {
                 Logger.getGlobal().log(Level.SEVERE, "MoeCraft root directory not found on '" + baseMoeCraftDir.getCanonicalPath() + "'. Please create a directory called 'MoeCraft' and run this program again.");
@@ -38,11 +39,15 @@ public class Main {
                 Logger.getGlobal().log(Level.SEVERE, "generator_config.json not found on '" + generatorConfigFile.getCanonicalPath() + "'. Please specify where generator_config.json is and run this program again.");
                 System.exit(8);
             }
-            MetaResult result = scanner.scan();
-            BalthildJsonData balthildJsonData = new BalthildJsonData();
-            String balthildJsonResult = balthildJsonData.encode(basePath, result);
+            MetaResult     result             = scanner.scan();
+            BalthildEngine balthildJsonData   = new BalthildEngine();
+            String         balthildJsonResult = balthildJsonData.encode(basePath, result);
             balthildJsonData.save(basePath, balthildJsonResult);
-            Logger.getGlobal().log(Level.FINE, "Write result formatted in BalthildJsonData to " + basePath);
+            Logger.getGlobal().log(Level.FINE, "Write result formatted in BalthildEngine to " + basePath);
+        } catch (MissingArgumentException ex) {
+            out.println("Missing Argument: " + ex.getMessage());
+        } catch (UnrecognizedOptionException ex) {
+            out.println("Wrong Argument given: " + ex.getMessage());
         } catch (Exception ex) {
             Logger.getGlobal().log(Level.SEVERE, "Unexpected Exception.");
             ex.printStackTrace();
@@ -55,11 +60,12 @@ public class Main {
         ops.addOption("p", "path",true, "Path to MoeCraft root directory. Default ./MoeCraft");
         ops.addOption("c", "config",true, "Path to generator_config.json. Default ./generator_config.json");
         ops.addOption("o", "output",false, "Directory to put generated file. Default ./. Filename is defined by Generate Engine");
+        ops.addOption("h", "help",false, "Print help messages");
         DefaultParser parser = new DefaultParser();
         CommandLine   cmd    = parser.parse(ops, args);
         if(cmd.hasOption('h')) {
             HelpFormatter formatter = new HelpFormatter();
-            formatter.printHelp("pixivbg", getHeader(), ops, "", true);
+            formatter.printHelp("Generator", getHeader(), ops, "", true);
             System.exit(0);
         }
         return cmd;
