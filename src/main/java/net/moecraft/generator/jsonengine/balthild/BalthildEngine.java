@@ -39,6 +39,7 @@ public class BalthildEngine extends CommonEngine implements GeneratorEngine {
                 }});
             }
         }};
+        object.put("synced_files", syncedFiles);
         JSONArray defaultFiles = new JSONArray() {{
             for (FileNode file : result.getFileNodesByType(MetaNodeType.DefaultFile).getFileNodes()) {
                 put(new JSONObject() {{
@@ -47,6 +48,7 @@ public class BalthildEngine extends CommonEngine implements GeneratorEngine {
                 }});
             }
         }};
+        object.put("default_files", defaultFiles);
         return object.toString();
     }
 
