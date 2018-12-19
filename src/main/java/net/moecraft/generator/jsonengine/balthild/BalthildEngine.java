@@ -7,6 +7,7 @@
 package net.moecraft.generator.jsonengine.balthild;
 
 import com.kenvix.utils.FileTool;
+import net.moecraft.generator.jsonengine.CommonEngine;
 import net.moecraft.generator.jsonengine.GeneratorEngine;
 import net.moecraft.generator.meta.DirectoryNode;
 import net.moecraft.generator.meta.FileNode;
@@ -21,8 +22,7 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.logging.Logger;
 
-public class BalthildEngine implements GeneratorEngine {
-    private String basePath;
+public class BalthildEngine extends CommonEngine implements GeneratorEngine {
 
     public String encode(String basePath, MetaResult result) throws IOException {
         this.basePath = basePath;
@@ -52,15 +52,7 @@ public class BalthildEngine implements GeneratorEngine {
 
     public void save(String basePath, Object in) throws IOException, ClassCastException {
         String result = (String) in;
-        File target = new File(basePath + "/metadata.json");
-        if(target.exists())
-            if(!target.delete()) {
-                Logger.getGlobal().warning("Unable to delete: " + target.getName() + " . Generation failed");
-                return;
-            }
-        FileWriter writer = new FileWriter(target);
-        writer.write(result);
-        writer.close();
+        writeJson(new File(basePath + "/metadata.json"), result);
     }
 
     private void scanDir(JSONArray result, HashSet<DirectoryNode> directoryNodes) throws IOException {
@@ -68,7 +60,6 @@ public class BalthildEngine implements GeneratorEngine {
             if (dir.hasChildDirectory()) {
                 scanDir(result, dir.getDirectoryNodes());
             }
-            dir.getDirectoryNodes().forEach(dirx -> System.out.println(dirx.getDirectory().getPath()));
             JSONArray dirFiles = new JSONArray();
             for (FileNode file : dir.getFileNodes()) {
                 dirFiles.put(new JSONObject() {{
@@ -82,9 +73,5 @@ public class BalthildEngine implements GeneratorEngine {
             }};
             result.put(currentDir);
         }
-    }
-
-    private String getRelativePath(String path) {
-        return FileTool.getRelativePath(basePath, path).replace('\\', '/');
     }
 }
