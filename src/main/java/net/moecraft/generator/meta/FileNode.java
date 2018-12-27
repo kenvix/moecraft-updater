@@ -10,7 +10,7 @@ import com.kenvix.utils.FileTool;
 
 import java.io.File;
 
-public class FileNode {
+public final class FileNode {
     private File   file;
     /**
      * Actual file md5. Auto filled by getMD5(). Will NOT be autofilled by ParserEngine
@@ -31,6 +31,11 @@ public class FileNode {
      * Expected file size. Auto filled by ParserEngine
      */
     private long expectedSize = -1;
+
+    /**
+     * How many objects compressed.
+     */
+    private int ObjectNum = 0;
 
     public FileNode(File file) {
         this.file = file;
@@ -63,6 +68,15 @@ public class FileNode {
 
     public final FileNode setExpectedSize(long exceptedSize) {
         this.expectedSize = exceptedSize;
+        return this;
+    }
+
+    public final int getObjectNum() {
+        return ObjectNum;
+    }
+
+    public final FileNode setObjectNum(int objectNum) {
+        ObjectNum = objectNum;
         return this;
     }
 }

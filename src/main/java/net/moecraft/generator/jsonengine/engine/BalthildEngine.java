@@ -25,8 +25,8 @@ import java.util.HashSet;
  */
 public class BalthildEngine extends CommonEngine implements GeneratorEngine {
 
-    public String encode(String basePath, MetaResult result) throws IOException {
-        this.basePath = basePath;
+    @Override
+    public String encode(MetaResult result) throws IOException {
         JSONObject object = new JSONObject();
         object.put("updated_at", result.getTime() / 1000);
         JSONArray syncedDirs = new JSONArray();
@@ -53,7 +53,8 @@ public class BalthildEngine extends CommonEngine implements GeneratorEngine {
         return object.toString();
     }
 
-    public void save(String basePath, Object in) throws IOException, ClassCastException {
+    @Override
+    public void save(Object in) throws IOException, ClassCastException {
         String result = (String) in;
         writeJson(new File(basePath + "/metadata.json"), result);
     }

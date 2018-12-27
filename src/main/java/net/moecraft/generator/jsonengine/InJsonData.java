@@ -12,5 +12,5 @@ import java.io.IOException;
 
 @FunctionalInterface
 public interface InJsonData {
-    MetaResult decode(String basePath, String data) throws IOException;
+    MetaResult decode(String data) throws IOException;
 }

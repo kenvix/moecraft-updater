@@ -6,7 +6,9 @@
 
 package net.moecraft.generator;
 import net.moecraft.generator.jsonengine.GeneratorEngine;
+import net.moecraft.generator.jsonengine.ParserEngine;
 import net.moecraft.generator.jsonengine.engine.BalthildEngine;
+import net.moecraft.generator.jsonengine.engine.NewMoeEngine;
 import net.moecraft.generator.meta.GeneratorConfig;
 import net.moecraft.generator.meta.MetaResult;
 import net.moecraft.generator.meta.MetaScanner;
@@ -19,6 +21,7 @@ import java.lang.reflect.Modifier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static java.lang.System.in;
 import static java.lang.System.out;
 
 public class Main {
@@ -44,7 +47,10 @@ public class Main {
                 System.exit(8);
             }
             MetaResult     result             = scanner.scan();
+            result.setDescription("test");
+            result.setVersion("1.0");
             generateAll(result);
+            testParser(new NewMoeEngine(), result);
         } catch (MissingArgumentException ex) {
             out.println("Missing Argument: " + ex.getMessage());
         } catch (UnrecognizedOptionException ex) {
@@ -61,13 +67,22 @@ public class Main {
             if(!Modifier.isAbstract(engine.getModifiers())) {
                 Logger.getGlobal().info("Generating result using " + engine.getSimpleName());
                 GeneratorEngine instance       = (GeneratorEngine) engine.newInstance();
-                String          generateResult = instance.encode(Environment.getBaseMoeCraftPath(), result);
-                instance.save(Environment.getBaseMoeCraftPath(), generateResult);
+                String          generateResult = instance.encode(result);
+                instance.save(generateResult);
                 Logger.getGlobal().log(Level.FINE, "Write result formatted in " + engine.getSimpleName() + "  to " + Environment.getBaseMoeCraftPath());
             } else {
                 Logger.getGlobal().info("Detected invalid generator engine: " + engine.getSimpleName());
             }
         }
+    }
+
+    private static <T extends GeneratorEngine & ParserEngine> void testParser(T instance, MetaResult result) throws Exception {
+        String          generateResult1 = instance.encode(result);
+        MetaResult decodeResult = instance.decode(generateResult1);
+        String          generateResult2 = instance.encode(decodeResult);
+        out.println(generateResult1);
+        out.println(generateResult2);
+        out.println(generateResult2.equals(generateResult1));
     }
 
     private static CommandLine getCmd(String[] args) throws ParseException {
@@ -76,6 +91,8 @@ public class Main {
         ops.addOption("g", "generator",false, "Use Generator mode instead of updater mode.");
         ops.addOption("c", "config",true, "Path to generator_config.json. Default ./generator_config.json");
         ops.addOption("o", "output",false, "[Generator] Directory to put generated file. Default ./. Filename is defined by Generate Engine");
+        ops.addOption("i", "description",false, "[Generator] Add a description for this update. Default for last description.");
+        ops.addOption("v", "version",false, "[Generator] Version this update. Default for last version + 0.1");
         ops.addOption("h", "help",false, "Print help messages");
         DefaultParser parser = new DefaultParser();
         CommandLine   cmd    = parser.parse(ops, args);

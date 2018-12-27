@@ -37,6 +37,11 @@ public class DirectoryNode {
         return dir;
     }
 
+    public DirectoryNode setDirectoryNodes(HashSet<DirectoryNode> directoryNodes) {
+        this.directoryNodes = directoryNodes;
+        return this;
+    }
+
     public DirectoryNode addDirectoryNode(File dir) {
         return addDirectoryNode(new DirectoryNode(dir));
     }

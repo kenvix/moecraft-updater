@@ -7,5 +7,5 @@
 package net.moecraft.generator.jsonengine;
 
 public interface GeneratorEngine extends OutJsonData {
-    void save(String basePath, Object in) throws Exception;
+    void save(Object in) throws Exception;
 }
