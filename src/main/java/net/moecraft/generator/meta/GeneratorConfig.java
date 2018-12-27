@@ -8,8 +8,6 @@ package net.moecraft.generator.meta;
 
 import com.kenvix.utils.FileTool;
 import com.kenvix.utils.StringTool;
-import jdk.nashorn.internal.objects.Global;
-import jdk.nashorn.internal.parser.JSONParser;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -34,7 +32,12 @@ public class GeneratorConfig extends MetaResult {
      * @throws IOException failed to read file
      */
     public static GeneratorConfig getInstance(String basePath, File file) throws IOException {
-        return instance == null ? (instance = new GeneratorConfig(basePath, file)) : instance;
+        if(instance == null) {
+            synchronized (GeneratorConfig.class) {
+                return instance == null ? (instance = new GeneratorConfig(basePath, file)) : instance;
+            }
+        }
+        return instance;
     }
 
     /**
@@ -44,7 +47,7 @@ public class GeneratorConfig extends MetaResult {
      */
     public static GeneratorConfig getInstance() throws IllegalStateException {
         if(instance == null)
-            throw new IllegalStateException("GeneratorConfig not initialized!!!");
+            throw new IllegalStateException("Stupid. GeneratorConfig not initialized.");
         return instance;
     }
 

@@ -16,7 +16,8 @@ public class MetaResult {
     private HashMap<MetaNodeType, DirectoryNode> fileNodes;
     private String                               description = null;
     private String                               version = null;
-    private long                                 time    = new Date().getTime();
+
+    private long time = new Date().getTime();
 
     {
         directoryNodes = new HashMap<>();
@@ -85,6 +86,11 @@ public class MetaResult {
         return directoryNodes.get(type);
     }
 
+    public MetaResult setDirectoryNodesByType(MetaNodeType type, HashSet<DirectoryNode> data) {
+        directoryNodes.replace(type, data);
+        return this;
+    }
+
     public HashMap<MetaNodeType, DirectoryNode> getFileNodes() {
         return fileNodes;
     }
@@ -95,5 +101,9 @@ public class MetaResult {
 
     public long getTime() {
         return time;
+    }
+    public MetaResult setTime(long time) {
+        this.time = time;
+        return this;
     }
 }
