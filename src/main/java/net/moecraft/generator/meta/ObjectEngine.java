@@ -6,16 +6,11 @@
 
 package net.moecraft.generator.meta;
 
-import jdk.nashorn.internal.runtime.regexp.joni.constants.NodeType;
 import net.moecraft.generator.Environment;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.io.*;
-import java.nio.CharBuffer;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.zip.Deflater;
 
 public class ObjectEngine {
     private final static GeneratorConfig config = GeneratorConfig.getInstance();
@@ -23,7 +18,7 @@ public class ObjectEngine {
     private MetaResult result;
     //private Deflater deflater;
 
-    private String getOutDir() {
+    public static String getOutDir() {
         return Environment.getBaseMoeCraftPath() + "/../Deployment";
     }
 
@@ -59,7 +54,7 @@ public class ObjectEngine {
             int objectID = 0;
             boolean exitFlag = false;
             while (!exitFlag) {
-                File objectFile = new File(getObjectFileName(objectID, fileNode));
+                File objectFile = new File(getObjectFilePath(objectID, fileNode));
                 FileNode objectFileNode = new FileNode(objectFile);
                 result.add(objectFileNode);
                 FileOutputStream output = new FileOutputStream(objectFile);
@@ -95,11 +90,16 @@ public class ObjectEngine {
         return result;
     }
 
-    private String getObjectFileName(int objectID, FileNode source) {
+    public static String getObjectFilePath(int objectID, FileNode source) {
         return String.format("%s/%s-%d.txt", getOutDir(), source.getMD5(), objectID);
     }
 
-    public void installObject()  throws IOException {
-        
+    //public static String getMergedFilePath(FileNode source) {
+
+    //}
+
+    public void mergeObject(FileNode file)  throws IOException {
+        FileOutputStream output = new FileOutputStream(file.getFile());
+
     }
 }

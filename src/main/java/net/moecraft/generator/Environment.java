@@ -26,6 +26,7 @@ public final class Environment {
     private static       String  updateDescription;
     private static       String  updateVersion;
     private final static Class   metaScanner      = FileScanner.class;
+    private final static String dnsRepoDomain = "updater-repo.moecraft.net";
 
     static void loadEnvironment(CommandLine cmd) throws IOException {
         baseMoeCraftDir = new File(cmd.hasOption('p') ? cmd.getOptionValue('p') : "./MoeCraft");
@@ -73,5 +74,9 @@ public final class Environment {
 
     public static void setUpdateDescription(String updateDescription) {
         Environment.updateDescription = updateDescription;
+    }
+
+    public static String getDnsRepoDomain() {
+        return dnsRepoDomain;
     }
 }

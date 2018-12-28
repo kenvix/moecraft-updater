@@ -10,6 +10,7 @@ import net.moecraft.generator.jsonengine.ParserEngine;
 import net.moecraft.generator.jsonengine.engine.NewMoeEngine;
 import net.moecraft.generator.meta.*;
 import net.moecraft.generator.meta.scanner.FileScanner;
+import net.moecraft.generator.updater.repo.DNSRepoManager;
 import org.apache.commons.cli.*;
 import sun.rmi.runtime.Log;
 
@@ -52,6 +53,7 @@ public class Main {
                 objectEngine.process();
             }
             generateAll(result);
+            getRepos();
             //testParser(new NewMoeEngine(), result);
         } catch (MissingArgumentException ex) {
             out.println("Missing Argument: " + ex.getMessage());
@@ -62,6 +64,11 @@ public class Main {
             ex.printStackTrace();
             System.exit(1);
         }
+    }
+
+    private static void getRepos() throws Exception {
+        DNSRepoManager dnsRepoManager = new DNSRepoManager();
+        dnsRepoManager.getRepos();
     }
 
     private static void generateAll(MetaResult result) throws Exception {
