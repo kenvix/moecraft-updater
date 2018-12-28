@@ -25,7 +25,7 @@ public final class Environment {
     private static       String  baseMoeCraftPath;
     private static       String  updateDescription;
     private static       String  updateVersion;
-    private final static Class metaScanner = FileScanner.class;
+    private final static Class   metaScanner      = FileScanner.class;
 
     static void loadEnvironment(CommandLine cmd) throws IOException {
         baseMoeCraftDir = new File(cmd.hasOption('p') ? cmd.getOptionValue('p') : "./MoeCraft");
@@ -74,5 +74,4 @@ public final class Environment {
     public static void setUpdateDescription(String updateDescription) {
         Environment.updateDescription = updateDescription;
     }
-
 }

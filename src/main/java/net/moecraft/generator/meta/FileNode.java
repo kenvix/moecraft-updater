@@ -37,7 +37,7 @@ public final class FileNode {
     /**
      * Blocked Objects
      */
-    private ArrayList<String> objects = null;
+    private ArrayList<FileNode> objects = null;
 
     public FileNode(File file) {
         this.file = file;
@@ -73,7 +73,7 @@ public final class FileNode {
         return this;
     }
 
-    public final ArrayList<String> getObjects() {
+    public final ArrayList<FileNode> getObjects() {
         if(objects == null) {
             synchronized (FileNode.class) {
                 if(objects == null)
@@ -83,7 +83,7 @@ public final class FileNode {
         return objects;
     }
 
-    public final FileNode setObjects(ArrayList<String> objects) {
+    public final FileNode setObjects(ArrayList<FileNode> objects) {
         this.objects = objects;
         return this;
     }

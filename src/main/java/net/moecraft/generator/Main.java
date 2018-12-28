@@ -8,10 +8,7 @@ package net.moecraft.generator;
 import net.moecraft.generator.jsonengine.GeneratorEngine;
 import net.moecraft.generator.jsonengine.ParserEngine;
 import net.moecraft.generator.jsonengine.engine.NewMoeEngine;
-import net.moecraft.generator.meta.CommonScanner;
-import net.moecraft.generator.meta.GeneratorConfig;
-import net.moecraft.generator.meta.MetaResult;
-import net.moecraft.generator.meta.MetaScanner;
+import net.moecraft.generator.meta.*;
 import net.moecraft.generator.meta.scanner.FileScanner;
 import org.apache.commons.cli.*;
 import sun.rmi.runtime.Log;
@@ -49,6 +46,11 @@ public class Main {
             MetaResult     result             = scanner.scan();
             result.setDescription(Environment.getUpdateDescription().isEmpty() ? config.getDescription() : Environment.getUpdateDescription());
             result.setVersion(Environment.getUpdateVersion().isEmpty() ? config.getVersion() : Environment.getUpdateVersion());
+            if(config.getObjectSize() > 0) {
+                Logger.getGlobal().info("Generating objects....");
+                ObjectEngine objectEngine = new ObjectEngine(result);
+                objectEngine.process();
+            }
             generateAll(result);
             //testParser(new NewMoeEngine(), result);
         } catch (MissingArgumentException ex) {
