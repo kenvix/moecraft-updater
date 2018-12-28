@@ -11,6 +11,7 @@ import net.moecraft.generator.jsonengine.engine.NewMoeEngine;
 import net.moecraft.generator.meta.*;
 import net.moecraft.generator.meta.scanner.FileScanner;
 import net.moecraft.generator.updater.repo.DNSRepoManager;
+import net.moecraft.generator.updater.repo.RepoManager;
 import org.apache.commons.cli.*;
 import sun.rmi.runtime.Log;
 
@@ -67,8 +68,8 @@ public class Main {
     }
 
     private static void getRepos() throws Exception {
-        DNSRepoManager dnsRepoManager = new DNSRepoManager();
-        dnsRepoManager.getRepos();
+        RepoManager repoManager = (RepoManager) Environment.getRepoManager().newInstance();
+        repoManager.getRepos();
     }
 
     private static void generateAll(MetaResult result) throws Exception {

@@ -15,4 +15,7 @@ dependencies {
     compile group: 'commons-cli', name: 'commons-cli', version: '1.4'
     // https://mvnrepository.com/artifact/org.json/json
     compile group: 'org.json', name: 'json', version: '20180813'
+    // https://mvnrepository.com/artifact/dnsjava/dnsjava
+    compile group: 'dnsjava', name: 'dnsjava', version: '2.1.8'
+
 }

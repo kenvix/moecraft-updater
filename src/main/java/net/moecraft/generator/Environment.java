@@ -11,6 +11,7 @@ import net.moecraft.generator.jsonengine.engine.BalthildEngine;
 import net.moecraft.generator.jsonengine.engine.NewMoeEngine;
 import net.moecraft.generator.meta.GeneratorConfig;
 import net.moecraft.generator.meta.scanner.FileScanner;
+import net.moecraft.generator.updater.repo.DNSRepoManager;
 import org.apache.commons.cli.*;
 
 import java.io.File;
@@ -26,6 +27,7 @@ public final class Environment {
     private static       String  updateDescription;
     private static       String  updateVersion;
     private final static Class   metaScanner      = FileScanner.class;
+    private final static Class  repoManager   = DNSRepoManager.class;
     private final static String dnsRepoDomain = "updater-repo.moecraft.net";
 
     static void loadEnvironment(CommandLine cmd) throws IOException {
@@ -78,5 +80,9 @@ public final class Environment {
 
     public static String getDnsRepoDomain() {
         return dnsRepoDomain;
+    }
+
+    public static Class getRepoManager() {
+        return repoManager;
     }
 }

@@ -44,8 +44,10 @@ public class DNSRepoManager implements RepoManager {
                     Logger.getGlobal().info("Detected invalid Repo: " + ex.getMessage());
                 }
             }
+        } else {
+            throw new Exception("fetch repos failed");
         }
-        return (Repo[]) repos.toArray();
+        return repos.toArray(new Repo[repos.size()]);
     }
 
 }
