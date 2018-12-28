@@ -13,7 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class FileScanner implements CommonScanner {
-    private static GeneratorConfig config = GeneratorConfig.getInstance();
+    private final static GeneratorConfig config = GeneratorConfig.getInstance();
 
     public MetaResult scan(File dir, MetaNodeType type, MetaScanner in) {
         MetaResult    result = in.getResult();

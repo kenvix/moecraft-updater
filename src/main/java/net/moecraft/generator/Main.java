@@ -7,31 +7,31 @@
 package net.moecraft.generator;
 import net.moecraft.generator.jsonengine.GeneratorEngine;
 import net.moecraft.generator.jsonengine.ParserEngine;
-import net.moecraft.generator.jsonengine.engine.BalthildEngine;
 import net.moecraft.generator.jsonengine.engine.NewMoeEngine;
+import net.moecraft.generator.meta.CommonScanner;
 import net.moecraft.generator.meta.GeneratorConfig;
 import net.moecraft.generator.meta.MetaResult;
 import net.moecraft.generator.meta.MetaScanner;
 import net.moecraft.generator.meta.scanner.FileScanner;
 import org.apache.commons.cli.*;
+import sun.rmi.runtime.Log;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Modifier;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.logging.*;
 
-import static java.lang.System.in;
 import static java.lang.System.out;
 
 public class Main {
-
 
     public static void main(String[] args) {
         try {
             Logger.getGlobal().setLevel(Level.FINE);
             out.println(getHeader());
-            Environment.loadEnvironmentByCommandLine(getCmd(args));
+            Environment.loadEnvironment(getCmd(args));
             File baseMoeCraftDir = Environment.getBaseMoeCraftDir();
             if(!baseMoeCraftDir.exists()) {
                 Logger.getGlobal().log(Level.SEVERE, "MoeCraft root directory not found on '" + baseMoeCraftDir.getCanonicalPath() + "'. Please create a directory called 'MoeCraft' and run this program again.");
@@ -40,17 +40,17 @@ public class Main {
             String basePath = Environment.getBaseMoeCraftPath();
             Logger.getGlobal().log(Level.FINEST, "Current path: " + basePath);
             File generatorConfigFile = Environment.getGeneratorConfigFile();
-            GeneratorConfig.getInstance(basePath, generatorConfigFile);
-            MetaScanner scanner = new MetaScanner(new FileScanner());
+            GeneratorConfig config = GeneratorConfig.getInstance(generatorConfigFile);
+            MetaScanner scanner = new MetaScanner((CommonScanner) Environment.getMetaScanner().newInstance());
             if(!baseMoeCraftDir.exists()) {
                 Logger.getGlobal().log(Level.SEVERE, "generator_config.json not found on '" + generatorConfigFile.getCanonicalPath() + "'. Please specify where generator_config.json is and run this program again.");
                 System.exit(8);
             }
             MetaResult     result             = scanner.scan();
-            result.setDescription("test");
-            result.setVersion("1.0");
+            result.setDescription(Environment.getUpdateDescription().isEmpty() ? config.getDescription() : Environment.getUpdateDescription());
+            result.setVersion(Environment.getUpdateVersion().isEmpty() ? config.getVersion() : Environment.getUpdateVersion());
             generateAll(result);
-            testParser(new NewMoeEngine(), result);
+            //testParser(new NewMoeEngine(), result);
         } catch (MissingArgumentException ex) {
             out.println("Missing Argument: " + ex.getMessage());
         } catch (UnrecognizedOptionException ex) {
@@ -90,9 +90,9 @@ public class Main {
         ops.addOption("p", "path",true, "Path to MoeCraft root directory. Default ./MoeCraft");
         ops.addOption("g", "generator",false, "Use Generator mode instead of updater mode.");
         ops.addOption("c", "config",true, "Path to generator_config.json. Default ./generator_config.json");
-        ops.addOption("o", "output",false, "[Generator] Directory to put generated file. Default ./. Filename is defined by Generate Engine");
-        ops.addOption("i", "description",false, "[Generator] Add a description for this update. Default for last description.");
-        ops.addOption("v", "version",false, "[Generator] Version this update. Default for last version + 0.1");
+        ops.addOption("i", "description",true, "[Generator] Add a description for this update. Default for description generator_config.json");
+        ops.addOption("l", "version",true, "[Generator] Version this update. Default for version in generator_config.json");
+        ops.addOption("v", "verbose",false, "Verbose logging mode.");
         ops.addOption("h", "help",false, "Print help messages");
         DefaultParser parser = new DefaultParser();
         CommandLine   cmd    = parser.parse(ops, args);
@@ -101,6 +101,27 @@ public class Main {
             formatter.printHelp("Generator", getHeader(), ops, "", true);
             System.exit(0);
         }
+
+        Handler consoleHandler = new ConsoleHandler();
+        consoleHandler.setFormatter(new Formatter() {
+            @Override
+            public String format(LogRecord record) {
+                return String.format("[%s] [%s] [%s=>%s] %s\n",
+                        new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA).format(new Date(record.getMillis())),
+                        record.getLevel().toString(),
+                        record.getSourceClassName(),
+                        record.getSourceMethodName(),
+                        record.getMessage()
+                );
+            }
+        });
+        if(cmd.hasOption('v')) {
+            Logger.getGlobal().setUseParentHandlers(false);
+            Logger.getGlobal().setLevel(Level.FINEST);
+            consoleHandler.setLevel(Level.FINEST);
+            Logger.getGlobal().log(Level.FINEST, "Verbose logging mode enabled.");
+        }
+        Logger.getGlobal().addHandler(consoleHandler);
         return cmd;
     }
 

@@ -13,34 +13,34 @@ import java.util.logging.Logger;
 
 public class MetaResult {
     private HashMap<MetaNodeType, HashSet<DirectoryNode>> directoryNodes;
-    private HashMap<MetaNodeType, DirectoryNode> fileNodes;
-    private String                               description = null;
-    private String                               version = null;
-
-    private long time = new Date().getTime();
+    private HashMap<MetaNodeType, DirectoryNode>          fileNodes;
+    private String                                        description = null;
+    private String                                        version     = null;
+    private long                                          objectSize  = 0;
+    private long                                          time        = new Date().getTime();
 
     {
         directoryNodes = new HashMap<>();
         fileNodes = new HashMap<>();
         for (MetaNodeType type : MetaNodeType.values()) {
-           try {
-               if (type.getClass().getField(type.name()).isAnnotationPresent(DirectoryMetaNode.class))
-                   directoryNodes.put(type, new HashSet<>());
-               else if (type.getClass().getField(type.name()).isAnnotationPresent(FileMetaNode.class))
-                   fileNodes.put(type, new DirectoryNode(new File(".")));
-               else {
-                   directoryNodes.put(type, new HashSet<>());
-                   fileNodes.put(type, new DirectoryNode(new File(".")));
-               }
-           } catch (Exception ex) {
-               Logger.getGlobal().warning("Invalid field during MetaResult:MetaNodeType initialize. may cause NullPointerException.");
-               ex.printStackTrace();
-           }
+            try {
+                if (type.getClass().getField(type.name()).isAnnotationPresent(DirectoryMetaNode.class))
+                    directoryNodes.put(type, new HashSet<>());
+                else if (type.getClass().getField(type.name()).isAnnotationPresent(FileMetaNode.class))
+                    fileNodes.put(type, new DirectoryNode(new File(".")));
+                else {
+                    directoryNodes.put(type, new HashSet<>());
+                    fileNodes.put(type, new DirectoryNode(new File(".")));
+                }
+            } catch (Exception ex) {
+                Logger.getGlobal().warning("Invalid field during MetaResult:MetaNodeType initialize. may cause NullPointerException.");
+                ex.printStackTrace();
+            }
         }
     }
 
     public DirectoryNode addDirectoryNode(MetaNodeType type, DirectoryNode dir) {
-        if(!directoryNodes.containsKey(type))
+        if (!directoryNodes.containsKey(type))
             directoryNodes.put(type, new HashSet<>());
         directoryNodes.get(type).add(dir);
         return dir;
@@ -102,8 +102,18 @@ public class MetaResult {
     public long getTime() {
         return time;
     }
+
     public MetaResult setTime(long time) {
         this.time = time;
+        return this;
+    }
+
+    public long getObjectSize() {
+        return objectSize;
+    }
+
+    public MetaResult setObjectSize(long objectSize) {
+        this.objectSize = objectSize;
         return this;
     }
 }

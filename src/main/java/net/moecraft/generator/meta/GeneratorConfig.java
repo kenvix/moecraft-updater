@@ -8,6 +8,7 @@ package net.moecraft.generator.meta;
 
 import com.kenvix.utils.FileTool;
 import com.kenvix.utils.StringTool;
+import net.moecraft.generator.Environment;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -26,15 +27,14 @@ public class GeneratorConfig extends MetaResult {
 
     /**
      * Get an instance of GeneratorConfig
-     * @param basePath base path of application
      * @param file generator_config.json
      * @return GeneratorConfig
      * @throws IOException failed to read file
      */
-    public static GeneratorConfig getInstance(String basePath, File file) throws IOException {
+    public static GeneratorConfig getInstance(File file) throws IOException {
         if(instance == null) {
             synchronized (GeneratorConfig.class) {
-                return instance == null ? (instance = new GeneratorConfig(basePath, file)) : instance;
+                return instance == null ? (instance = new GeneratorConfig(file)) : instance;
             }
         }
         return instance;
@@ -82,10 +82,10 @@ public class GeneratorConfig extends MetaResult {
         return excluded;
     }
 
-    private GeneratorConfig(String basePath, File file) throws IOException {
-        this.file = file;
-        basePath = basePath.replace('\\','/');
+    private GeneratorConfig(File file) throws IOException {
+        this.basePath = Environment.getBaseMoeCraftPath();
         this.basePath = basePath.endsWith("/") ? basePath : basePath + "/";
+        this.file = file;
         scan();
     }
 
@@ -95,6 +95,7 @@ public class GeneratorConfig extends MetaResult {
         JSONObject json = new JSONObject(jsonTokener);
         setDescription(json.getString("description"));
         setVersion(json.getString("version"));
+        setObjectSize(json.getLong("object_size"));
         searchFileItems("synced_dirs", MetaNodeType.SyncedDirectory, json);
         searchFileItems("synced_files", MetaNodeType.SyncedFile, json);
         searchFileItems("default_files", MetaNodeType.DefaultFile, json);

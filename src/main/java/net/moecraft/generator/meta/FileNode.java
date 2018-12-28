@@ -9,6 +9,8 @@ package net.moecraft.generator.meta;
 import com.kenvix.utils.FileTool;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashSet;
 
 public final class FileNode {
     private File   file;
@@ -33,9 +35,9 @@ public final class FileNode {
     private long expectedSize = -1;
 
     /**
-     * How many objects compressed.
+     * Blocked Objects
      */
-    private int ObjectNum = 0;
+    private ArrayList<String> objects = null;
 
     public FileNode(File file) {
         this.file = file;
@@ -71,12 +73,18 @@ public final class FileNode {
         return this;
     }
 
-    public final int getObjectNum() {
-        return ObjectNum;
+    public final ArrayList<String> getObjects() {
+        if(objects == null) {
+            synchronized (FileNode.class) {
+                if(objects == null)
+                    objects = new ArrayList<>();
+            }
+        }
+        return objects;
     }
 
-    public final FileNode setObjectNum(int objectNum) {
-        ObjectNum = objectNum;
+    public final FileNode setObjects(ArrayList<String> objects) {
+        this.objects = objects;
         return this;
     }
 }

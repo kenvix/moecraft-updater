@@ -89,6 +89,9 @@ public class NewMoeEngine extends CommonEngine implements GeneratorEngine, Parse
                     put("path", getRelativePath(file.getFile().getCanonicalPath()));
                     put("size", file.getSize());
                     put("md5", file.getMD5());
+                    JSONArray objects = new JSONArray();
+                    file.getObjects().forEach(objects::put);
+                    put("objects", objects);
                 }});
             }
         }};
@@ -97,10 +100,13 @@ public class NewMoeEngine extends CommonEngine implements GeneratorEngine, Parse
     @Override
     public void save(Object in) throws IOException, ClassCastException {
         String result = (String) in;
-        writeJson(new File(basePath + "/updater.json"), result);
+        File deployDir = new File(basePath + "/../Deployment");
+        if(!deployDir.exists() && !deployDir.mkdirs())
+            throw new IOException("NewMoeEngine: unable to create Deployment dir");
+        writeJson(new File(basePath + "/../Deployment/updater.json"), result);
     }
 
-    private void scanDirForEncoding(JSONArray result, HashSet<DirectoryNode> directoryNodes) throws IOException {
+    private void scanDirForEncoding(JSONArray result, HashSet<DirectoryNode> directoryNodes) {
         for (DirectoryNode dir : directoryNodes) {
             JSONArray child = new JSONArray();
             if (dir.hasChildDirectory()) {
@@ -108,16 +114,26 @@ public class NewMoeEngine extends CommonEngine implements GeneratorEngine, Parse
             }
             JSONArray dirFiles = new JSONArray();
             for (FileNode file : dir.getFileNodes()) {
-                dirFiles.put(new JSONObject() {{
-                    put("path", getRelativePath(file.getFile().getCanonicalPath()));
-                    put("size", file.getSize());
-                    put("md5", file.getMD5());
-                }});
+                try {
+                    dirFiles.put(new JSONObject() {{
+                        put("path", getRelativePath(file.getFile().getCanonicalPath()));
+                        put("size", file.getSize());
+                        put("md5", file.getMD5());
+                    }});
+                } catch (IOException ex) {
+                    Logger.getGlobal().warning("Add file failed: " + file.getFile().getName());
+                    ex.printStackTrace();
+                }
             }
             JSONObject currentDir = new JSONObject() {{
-                put("path", getRelativePath(dir.getDirectory().getCanonicalPath()));
-                put("child", child);
-                put("files", dirFiles);
+                try {
+                    put("path", getRelativePath(dir.getDirectory().getCanonicalPath()));
+                    put("child", child);
+                    put("files", dirFiles);
+                } catch (IOException ex) {
+                    Logger.getGlobal().warning("Add dir failed: " + dir.getDirectory().getName());
+                    ex.printStackTrace();
+                }
             }};
             result.put(currentDir);
         }
