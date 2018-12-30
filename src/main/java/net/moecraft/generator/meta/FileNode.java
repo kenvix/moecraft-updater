@@ -7,8 +7,10 @@
 package net.moecraft.generator.meta;
 
 import com.kenvix.utils.FileTool;
+import net.moecraft.generator.Environment;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -33,6 +35,11 @@ public final class FileNode {
      * Expected file size. Auto filled by ParserEngine
      */
     private long expectedSize = -1;
+
+    /**
+     * relative Path
+     */
+    private String relativePath = null;
 
     /**
      * Blocked Objects
@@ -63,6 +70,22 @@ public final class FileNode {
         this.expectedMd5 = expectedMd5;
         return this;
     }
+
+    public String getRelativePath() {
+        if(relativePath == null) {
+            if(file.exists()) {
+                try {
+                    relativePath = FileTool.getRelativePath(Environment.getBaseMoeCraftPath(), file.getCanonicalPath());
+                } catch (IOException ex) {
+                    relativePath = null;
+                }
+            }
+            if(relativePath == null)
+                relativePath = FileTool.getRelativePath(Environment.getBaseMoeCraftPath(), file.getPath());
+        }
+        return relativePath;
+    }
+
 
     public final long getExpectedSize() {
         return expectedSize;

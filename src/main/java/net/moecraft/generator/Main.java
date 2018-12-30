@@ -12,6 +12,7 @@ import net.moecraft.generator.meta.*;
 import net.moecraft.generator.meta.scanner.FileScanner;
 import net.moecraft.generator.updater.repo.DNSRepoManager;
 import net.moecraft.generator.updater.repo.RepoManager;
+import net.moecraft.generator.updater.ui.UpdaterIndex;
 import org.apache.commons.cli.*;
 import sun.rmi.runtime.Log;
 
@@ -33,8 +34,11 @@ public class Main {
             Environment.loadEnvironment(getCmd(args));
             File baseMoeCraftDir = Environment.getBaseMoeCraftDir();
             if(!baseMoeCraftDir.exists()) {
-                Logger.getGlobal().log(Level.SEVERE, "MoeCraft root directory not found on '" + baseMoeCraftDir.getCanonicalPath() + "'. Please create a directory called 'MoeCraft' and run this program again.");
-                System.exit(9);
+                Logger.getGlobal().log(Level.INFO, "MoeCraft root directory not found on '" + baseMoeCraftDir.getCanonicalPath() + "'. Create.");
+                if(!baseMoeCraftDir.mkdirs()) {
+                    Logger.getGlobal().log(Level.SEVERE, "Create MoeCraft root directory FAILED '" + baseMoeCraftDir.getCanonicalPath() + "'.");
+                    System.exit(9);
+                }
             }
             String basePath = Environment.getBaseMoeCraftPath();
             Logger.getGlobal().log(Level.FINEST, "Current path: " + basePath);
@@ -56,6 +60,7 @@ public class Main {
             generateAll(result);
             getRepos();
             //testParser(new NewMoeEngine(), result);
+            UpdaterIndex.display();
         } catch (MissingArgumentException ex) {
             out.println("Missing Argument: " + ex.getMessage());
         } catch (UnrecognizedOptionException ex) {

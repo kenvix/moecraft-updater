@@ -19,18 +19,21 @@ import java.io.IOException;
 
 public final class Environment {
 
-    private final static Class[] generatorEngines = {BalthildEngine.class, NewMoeEngine.class};
-    private static       File    baseMoeCraftDir;
-    private final static Class[] parserEngines    = {NewMoeEngine.class};
-    private static       File    generatorConfigFile;
-    private static       String  baseMoeCraftPath;
-    private static       String  updateDescription;
-    private static       String  updateVersion;
-    private final static Class   metaScanner      = FileScanner.class;
-    private final static Class  repoManager   = DNSRepoManager.class;
-    private final static String dnsRepoDomain = "updater-repo.moecraft.net";
+    private static       CommandLine cmd;
+    private final static Class[]     generatorEngines = {BalthildEngine.class, NewMoeEngine.class};
+    private static       File        baseMoeCraftDir;
+    private final static Class[]     parserEngines    = {NewMoeEngine.class};
+    private static       File        generatorConfigFile;
+    private static       String      baseMoeCraftPath;
+    private static       String      updateDescription;
+    private static       String      updateVersion;
+    private final static Class       metaScanner      = FileScanner.class;
+    private final static Class       repoManager      = DNSRepoManager.class;
+    private final static String      dnsRepoDomain    = "updater-repo.moecraft.net";
+    private final static String appName = "MoeCraft Toolbox";
 
     static void loadEnvironment(CommandLine cmd) throws IOException {
+        Environment.cmd = cmd;
         baseMoeCraftDir = new File(cmd.hasOption('p') ? cmd.getOptionValue('p') : "./MoeCraft");
         generatorConfigFile = new File(cmd.hasOption('c') ? cmd.getOptionValue('c') : "./generator_config.json");
         baseMoeCraftPath = baseMoeCraftDir.getCanonicalPath().replace('\\', '/');
@@ -84,5 +87,17 @@ public final class Environment {
 
     public static Class getRepoManager() {
         return repoManager;
+    }
+
+    public static boolean isGeneratorMode() {
+        return cmd.hasOption('g');
+    }
+
+    public static CommandLine getCommandLine() {
+        return cmd;
+    }
+
+    public static String getAppName() {
+        return appName;
     }
 }
