@@ -17,7 +17,9 @@ import org.json.JSONArray;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 
 /**
  * Balthild Engine
@@ -59,7 +61,7 @@ public class BalthildEngine extends CommonEngine implements GeneratorEngine {
         writeJson(new File(basePath + "/metadata.json"), result);
     }
 
-    private void scanDir(JSONArray result, HashSet<DirectoryNode> directoryNodes) throws IOException {
+    private void scanDir(JSONArray result, ArrayList<DirectoryNode> directoryNodes) throws IOException {
         for (DirectoryNode dir : directoryNodes) {
             if (dir.hasChildDirectory()) {
                 scanDir(result, dir.getDirectoryNodes());

@@ -6,13 +6,15 @@
 
 package net.moecraft.generator.meta;
 
-import java.io.File;
-import java.util.HashSet;
+import org.jetbrains.annotations.Nullable;
 
-public class DirectoryNode {
-    private HashSet<FileNode>      fileNodes      = new HashSet<>();
-    private HashSet<DirectoryNode> directoryNodes = new HashSet<>();
-    private File                   directory;
+import java.io.File;
+import java.util.ArrayList;
+
+public class DirectoryNode implements Cloneable {
+    private ArrayList<FileNode>      fileNodes      = new ArrayList<>();
+    private ArrayList<DirectoryNode> directoryNodes = new ArrayList<>();
+    private File                     directory;
 
     public DirectoryNode(File dir) {
         this.directory = dir;
@@ -37,7 +39,8 @@ public class DirectoryNode {
         return dir;
     }
 
-    public DirectoryNode setDirectoryNodes(HashSet<DirectoryNode> directoryNodes) {
+    @Deprecated
+    public DirectoryNode setDirectoryNodes(ArrayList<DirectoryNode> directoryNodes) {
         this.directoryNodes = directoryNodes;
         return this;
     }
@@ -50,11 +53,11 @@ public class DirectoryNode {
         return directory;
     }
 
-    public HashSet<DirectoryNode> getDirectoryNodes() {
+    public ArrayList<DirectoryNode> getDirectoryNodes() {
         return directoryNodes;
     }
 
-    public HashSet<FileNode> getFileNodes() {
+    public ArrayList<FileNode> getFileNodes() {
         return fileNodes;
     }
 
@@ -64,5 +67,40 @@ public class DirectoryNode {
 
     public boolean hasFile() {
         return !fileNodes.isEmpty();
+    }
+
+    @Override
+    public String toString() {
+        return directory.getName();
+    }
+
+    /**
+     * Clone DirectoryNode. Including all child DirectoryNode and child FileNode.
+     * Note: java.io.File object will NOT be cloned for its meaningless.
+     *
+     * @return DirectoryNode
+     */
+    @Nullable
+    @Override
+    protected DirectoryNode clone() {
+        DirectoryNode directoryNode = null;
+
+        try {
+            directoryNode = (DirectoryNode) super.clone();
+        } catch (CloneNotSupportedException ex) {
+            ex.printStackTrace();
+        }
+
+        if (directoryNode != null) {
+            ArrayList<FileNode> newFileNodes = new ArrayList<>();
+            this.fileNodes.forEach(node -> newFileNodes.add(node.clone()));
+            directoryNode.fileNodes = newFileNodes;
+
+            ArrayList<DirectoryNode> newDirectoryNodes = new ArrayList<>();
+            this.directoryNodes.forEach(node -> newDirectoryNodes.add(node.clone()));
+            directoryNode.directoryNodes = newDirectoryNodes;
+        }
+
+        return directoryNode;
     }
 }

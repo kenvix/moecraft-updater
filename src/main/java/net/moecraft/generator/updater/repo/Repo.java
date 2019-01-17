@@ -41,4 +41,9 @@ public class Repo implements Comparable<Repo> {
     public int compareTo(Repo o) {
         return Integer.compare(order, o.order);
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

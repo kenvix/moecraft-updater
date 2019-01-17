@@ -11,6 +11,7 @@ import net.moecraft.generator.Environment;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 
 public class ObjectEngine {
     private final static GeneratorConfig config = GeneratorConfig.getInstance();
@@ -38,7 +39,7 @@ public class ObjectEngine {
         scanDir(result.getDirectoryNodesByType(MetaNodeType.SyncedDirectory));
     }
 
-    private void scanDir(HashSet<DirectoryNode> result) {
+    private void scanDir(ArrayList<DirectoryNode> result) {
         for (DirectoryNode directoryNode : result) {
             directoryNode.getFileNodes().forEach(fileNode -> fileNode.setObjects(makeObject(fileNode)));
             if(directoryNode.hasChildDirectory())

@@ -11,10 +11,12 @@ import net.moecraft.generator.Environment;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.logging.Logger;
 
-public final class FileNode {
+public final class FileNode implements Cloneable {
     private File   file;
     /**
      * Actual file md5. Auto filled by getMD5(). Will NOT be autofilled by ParserEngine
@@ -30,6 +32,11 @@ public final class FileNode {
      * Actual file md5. Auto filled by getMD5(). Will NOT be autofilled by ParserEngine
      */
     private long size = -1;
+
+    /**
+     * Actual file time. Auto filled by getTime(). Will NOT be autofilled by ParserEngine
+     */
+    private long time = -1;
 
     /**
      * Expected file size. Auto filled by ParserEngine
@@ -56,6 +63,10 @@ public final class FileNode {
 
     public final long getSize() {
         return size == -1 ? (size = file.length()) : size;
+    }
+
+    public final long getTime() {
+        return time == -1 ? (time = file.lastModified()) : time;
     }
 
     public final File getFile() {
@@ -109,5 +120,44 @@ public final class FileNode {
     public final FileNode setObjects(ArrayList<FileNode> objects) {
         this.objects = objects;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return file.getName();
+    }
+
+    @Override
+    public int hashCode() {
+        return getRelativePath().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof FileNode) {
+            return obj.hashCode() == hashCode();
+        }
+        return false;
+    }
+
+    /**
+     * Clone FileNode. Including all child DirectoryNode and child FileNode.
+     * Note: java.io.File object will NOT be cloned for its meaningless.
+     * @return FileNode
+     */
+    @Override
+    protected FileNode clone() {
+        FileNode fileNode = null;
+        try {
+            fileNode = (FileNode) super.clone();
+        } catch (CloneNotSupportedException ex) {
+            ex.printStackTrace();
+        }
+        if(fileNode != null) {
+            ArrayList<FileNode> newFileNodes  = new ArrayList<>();
+            this.objects.forEach(node -> newFileNodes.add(node.clone()));
+            fileNode.objects = newFileNodes;
+        }
+        return fileNode;
     }
 }

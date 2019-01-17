@@ -5,19 +5,19 @@
 //--------------------------------------------------
 package net.moecraft.generator.meta;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.io.File;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 import java.util.logging.Logger;
 
-public class MetaResult {
-    private HashMap<MetaNodeType, HashSet<DirectoryNode>> directoryNodes;
-    private HashMap<MetaNodeType, DirectoryNode>          fileNodes;
-    private String                                        description = null;
-    private String                                        version     = null;
-    private long                                          objectSize  = 0;
-    private long                                          time        = new Date().getTime();
+public class MetaResult implements Cloneable {
+    private HashMap<MetaNodeType, ArrayList<DirectoryNode>> directoryNodes;
+    private HashMap<MetaNodeType, DirectoryNode>            fileNodes;
+    private String                                          description = null;
+    private String                                          version     = null;
+    private long                                            objectSize  = 0;
+    private long                                            time        = new Date().getTime();
 
     {
         directoryNodes = new HashMap<>();
@@ -25,11 +25,11 @@ public class MetaResult {
         for (MetaNodeType type : MetaNodeType.values()) {
             try {
                 if (type.getClass().getField(type.name()).isAnnotationPresent(DirectoryMetaNode.class))
-                    directoryNodes.put(type, new HashSet<>());
+                    directoryNodes.put(type, new ArrayList<>());
                 else if (type.getClass().getField(type.name()).isAnnotationPresent(FileMetaNode.class))
                     fileNodes.put(type, new DirectoryNode(new File(".")));
                 else {
-                    directoryNodes.put(type, new HashSet<>());
+                    directoryNodes.put(type, new ArrayList<>());
                     fileNodes.put(type, new DirectoryNode(new File(".")));
                 }
             } catch (Exception ex) {
@@ -41,7 +41,7 @@ public class MetaResult {
 
     public DirectoryNode addDirectoryNode(MetaNodeType type, DirectoryNode dir) {
         if (!directoryNodes.containsKey(type))
-            directoryNodes.put(type, new HashSet<>());
+            directoryNodes.put(type, new ArrayList<>());
         directoryNodes.get(type).add(dir);
         return dir;
     }
@@ -78,15 +78,16 @@ public class MetaResult {
         return this;
     }
 
-    public HashMap<MetaNodeType, HashSet<DirectoryNode>> getDirectoryNodes() {
+    public HashMap<MetaNodeType, ArrayList<DirectoryNode>> getDirectoryNodes() {
         return directoryNodes;
     }
 
-    public HashSet<DirectoryNode> getDirectoryNodesByType(MetaNodeType type) {
+    public ArrayList<DirectoryNode> getDirectoryNodesByType(MetaNodeType type) {
         return directoryNodes.get(type);
     }
 
-    public MetaResult setDirectoryNodesByType(MetaNodeType type, HashSet<DirectoryNode> data) {
+    @Deprecated
+    public MetaResult setDirectoryNodesByType(MetaNodeType type, ArrayList<DirectoryNode> data) {
         directoryNodes.replace(type, data);
         return this;
     }
@@ -115,5 +116,33 @@ public class MetaResult {
     public MetaResult setObjectSize(long objectSize) {
         this.objectSize = objectSize;
         return this;
+    }
+
+    @Nullable
+    @Override
+    protected MetaResult clone() {
+        MetaResult metaResult = null;
+
+        try {
+            metaResult = (MetaResult) super.clone();
+        } catch (CloneNotSupportedException ex) {
+            ex.printStackTrace();
+        }
+
+        if(metaResult != null) {
+            HashMap<MetaNodeType, ArrayList<DirectoryNode>> newDirectoryNodes = new HashMap<>();
+            this.directoryNodes.forEach((nodeType, nodeList) ->
+                newDirectoryNodes.put(nodeType, new ArrayList<DirectoryNode>() {{
+                    directoryNodes.get(nodeType).forEach(node -> this.add(node.clone()));
+                }})
+            );
+            metaResult.directoryNodes = newDirectoryNodes;
+
+            HashMap<MetaNodeType, DirectoryNode>            newFileNodes = new HashMap<>();
+            this.fileNodes.forEach((nodeType, node) -> newFileNodes.put(nodeType, node.clone()));
+            metaResult.fileNodes = newFileNodes;
+        }
+
+        return metaResult;
     }
 }

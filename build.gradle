@@ -21,6 +21,6 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     // https://mvnrepository.com/artifact/org.jboss.arquillian.junit/arquillian-junit-container
     testCompile group: 'org.jboss.arquillian.junit', name: 'arquillian-junit-container', version: '1.4.1.Final'
-
+    compileOnly group: 'org.jetbrains', name: 'annotations', version: '16.0.3'
 
 }
