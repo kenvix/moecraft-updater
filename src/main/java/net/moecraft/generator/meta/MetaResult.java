@@ -12,8 +12,8 @@ import java.util.*;
 import java.util.logging.Logger;
 
 public class MetaResult implements Cloneable {
-    private HashMap<MetaNodeType, ArrayList<DirectoryNode>> directoryNodes;
-    private HashMap<MetaNodeType, DirectoryNode>            fileNodes;
+    private Map<MetaNodeType, List<DirectoryNode>> directoryNodes;
+    private Map<MetaNodeType, DirectoryNode> fileNodes;
     private String                                          description = null;
     private String                                          version     = null;
     private long                                            objectSize  = 0;
@@ -78,11 +78,11 @@ public class MetaResult implements Cloneable {
         return this;
     }
 
-    public HashMap<MetaNodeType, ArrayList<DirectoryNode>> getDirectoryNodes() {
+    public Map<MetaNodeType, List<DirectoryNode>> getDirectoryNodes() {
         return directoryNodes;
     }
 
-    public ArrayList<DirectoryNode> getDirectoryNodesByType(MetaNodeType type) {
+    public List<DirectoryNode> getDirectoryNodesByType(MetaNodeType type) {
         return directoryNodes.get(type);
     }
 
@@ -92,7 +92,7 @@ public class MetaResult implements Cloneable {
         return this;
     }
 
-    public HashMap<MetaNodeType, DirectoryNode> getFileNodes() {
+    public Map<MetaNodeType, DirectoryNode> getFileNodes() {
         return fileNodes;
     }
 
@@ -130,7 +130,7 @@ public class MetaResult implements Cloneable {
         }
 
         if(metaResult != null) {
-            HashMap<MetaNodeType, ArrayList<DirectoryNode>> newDirectoryNodes = new HashMap<>();
+            HashMap<MetaNodeType, List<DirectoryNode>> newDirectoryNodes = new HashMap<>();
             this.directoryNodes.forEach((nodeType, nodeList) ->
                 newDirectoryNodes.put(nodeType, new ArrayList<DirectoryNode>() {{
                     directoryNodes.get(nodeType).forEach(node -> this.add(node.clone()));

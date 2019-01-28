@@ -1,24 +1,19 @@
 //--------------------------------------------------
-// Class FileUpdater
+// Class Md5Cacher
 //--------------------------------------------------
 // Written by Kenvix <i@kenvix.com>
 //--------------------------------------------------
 
 package net.moecraft.generator.updater;
 
-import net.moecraft.generator.meta.FileNode;
 import net.moecraft.generator.meta.MetaResult;
 
-import java.nio.file.Files;
+public class Md5Cacher {
+    private final MetaResult localResult;
 
-public class FileUpdater {
-    private MetaResult task;
-
-    public FileUpdater(MetaResult task) {
-        this.task = task;
+    public Md5Cacher(MetaResult localResult) {
+        this.localResult = localResult;
     }
-
-
 
 
 }

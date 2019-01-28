@@ -10,7 +10,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.nio.channels.FileChannel;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
 
@@ -70,5 +72,9 @@ public class FileTool {
 
     public static String readAllText(String filePath) throws IOException {
         return new String(Files.readAllBytes(Paths.get(filePath)));
+    }
+
+    public static long directCopy(FileChannel from, FileChannel to, long offset) throws IOException {
+        return from.transferTo(offset, from.size(), to);
     }
 }

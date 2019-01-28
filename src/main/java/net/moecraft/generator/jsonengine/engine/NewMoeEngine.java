@@ -6,7 +6,6 @@
 
 package net.moecraft.generator.jsonengine.engine;
 
-import net.moecraft.generator.Environment;
 import net.moecraft.generator.jsonengine.CommonEngine;
 import net.moecraft.generator.jsonengine.GeneratorEngine;
 import net.moecraft.generator.jsonengine.ParserEngine;
@@ -40,7 +39,7 @@ public class NewMoeEngine extends CommonEngine implements GeneratorEngine, Parse
             ex.printStackTrace();
         }
         JSONArray                syncedDirs       = root.getJSONArray("synced_dirs");
-        ArrayList<DirectoryNode> syncedDirsResult = result.getDirectoryNodesByType(MetaNodeType.SyncedDirectory);
+        List<DirectoryNode> syncedDirsResult = result.getDirectoryNodesByType(MetaNodeType.SyncedDirectory);
         scanDirForDecoding(syncedDirs, syncedDirsResult);
         JSONArray syncedFiles  = root.getJSONArray("synced_files");
         JSONArray defaultFiles = root.getJSONArray("default_files");
@@ -79,7 +78,7 @@ public class NewMoeEngine extends CommonEngine implements GeneratorEngine, Parse
         return object.toString();
     }
 
-    private JSONArray addFileNodeForEncoding(ArrayList<FileNode> fileNodes) {
+    private JSONArray addFileNodeForEncoding(List<FileNode> fileNodes) {
         return new JSONArray() {{
             fileNodes.forEach(file -> put(prepareObjectForEncoding(file)));
         }};
@@ -105,7 +104,7 @@ public class NewMoeEngine extends CommonEngine implements GeneratorEngine, Parse
         writeJson(new File(basePath + "/../Deployment/updater.json"), result);
     }
 
-    private void scanDirForEncoding(JSONArray result, ArrayList<DirectoryNode> directoryNodes) {
+    private void scanDirForEncoding(JSONArray result, List<DirectoryNode> directoryNodes) {
         for (DirectoryNode dir : directoryNodes) {
             JSONArray child = new JSONArray();
             if (dir.hasChildDirectory()) {
@@ -134,14 +133,14 @@ public class NewMoeEngine extends CommonEngine implements GeneratorEngine, Parse
         }
     }
 
-    private void scanDirForDecoding(JSONArray array, ArrayList<DirectoryNode> result) {
+    private void scanDirForDecoding(JSONArray array, List<DirectoryNode> result) {
         for (Object syncedDirObject : array) {
             JSONObject    jsonSyncedDirObject = (JSONObject) syncedDirObject;
             File          dirFile             = new File(basePath + "/" + jsonSyncedDirObject.getString("path"));
             DirectoryNode directoryNode       = new DirectoryNode(dirFile);
             JSONArray     filesArray          = jsonSyncedDirObject.getJSONArray("files");
             filesArray.forEach(fileObject -> addFileNodeForDecoding(fileObject, directoryNode));
-            ArrayList<DirectoryNode> child      = directoryNode.getDirectoryNodes();
+            List<DirectoryNode> child      = directoryNode.getDirectoryNodes();
             JSONArray                childArray = jsonSyncedDirObject.getJSONArray("child");
             scanDirForDecoding(childArray, child);
             result.add(directoryNode);

@@ -10,10 +10,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 public class DirectoryNode implements Cloneable {
-    private ArrayList<FileNode>      fileNodes      = new ArrayList<>();
-    private ArrayList<DirectoryNode> directoryNodes = new ArrayList<>();
+    private List<FileNode>      fileNodes      = new ArrayList<>();
+    private List<DirectoryNode> directoryNodes = new ArrayList<>();
     private File                     directory;
 
     public DirectoryNode(File dir) {
@@ -53,11 +54,11 @@ public class DirectoryNode implements Cloneable {
         return directory;
     }
 
-    public ArrayList<DirectoryNode> getDirectoryNodes() {
+    public List<DirectoryNode> getDirectoryNodes() {
         return directoryNodes;
     }
 
-    public ArrayList<FileNode> getFileNodes() {
+    public List<FileNode> getFileNodes() {
         return fileNodes;
     }
 

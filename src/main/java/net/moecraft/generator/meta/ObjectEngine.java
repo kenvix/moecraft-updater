@@ -9,15 +9,14 @@ package net.moecraft.generator.meta;
 import net.moecraft.generator.Environment;
 
 import java.io.*;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
+import java.util.List;
 
 public class ObjectEngine {
     private final static GeneratorConfig config = GeneratorConfig.getInstance();
     private int objectSize;
     private MetaResult result;
-    //private Deflater deflater;
 
     public static String getOutDir() {
         return Environment.getBaseMoeCraftPath() + "/../Deployment";
@@ -26,20 +25,19 @@ public class ObjectEngine {
     public ObjectEngine(MetaResult result) throws IOException {
         this.result = result;
         objectSize = (int) config.getObjectSize();
-        //deflater = new Deflater();
-        //deflater.setLevel(5);
+
         File outdir = new File(getOutDir());
-        if(!outdir.exists())
-            outdir.mkdirs();
+        if(!outdir.exists() && !outdir.mkdirs())
+            throw new IOException("Unable to create directory: " + outdir.getPath());
     }
 
-    public void process() {
+    public void startMakeObjects() {
         result.getFileNodesByType(MetaNodeType.SyncedFile).getFileNodes().forEach(fileNode -> fileNode.setObjects(makeObject(fileNode)));
         result.getFileNodesByType(MetaNodeType.DefaultFile).getFileNodes().forEach(fileNode -> fileNode.setObjects(makeObject(fileNode)));
         scanDir(result.getDirectoryNodesByType(MetaNodeType.SyncedDirectory));
     }
 
-    private void scanDir(ArrayList<DirectoryNode> result) {
+    private void scanDir(List<DirectoryNode> result) {
         for (DirectoryNode directoryNode : result) {
             directoryNode.getFileNodes().forEach(fileNode -> fileNode.setObjects(makeObject(fileNode)));
             if(directoryNode.hasChildDirectory())
@@ -49,17 +47,22 @@ public class ObjectEngine {
 
     public ArrayList<FileNode> makeObject(FileNode fileNode) {
         ArrayList<FileNode> result = new ArrayList<>();
+
         try {
             File object = fileNode.getFile();
             FileInputStream input = new FileInputStream(object);
+
             int objectID = 0;
             boolean exitFlag = false;
+
             while (!exitFlag) {
                 File objectFile = new File(getObjectFilePath(objectID, fileNode));
                 FileNode objectFileNode = new FileNode(objectFile);
                 result.add(objectFileNode);
+
                 FileOutputStream output = new FileOutputStream(objectFile);
                 int offset = 0;
+
                 for (; offset < objectSize;) {
                     byte[] buffer = new byte[objectSize];
                     byte[] zlibBuffer = new byte[objectSize];
@@ -68,19 +71,12 @@ public class ObjectEngine {
                         exitFlag = true;
                         break;
                     }
-//                    deflater.setInput(buffer);
-//                    int count = 0;
-//                    while (!deflater.finished()) {
-//                        int compressedSize = deflater.deflate(zlibBuffer);
-//                        if (compressedSize == 0 && deflater.needsInput()) {
-//                            break;
-//                        }
-//                        count += compressedSize;
-//                    }
+
                     output.write(buffer, 0, readedLength);
                     //offset += count;
                     offset += readedLength;
                 }
+
                 output.close();
                 objectID++;
             }
@@ -88,6 +84,7 @@ public class ObjectEngine {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+
         return result;
     }
 
@@ -95,12 +92,14 @@ public class ObjectEngine {
         return String.format("%s/%s-%d.txt", getOutDir(), source.getMD5(), objectID);
     }
 
-    //public static String getMergedFilePath(FileNode source) {
+    public static void mergeObject(FileNode file)  throws IOException {
+        RandomAccessFile outObject = new RandomAccessFile(Environment.getCachePath().resolve(file.getFile().getName()).toFile(), "w");
+        FileChannel outChannel = outObject.getChannel();
 
-    //}
+        for (FileNode object: file.getObjects()) {
+            FileInputStream inObject = new FileInputStream(object.getFile());
+            FileChannel inChannel =  inObject.getChannel();
 
-    public void mergeObject(FileNode file)  throws IOException {
-        FileOutputStream output = new FileOutputStream(file.getFile());
-
+        }
     }
 }

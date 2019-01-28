@@ -11,9 +11,7 @@ import net.moecraft.generator.meta.FileNode;
 import net.moecraft.generator.meta.MetaNodeType;
 import net.moecraft.generator.meta.MetaResult;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
+import java.util.List;
 
 /**
  * 更新对比
@@ -32,7 +30,7 @@ public class UpdateComparer {
      */
     public MetaResult compare() {
         MetaResult          result             = new MetaResult();
-        ArrayList<FileNode> resultDefaultFiles = result.getFileNodesByType(MetaNodeType.DefaultFile).getFileNodes();
+        List<FileNode> resultDefaultFiles = result.getFileNodesByType(MetaNodeType.DefaultFile).getFileNodes();
         remote.getFileNodesByType(MetaNodeType.DefaultFile).getFileNodes().forEach(fileNode -> {
             if (!fileNode.getFile().exists())
                 resultDefaultFiles.add(fileNode);
@@ -40,21 +38,21 @@ public class UpdateComparer {
 
         remote.getFileNodesByType(MetaNodeType.SyncedFile).getFileNodes().forEach(fileNode -> compareUpdateFile(result.getFileNodesByType(MetaNodeType.SyncedFile), fileNode));
 
-        ArrayList<DirectoryNode> directoryNodes = result.getDirectoryNodesByType(MetaNodeType.SyncedDirectory);
+        List<DirectoryNode> directoryNodes = result.getDirectoryNodesByType(MetaNodeType.SyncedDirectory);
         compareUpdateDirectoryNodes(remote.getDirectoryNodesByType(MetaNodeType.SyncedDirectory), directoryNodes);
 
         DirectoryNode            excludedFiles = result.getFileNodesByType(MetaNodeType.ExcludedFile);
-        ArrayList<DirectoryNode> excludedDirs  = result.getDirectoryNodesByType(MetaNodeType.ExcludedDirectory);
+        List<DirectoryNode> excludedDirs  = result.getDirectoryNodesByType(MetaNodeType.ExcludedDirectory);
         compareExcludeDirectoryAndFileNodes(remote.getDirectoryNodesByType(MetaNodeType.SyncedDirectory), local.getDirectoryNodesByType(MetaNodeType.SyncedDirectory), excludedFiles, excludedDirs);
         return result;
     }
 
-    private void compareExcludeDirectoryAndFileNodes(ArrayList<DirectoryNode> remote, ArrayList<DirectoryNode> local, DirectoryNode resultFiles, ArrayList<DirectoryNode> resultDirs) {
+    private void compareExcludeDirectoryAndFileNodes(List<DirectoryNode> remote, List<DirectoryNode> local, DirectoryNode resultFiles, List<DirectoryNode> resultDirs) {
         for(DirectoryNode directoryNode : local) {
             if(remote.contains(directoryNode)) {
                 int remoteDirectoryIndex = remote.indexOf(directoryNode);
-                ArrayList<FileNode> remoteFileNodes = remote.get(remoteDirectoryIndex).getFileNodes();
-                ArrayList<FileNode> localFileNodes = directoryNode.getFileNodes();
+                List<FileNode> remoteFileNodes = remote.get(remoteDirectoryIndex).getFileNodes();
+                List<FileNode> localFileNodes = directoryNode.getFileNodes();
                 for (FileNode fileNode : localFileNodes) {
                     if(!remoteFileNodes.contains(fileNode))
                         resultFiles.addFileNode(fileNode);
@@ -75,10 +73,10 @@ public class UpdateComparer {
             out.addFileNode(remote);
     }
 
-    private void compareUpdateDirectoryNodes(ArrayList<DirectoryNode> from, ArrayList<DirectoryNode> result) {
+    private void compareUpdateDirectoryNodes(List<DirectoryNode> from, List<DirectoryNode> result) {
         for (DirectoryNode directoryNode : from) {
             DirectoryNode       resultDirectoryNode = new DirectoryNode(directoryNode.getDirectory());
-            ArrayList<FileNode> fileNodes           = directoryNode.getFileNodes();
+            List<FileNode> fileNodes           = directoryNode.getFileNodes();
             fileNodes.forEach(fileNode -> compareUpdateFile(resultDirectoryNode, fileNode));
 
             if (directoryNode.hasChildDirectory())

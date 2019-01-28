@@ -11,13 +11,14 @@ import net.moecraft.generator.Environment;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
+import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.logging.Logger;
+import java.util.List;
 
 public final class FileNode implements Cloneable {
     private File   file;
+    private Path path;
+
     /**
      * Actual file md5. Auto filled by getMD5(). Will NOT be autofilled by ParserEngine
      */
@@ -51,10 +52,16 @@ public final class FileNode implements Cloneable {
     /**
      * Blocked Objects
      */
-    private ArrayList<FileNode> objects = null;
+    private List<FileNode> objects = null;
 
     public FileNode(File file) {
+        this.path = file.toPath();
         this.file = file;
+    }
+
+    public FileNode(Path path) {
+        this.path = path;
+        this.file = path.toFile();
     }
 
     public final String getMD5() {
@@ -82,6 +89,10 @@ public final class FileNode implements Cloneable {
         return this;
     }
 
+    public final Path getPath() {
+        return path;
+    }
+
     public String getRelativePath() {
         if(relativePath == null) {
             if(file.exists()) {
@@ -107,7 +118,7 @@ public final class FileNode implements Cloneable {
         return this;
     }
 
-    public final ArrayList<FileNode> getObjects() {
+    public final List<FileNode> getObjects() {
         if(objects == null) {
             synchronized (FileNode.class) {
                 if(objects == null)

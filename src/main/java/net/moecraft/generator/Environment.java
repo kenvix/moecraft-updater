@@ -16,6 +16,8 @@ import org.apache.commons.cli.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public final class Environment {
 
@@ -30,7 +32,10 @@ public final class Environment {
     private final static Class       metaScanner      = FileScanner.class;
     private final static Class       repoManager      = DNSRepoManager.class;
     private final static String      dnsRepoDomain    = "updater-repo.moecraft.net";
-    private final static String appName = "MoeCraft Toolbox";
+    private final static String      appName          = "MoeCraft Toolbox";
+    private static       Path        basePath;
+    private static       Path        updaterPath;
+    private static       Path        cachePath;
 
     static void loadEnvironment(CommandLine cmd) throws IOException {
         Environment.cmd = cmd;
@@ -39,6 +44,21 @@ public final class Environment {
         baseMoeCraftPath = baseMoeCraftDir.getCanonicalPath().replace('\\', '/');
         updateDescription = cmd.hasOption('i') ? cmd.getOptionValue('i') : "";
         updateVersion = cmd.hasOption('l') ? cmd.getOptionValue('l') : "1.0";
+        basePath = Paths.get(".");
+        updaterPath = basePath.resolve("Updater");
+        cachePath = updaterPath.resolve("Cache");
+    }
+
+    public static Path getUpdaterPath() {
+        return updaterPath;
+    }
+
+    public static Path getCachePath() {
+        return cachePath;
+    }
+
+    public static Path getBasePath() {
+        return basePath;
     }
 
     public static Class getMetaScanner() {

@@ -15,14 +15,15 @@ import org.json.JSONTokener;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class GeneratorConfig extends MetaResult {
     private File file;
     private String basePath;
-    private        HashSet<String> excludedFileRule      = new HashSet<>();
-    private        HashSet<String> excludedDirectoryRule = new HashSet<>();
+    private Set<String> excludedFileRule      = new HashSet<>();
+    private Set<String> excludedDirectoryRule = new HashSet<>();
     private static GeneratorConfig instance              = null;
 
     /**
@@ -51,11 +52,11 @@ public class GeneratorConfig extends MetaResult {
         return instance;
     }
 
-    public HashSet<String> getExcludedDirectoryRule() {
+    public Set<String> getExcludedDirectoryRule() {
         return excludedDirectoryRule;
     }
 
-    public HashSet<String> getExcludedFileRule() {
+    public Set<String> getExcludedFileRule() {
         return excludedFileRule;
     }
 
@@ -103,7 +104,7 @@ public class GeneratorConfig extends MetaResult {
         searchRuleItems("excluded_dir", excludedDirectoryRule, json);
     }
 
-    private void searchRuleItems(String key, HashSet<String> target, JSONObject json) {
+    private void searchRuleItems(String key, Set<String> target, JSONObject json) {
         for (Object item : json.getJSONArray("excluded_files")) {
             if(item instanceof String) {
                 target.add(((String) item).replace('\\', '/'));
