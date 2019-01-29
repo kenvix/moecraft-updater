@@ -6,18 +6,19 @@
 
 package net.moecraft.generator;
 
-import net.moecraft.generator.jsonengine.CommonEngine;
 import net.moecraft.generator.jsonengine.engine.BalthildEngine;
 import net.moecraft.generator.jsonengine.engine.NewMoeEngine;
-import net.moecraft.generator.meta.GeneratorConfig;
 import net.moecraft.generator.meta.scanner.FileScanner;
 import net.moecraft.generator.updater.repo.DNSRepoManager;
-import org.apache.commons.cli.*;
+import net.moecraft.generator.updater.repo.Repo;
+import org.apache.commons.cli.CommandLine;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.logging.Logger;
 
 public final class Environment {
 
@@ -33,6 +34,11 @@ public final class Environment {
     private final static Class       repoManager      = DNSRepoManager.class;
     private final static String      dnsRepoDomain    = "updater-repo.moecraft.net";
     private final static String      appName          = "MoeCraft Toolbox";
+    private static       Repo[]      repos;
+    private final static int         downloadMaxTries = 5;
+    private final static int         dnsMaxTries      = 20;
+    private static       Logger      logger;
+    private static       boolean     isUpdater;
     private static       Path        basePath;
     private static       Path        updaterPath;
     private static       Path        cachePath;
@@ -43,10 +49,36 @@ public final class Environment {
         generatorConfigFile = new File(cmd.hasOption('c') ? cmd.getOptionValue('c') : "./generator_config.json");
         baseMoeCraftPath = baseMoeCraftDir.getCanonicalPath().replace('\\', '/');
         updateDescription = cmd.hasOption('i') ? cmd.getOptionValue('i') : "";
+        isUpdater = !cmd.hasOption('g');
         updateVersion = cmd.hasOption('l') ? cmd.getOptionValue('l') : "1.0";
         basePath = Paths.get(".");
         updaterPath = basePath.resolve("Updater");
         cachePath = updaterPath.resolve("Cache");
+    }
+
+    public static int getDnsMaxTries() {
+        return dnsMaxTries;
+    }
+
+    public static int getDownloadMaxTries() {
+        return downloadMaxTries;
+    }
+
+    public static boolean isUpdater() {
+        return isUpdater;
+    }
+
+    @NotNull
+    public static Logger getLogger() {
+        if(logger == null) {
+            synchronized (Environment.class) {
+                if (logger != null)
+                    return logger;
+
+                logger = Logger.getGlobal();
+            }
+        }
+        return logger;
     }
 
     public static Path getUpdaterPath() {
@@ -119,5 +151,13 @@ public final class Environment {
 
     public static String getAppName() {
         return appName;
+    }
+
+    public static Repo[] getRepos() {
+        return repos;
+    }
+
+    public static void setRepos(Repo[] repos) {
+        Environment.repos = repos;
     }
 }

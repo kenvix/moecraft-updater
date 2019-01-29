@@ -6,11 +6,11 @@
 
 package net.moecraft.generator.meta.scanner;
 
+import net.moecraft.generator.Environment;
 import net.moecraft.generator.meta.*;
 
 import java.io.File;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class FileScanner implements CommonScanner {
     private final static GeneratorConfig config = GeneratorConfig.getInstance();
@@ -18,7 +18,7 @@ public class FileScanner implements CommonScanner {
     public MetaResult scan(File dir, MetaNodeType type, MetaScanner in) {
         MetaResult    result = in.getResult();
         DirectoryNode directoryNode = result.addDirectoryNode(type, dir);
-        Logger.getGlobal().log(Level.FINER, "Scanning directory " + dir.getPath());
+        Environment.getLogger().log(Level.FINER, "Scanning directory " + dir.getPath());
         scan(dir, directoryNode, true);
         return result;
     }
@@ -30,7 +30,7 @@ public class FileScanner implements CommonScanner {
             for (File file : list) {
                 if(file.isFile()) {
                     if(!config.isFileExcluded(file)) {
-                        Logger.getGlobal().log(Level.FINEST, "+ File: " + file.getName());
+                        Environment.getLogger().log(Level.FINEST, "+ File: " + file.getName());
                         directoryNode.addFileNode(file);
                     }
                 } else {
@@ -39,7 +39,7 @@ public class FileScanner implements CommonScanner {
                 }
             }
         } else {
-            Logger.getGlobal().warning("Failed to open directory " + dir.getPath());
+            Environment.getLogger().warning("Failed to open directory " + dir.getPath());
         }
         return directoryNode;
     }

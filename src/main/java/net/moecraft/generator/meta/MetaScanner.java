@@ -1,7 +1,8 @@
 package net.moecraft.generator.meta;
 
+import net.moecraft.generator.Environment;
+
 import java.lang.reflect.Field;
-import java.util.logging.Logger;
 
 public class MetaScanner {
     private MetaResult      result = new MetaResult();
@@ -37,7 +38,7 @@ public class MetaScanner {
                         config.getFileNodesByType(type).getFileNodes().forEach(file -> result.addFileNode(type, file));
                 }
             } catch (NoSuchFieldException ex) {
-                Logger.getGlobal().info("CommonScanner : no such field: " + ex.getMessage());
+                Environment.getLogger().info("CommonScanner : no such field: " + ex.getMessage());
             }
         }
         return result;

@@ -6,7 +6,7 @@
 
 package net.moecraft.generator.updater.repo;
 
-public class Repo implements Comparable<Repo> {
+public class Repo implements Comparable<Repo>, Cloneable {
     public String getUrl() {
         return url;
     }
@@ -45,5 +45,10 @@ public class Repo implements Comparable<Repo> {
     @Override
     public String toString() {
         return name;
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

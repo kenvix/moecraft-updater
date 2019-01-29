@@ -77,7 +77,7 @@ public class GeneratorConfig extends MetaResult {
                     excluded = true;
             }
         } catch (IOException ex) {
-            Logger.getGlobal().info("Failed to detect whether directory is excluded: " + dir.getName());
+            Environment.getLogger().info("Failed to detect whether directory is excluded: " + dir.getName());
             ex.printStackTrace();
         }
         return excluded;
@@ -109,7 +109,7 @@ public class GeneratorConfig extends MetaResult {
             if(item instanceof String) {
                 target.add(((String) item).replace('\\', '/'));
             } else {
-                Logger.getGlobal().info("Detected invalid config item " + key + " on " + target.getClass().getName());
+                Environment.getLogger().info("Detected invalid config item " + key + " on " + target.getClass().getName());
             }
         }
     }
@@ -130,14 +130,14 @@ public class GeneratorConfig extends MetaResult {
                             addFileNode(type, fileNode);
                         }
                     } else {
-                        Logger.getGlobal().log(Level.INFO, "Declaring a not-found or invalid file " + dir + ". Skip...");
+                        Environment.getLogger().log(Level.INFO, "Declaring a not-found or invalid file " + dir + ". Skip...");
                     }
                 } else {
-                    Logger.getGlobal().info("Detected invalid config item " + key + " on " + type.name());
+                    Environment.getLogger().info("Detected invalid config item " + key + " on " + type.name());
                 }
             }
         } catch (NoSuchFieldException ex) {
-            Logger.getGlobal().log(Level.CONFIG, "Declaring a invalid field [" + ex.getMessage() + "] Skip...");
+            Environment.getLogger().log(Level.CONFIG, "Declaring a invalid field [" + ex.getMessage() + "] Skip...");
         }
     }
 

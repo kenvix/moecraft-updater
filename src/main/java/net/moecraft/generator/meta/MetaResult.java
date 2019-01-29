@@ -5,11 +5,11 @@
 //--------------------------------------------------
 package net.moecraft.generator.meta;
 
+import net.moecraft.generator.Environment;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.util.*;
-import java.util.logging.Logger;
 
 public class MetaResult implements Cloneable {
     private Map<MetaNodeType, List<DirectoryNode>> directoryNodes;
@@ -33,7 +33,7 @@ public class MetaResult implements Cloneable {
                     fileNodes.put(type, new DirectoryNode(new File(".")));
                 }
             } catch (Exception ex) {
-                Logger.getGlobal().warning("Invalid field during MetaResult:MetaNodeType initialize. may cause NullPointerException.");
+                Environment.getLogger().warning("Invalid field during MetaResult:MetaNodeType initialize. may cause NullPointerException.");
                 ex.printStackTrace();
             }
         }

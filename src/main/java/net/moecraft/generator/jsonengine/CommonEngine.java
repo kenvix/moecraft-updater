@@ -20,7 +20,7 @@ public abstract class CommonEngine {
     protected void writeJson(File target, String result) throws IOException {
         if(target.exists())
             if(!target.delete()) {
-                Logger.getGlobal().warning("Unable to delete: " + target.getName() + " . Generation failed");
+                Environment.getLogger().warning("Unable to delete: " + target.getName() + " . Generation failed");
                 return;
             }
         FileWriter writer = new FileWriter(target);

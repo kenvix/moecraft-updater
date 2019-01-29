@@ -6,6 +6,7 @@
 
 package net.moecraft.generator.jsonengine.engine;
 
+import net.moecraft.generator.Environment;
 import net.moecraft.generator.jsonengine.CommonEngine;
 import net.moecraft.generator.jsonengine.GeneratorEngine;
 import net.moecraft.generator.jsonengine.ParserEngine;
@@ -13,14 +14,17 @@ import net.moecraft.generator.meta.DirectoryNode;
 import net.moecraft.generator.meta.FileNode;
 import net.moecraft.generator.meta.MetaNodeType;
 import net.moecraft.generator.meta.MetaResult;
-import org.json.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.logging.Logger;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 public class NewMoeEngine extends CommonEngine implements GeneratorEngine, ParserEngine {
     private final static String dateFormat = "yyyy-MM-dd HH:mm:ss";
@@ -35,7 +39,7 @@ public class NewMoeEngine extends CommonEngine implements GeneratorEngine, Parse
                     .setVersion(root.getString("version"))
                     .setTime(new SimpleDateFormat(dateFormat, Locale.CHINA).parse(root.getString("update_date")).getTime());
         } catch (ParseException ex) {
-            Logger.getGlobal().warning("Detected invalid datetime in json. JSON may be corrupted.");
+            Environment.getLogger().warning("Detected invalid datetime in json. JSON may be corrupted.");
             ex.printStackTrace();
         }
         JSONArray                syncedDirs       = root.getJSONArray("synced_dirs");
@@ -56,7 +60,7 @@ public class NewMoeEngine extends CommonEngine implements GeneratorEngine, Parse
                     .setExpectedSize(object.getLong("size"));
             result.addFileNode(fileNode);
         } catch (ClassCastException ex) {
-            Logger.getGlobal().warning("Detected invalid contents in json. JSON may be corrupted.");
+            Environment.getLogger().warning("Detected invalid contents in json. JSON may be corrupted.");
             ex.printStackTrace();
         }
     }
@@ -115,7 +119,7 @@ public class NewMoeEngine extends CommonEngine implements GeneratorEngine, Parse
                 try {
                     dirFiles.put(prepareObjectForEncoding(file));
                 } catch (Exception ex) {
-                    Logger.getGlobal().warning("Add file failed: " + file.getFile().getName());
+                    Environment.getLogger().warning("Add file failed: " + file.getFile().getName());
                     ex.printStackTrace();
                 }
             }
@@ -125,7 +129,7 @@ public class NewMoeEngine extends CommonEngine implements GeneratorEngine, Parse
                     put("child", child);
                     put("files", dirFiles);
                 } catch (IOException ex) {
-                    Logger.getGlobal().warning("Add dir failed: " + dir.getDirectory().getName());
+                    Environment.getLogger().warning("Add dir failed: " + dir.getDirectory().getName());
                     ex.printStackTrace();
                 }
             }};
