@@ -15,6 +15,7 @@ import net.moecraft.generator.meta.scanner.FileScanner;
 import net.moecraft.generator.updater.repo.Repo;
 import net.moecraft.generator.updater.repo.RepoNetworkUtil;
 import net.moecraft.generator.updater.ui.UpdaterUI;
+import net.moecraft.generator.updater.update.UpdateComparer;
 import net.moecraft.generator.updater.update.UpdateCriticalException;
 
 import java.io.IOException;
@@ -55,19 +56,26 @@ public class CommandLineUI implements UpdaterUI {
             MetaResult localResult = showUpdateScanLocalPage();
             MetaResult compareResult = showUpdateComparePage(remoteResult, localResult);
 
-
+            showUpdateDownloadPage(compareResult);
         } catch (UpdateCriticalException ex) {
             logln(ex.getMessage());
             System.exit(ex.getExitCode());
         }
     }
 
+    final protected void showUpdateDownloadPage(MetaResult compareReault) {
+        printNormalBorderLine();
+        logln("正在下载需要更新的文件 ....");
+
+        //compareReault
+    }
+
     final protected MetaResult showUpdateComparePage(MetaResult remoteResult, MetaResult localResult) {
         printNormalBorderLine();
         logln("正在比较本地和远端文件，请稍候 ...");
 
-        MetaScanner metaScanner = new MetaScanner(new FileScanner());
-        return metaScanner.scan();
+        UpdateComparer updateComparer = new UpdateComparer(remoteResult, localResult);
+        return updateComparer.compare();
     }
 
     final protected MetaResult showUpdateScanLocalPage() {
@@ -137,7 +145,7 @@ public class CommandLineUI implements UpdaterUI {
                 remoteResult = parserEngine.decode(remoteJSONData);
                 break;
             } catch (IOException ex) {
-                logf("尝试下载更新信息时出错 (第 %d/%d 次尝试): %s\n", i, Environment.getDownloadMaxTries(), ex.getMessage());
+                logf("尝试下载更新信息时出错 (第 %d/%d 次尝试): %s\n", i+1, Environment.getDownloadMaxTries(), ex.getMessage());
             }
         }
 

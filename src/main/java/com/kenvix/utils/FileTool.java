@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.channels.FileChannel;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
 
@@ -57,16 +56,19 @@ public class FileTool {
     public static String getRelativePath(String base, String path) {
         base = base.replace('\\', '/');
         path = path.replace('\\', '/');
+
         if (base.endsWith("/"))
             base = base.substring(base.length() - 1);
-        if (path.startsWith("./") || path.startsWith(".\\"))
-                return path.substring(2);
+
+        if (path.startsWith("./"))
+            return path.substring(2);
         if (path.startsWith(base)) {
             path = path.substring(base.length());
-            if (path.startsWith("/") || path.startsWith("\\"))
+            if (path.startsWith("/"))
                 path = path.substring(1);
             return path;
         }
+
         return path;
     }
 

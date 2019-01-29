@@ -14,6 +14,7 @@ import java.util.*;
 public class MetaResult implements Cloneable {
     private Map<MetaNodeType, List<DirectoryNode>> directoryNodes;
     private Map<MetaNodeType, DirectoryNode> fileNodes;
+    private Map<String, List<FileNode>> globalObjects = new HashMap<>();
     private String                                          description = null;
     private String                                          version     = null;
     private long                                            objectSize  = 0;
@@ -37,6 +38,23 @@ public class MetaResult implements Cloneable {
                 ex.printStackTrace();
             }
         }
+    }
+
+    public List<FileNode> getGlobalObjectsByMd5(String md5) {
+        return globalObjects.get(md5);
+    }
+
+    public Map<String, List<FileNode>> getGlobalObjects() {
+        return globalObjects;
+    }
+
+    public MetaResult putGlobalObjectsByMd5(String md5, List<FileNode> data) {
+        globalObjects.put(md5, data);
+        return this;
+    }
+
+    public boolean hasGlobalObject(String md5) {
+        return globalObjects.containsKey(md5);
     }
 
     public DirectoryNode addDirectoryNode(MetaNodeType type, DirectoryNode dir) {

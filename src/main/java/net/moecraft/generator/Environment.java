@@ -38,6 +38,7 @@ public final class Environment {
     private final static String      dnsRepoDomain    = "updater-repo.moecraft.net";
     private static final String      repoManagerURL   = "https://accounts.moecraft.net/API/Updater/repo";
     private final static String      appName          = "MoeCraft Toolbox";
+    private final static String      outJsonName      = "moecraft.json";
     private final static Class       uiProvider       = CommandLineUI.class;
     private static       Repo[]      repos;
     private final static int         downloadMaxTries = 5;
@@ -45,6 +46,7 @@ public final class Environment {
     private static       Logger      logger;
     private static       boolean     isUpdater;
     private static       Path        basePath;
+    private static       Path        deployPath;
     private static       Path        updaterPath;
     private static       Path        cachePath;
 
@@ -59,6 +61,7 @@ public final class Environment {
         basePath = Paths.get(".");
         updaterPath = basePath.resolve("Updater");
         cachePath = updaterPath.resolve("Cache");
+        deployPath = basePath.resolve("Deployment");
     }
 
     public static int getDnsMaxTries() {
@@ -149,6 +152,14 @@ public final class Environment {
 
     public static String getDnsRepoDomain() {
         return dnsRepoDomain;
+    }
+
+    public static String getOutJsonName() {
+        return outJsonName;
+    }
+
+    public static Path getDeployPath() {
+        return deployPath;
     }
 
     public static Class[] getRepoManager() {

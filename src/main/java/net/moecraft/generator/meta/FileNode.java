@@ -54,14 +54,26 @@ public final class FileNode implements Cloneable {
      */
     private List<FileNode> objects = null;
 
+    private boolean isObject;
+
     public FileNode(File file) {
-        this.path = file.toPath();
-        this.file = file;
+        this(file, false);
     }
 
     public FileNode(Path path) {
+        this(path, false);
+    }
+
+    public FileNode(File file, boolean isObject) {
+        this.path = file.toPath();
+        this.file = file;
+        this.isObject = isObject;
+    }
+
+    public FileNode(Path path, boolean isObject) {
         this.path = path;
         this.file = path.toFile();
+        this.isObject = isObject;
     }
 
     public final String getMD5() {
@@ -78,6 +90,10 @@ public final class FileNode implements Cloneable {
 
     public final File getFile() {
         return file;
+    }
+
+    public boolean isObject() {
+        return isObject;
     }
 
     public final String getExpectedMd5() {
@@ -128,7 +144,7 @@ public final class FileNode implements Cloneable {
         return objects;
     }
 
-    public final FileNode setObjects(ArrayList<FileNode> objects) {
+    public final FileNode setObjects(List<FileNode> objects) {
         this.objects = objects;
         return this;
     }

@@ -45,54 +45,63 @@ public class ObjectEngine {
         }
     }
 
-    public ArrayList<FileNode> makeObject(FileNode fileNode) {
-        ArrayList<FileNode> result = new ArrayList<>();
+    public List<FileNode> makeObject(FileNode fileNode) {
+        List<FileNode> result = null;
 
         try {
-            File object = fileNode.getFile();
-            FileInputStream input = new FileInputStream(object);
+            File inputFile = fileNode.getFile();
+            FileInputStream input = new FileInputStream(inputFile);
 
             int objectID = 0;
             boolean exitFlag = false;
 
-            while (!exitFlag) {
-                File objectFile = new File(getObjectFilePath(objectID, fileNode));
-                FileNode objectFileNode = new FileNode(objectFile);
-                result.add(objectFileNode);
+            if(!this.result.hasGlobalObject(fileNode.getMD5())) {
+                result = new ArrayList<>();
 
-                FileOutputStream output = new FileOutputStream(objectFile);
-                int offset = 0;
+                while (!exitFlag) {
+                    File objectFile = new File(getObjectFilePath(objectID, fileNode));
+                    FileNode objectFileNode = new FileNode(objectFile, true);
+                    result.add(objectFileNode);
 
-                for (; offset < objectSize;) {
-                    byte[] buffer = new byte[objectSize];
-                    byte[] zlibBuffer = new byte[objectSize];
-                    int readedLength = input.read(buffer);
-                    if(readedLength == -1) {
-                        exitFlag = true;
-                        break;
+                    FileOutputStream output = new FileOutputStream(objectFile);
+                    int offset = 0;
+
+                    for (; offset < objectSize;) {
+                        byte[] buffer = new byte[objectSize];
+                        byte[] zlibBuffer = new byte[objectSize];
+                        int readedLength = input.read(buffer);
+                        if(readedLength == -1) {
+                            exitFlag = true;
+                            break;
+                        }
+
+                        output.write(buffer, 0, readedLength);
+                        //offset += count;
+                        offset += readedLength;
                     }
 
-                    output.write(buffer, 0, readedLength);
-                    //offset += count;
-                    offset += readedLength;
+                    output.close();
+                    objectID++;
                 }
 
-                output.close();
-                objectID++;
+                this.result.putGlobalObjectsByMd5(fileNode.getMD5(), result);
+            } else {
+                result = this.result.getGlobalObjectsByMd5(fileNode.getMD5());
             }
+
             input.close();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
 
-        return result;
+        return result == null ? new ArrayList<>() : result;
     }
 
     public static String getObjectFilePath(int objectID, FileNode source) {
         return String.format("%s/%s-%d.txt", getOutDir(), source.getMD5(), objectID);
     }
 
-    public static void mergeObject(FileNode file)  throws IOException {
+    public static void mergeObject(FileNode file) throws IOException {
         RandomAccessFile outObject = new RandomAccessFile(Environment.getCachePath().resolve(file.getFile().getName()).toFile(), "w");
         FileChannel outChannel = outObject.getChannel();
 

@@ -46,9 +46,9 @@ public class NewMoeEngine extends CommonEngine implements GeneratorEngine, Parse
         scanDirForDecoding(syncedDirs, syncedDirsResult);
 
         JSONArray syncedFiles  = root.getJSONArray("synced_files");
-        JSONArray defaultFiles = root.getJSONArray("default_files");
-
         syncedFiles.forEach(fileObject -> addFileNodeForDecoding(fileObject, result.getFileNodesByType(MetaNodeType.SyncedFile)));
+
+        JSONArray defaultFiles = root.getJSONArray("default_files");
         defaultFiles.forEach(fileObject -> addFileNodeForDecoding(fileObject, result.getFileNodesByType(MetaNodeType.DefaultFile)));
 
         JSONObject generatorConfigObject = root.getJSONObject("generator_config");
@@ -73,17 +73,29 @@ public class NewMoeEngine extends CommonEngine implements GeneratorEngine, Parse
     @Override
     public String encode(MetaResult result) throws IOException {
         JSONObject object = new JSONObject();
+
         object.put("description", result.getDescription());
         object.put("version", result.getVersion());
         object.put("updated_time", result.getTime() / 1000);
         object.put("update_date", new SimpleDateFormat(dateFormat, Locale.CHINA).format(new Date(result.getTime())));
+
         JSONArray syncedDirs = new JSONArray();
         scanDirForEncoding(syncedDirs, result.getDirectoryNodesByType(MetaNodeType.SyncedDirectory));
         object.put("synced_dirs", syncedDirs);
+
         JSONArray syncedFiles = addFileNodeForEncoding(result.getFileNodesByType(MetaNodeType.SyncedFile).getFileNodes());
         object.put("synced_files", syncedFiles);
+
         JSONArray defaultFiles = addFileNodeForEncoding(result.getFileNodesByType(MetaNodeType.DefaultFile).getFileNodes());
         object.put("default_files", defaultFiles);
+
+        JSONObject objects = new JSONObject();
+        result.getGlobalObjects().forEach((key, value) -> {
+            JSONArray objectFiles = addFileNodeForEncoding(value);
+            objects.put(key, objectFiles);
+        });
+        object.put("objects", objects);
+
         object.put("generator_config", GeneratorConfig.getInstance().getJsonObject());
         return object.toString();
     }
@@ -96,22 +108,26 @@ public class NewMoeEngine extends CommonEngine implements GeneratorEngine, Parse
 
     private JSONObject prepareObjectForEncoding(FileNode file) {
         return new JSONObject() {{
-            put("path", file.getRelativePath());
             put("size", file.getSize());
             put("md5", file.getMD5());
-            JSONArray objects = new JSONArray();
-            file.getObjects().forEach(objects::put);
-            put("objects", objects);
+
+            if(!file.isObject()) {
+                put("path", file.getRelativePath());
+
+                JSONArray objects = new JSONArray();
+                file.getObjects().forEach(objects::put);
+                put("objects", objects);
+            }
         }};
     }
 
     @Override
     public void save(Object in) throws IOException, ClassCastException {
         String result = (String) in;
-        File deployDir = new File(basePath + "/../Deployment");
+        File deployDir = Environment.getDeployPath().toFile();
         if(!deployDir.exists() && !deployDir.mkdirs())
             throw new IOException("NewMoeEngine: unable to create Deployment dir");
-        writeJson(new File(basePath + "/../Deployment/updater.json"), result);
+        writeJson(Environment.getDeployPath().resolve(Environment.getOutJsonName()).toFile(), result);
     }
 
     private void scanDirForEncoding(JSONArray result, List<DirectoryNode> directoryNodes) {
