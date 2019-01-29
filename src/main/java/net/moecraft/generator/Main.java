@@ -98,8 +98,15 @@ public class Main {
     }
 
     private static Repo[] getRepos() throws Exception {
-        RepoManager repoManager = (RepoManager) Environment.getRepoManager().newInstance();
-        return repoManager.getRepos();
+        Class[] repoManagers = Environment.getRepoManager();
+        for (Class repoManager : repoManagers) {
+            try {
+                return ((RepoManager) repoManager.newInstance()).getRepos();
+            } catch (Exception ex) {
+                Environment.getLogger().warning("Repo manager " + repoManager.getSimpleName() + " Failed! Fallback...");
+            }
+        }
+        throw new Exception("Unable to pull repos: All repo manager failed.");
     }
 
     private static void generateAll(MetaResult result) throws Exception {

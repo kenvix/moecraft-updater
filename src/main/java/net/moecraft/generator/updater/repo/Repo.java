@@ -7,35 +7,39 @@
 package net.moecraft.generator.updater.repo;
 
 public class Repo implements Comparable<Repo>, Cloneable {
-    public String getUrl() {
-        return url;
-    }
-
     private String url;
     private String name;
-
-    public int getOrder() {
-        return order;
-    }
-
+    private String description;
+    private String metaFileName;
     private int order;
 
     public String getName() {
         return name;
     }
 
-    public Repo(int order, String url, String name, String description) {
+    public Repo(int order, String url, String name, String metaFileName, String description) {
         this.url = url;
         this.description = description;
         this.name = name;
         this.order = order;
+        this.metaFileName = metaFileName;
     }
 
     public String getDescription() {
         return description;
     }
 
-    private String description;
+    public int getOrder() {
+        return order;
+    }
+
+    public String getMetaFileName() {
+        return metaFileName;
+    }
+
+    public String getUrl() {
+        return url;
+    }
 
     @Override
     public int compareTo(Repo o) {

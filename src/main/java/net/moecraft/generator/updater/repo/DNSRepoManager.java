@@ -47,7 +47,7 @@ public class DNSRepoManager implements RepoManager {
                     String content = new String(Base64.getDecoder().decode(buffer.toString()), StandardCharsets.UTF_8);
                     String[] data = content.split("\\|\\|");
                     int repoOrder = Integer.parseInt(data[0]);
-                    Repo repo = new Repo(repoOrder, data[1], data[2], data[3]);
+                    Repo repo = new Repo(repoOrder, data[1], data[2], data[3], data[4]);
                     repos.add(repo);
                 } catch (IndexOutOfBoundsException ex) {
                     Environment.getLogger().info("Detected invalid Repo: " + ex.getMessage());
@@ -56,7 +56,7 @@ public class DNSRepoManager implements RepoManager {
         } else {
             throw new IOException("Unable to fetch MoeCraft repos. Check your network connection.");
         }
-        return repos.toArray(new Repo[repos.size()]);
+        return repos.toArray(new Repo[0]);
     }
 
 }

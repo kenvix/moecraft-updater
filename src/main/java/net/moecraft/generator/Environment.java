@@ -9,7 +9,8 @@ package net.moecraft.generator;
 import net.moecraft.generator.jsonengine.engine.BalthildEngine;
 import net.moecraft.generator.jsonengine.engine.NewMoeEngine;
 import net.moecraft.generator.meta.scanner.FileScanner;
-import net.moecraft.generator.updater.repo.DNSRepoManager;
+import net.moecraft.generator.updater.repo.AccountCenterRepoManager;
+import net.moecraft.generator.updater.repo.LocalIntegratedRepoManager;
 import net.moecraft.generator.updater.repo.Repo;
 import org.apache.commons.cli.CommandLine;
 import org.jetbrains.annotations.NotNull;
@@ -31,8 +32,9 @@ public final class Environment {
     private static       String      updateDescription;
     private static       String      updateVersion;
     private final static Class       metaScanner      = FileScanner.class;
-    private final static Class       repoManager      = DNSRepoManager.class;
+    private final static Class[]     repoManager      = {AccountCenterRepoManager.class, LocalIntegratedRepoManager.class};
     private final static String      dnsRepoDomain    = "updater-repo.moecraft.net";
+    private static final String      repoManagerURL   = "https://accounts.moecraft.net/API/Updater/repo";
     private final static String      appName          = "MoeCraft Toolbox";
     private static       Repo[]      repos;
     private final static int         downloadMaxTries = 5;
@@ -84,6 +86,11 @@ public final class Environment {
     public static Path getUpdaterPath() {
         return updaterPath;
     }
+
+    public static String getRepoManagerURL() {
+        return repoManagerURL;
+    }
+
 
     public static Path getCachePath() {
         return cachePath;
@@ -137,7 +144,7 @@ public final class Environment {
         return dnsRepoDomain;
     }
 
-    public static Class getRepoManager() {
+    public static Class[] getRepoManager() {
         return repoManager;
     }
 
