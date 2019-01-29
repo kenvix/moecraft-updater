@@ -14,31 +14,50 @@ import org.json.JSONTokener;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
-public class GeneratorConfig extends MetaResult {
-    private File file;
+public class GeneratorConfig extends MetaResult implements Serializable {
+    private JSONObject json;
     private String basePath;
     private Set<String> excludedFileRule      = new HashSet<>();
     private Set<String> excludedDirectoryRule = new HashSet<>();
     private static GeneratorConfig instance              = null;
 
     /**
-     * Get an instance of GeneratorConfig
+     * FORCE Initialize GeneratorConfig and discard old one.
      * @param file generator_config.json
-     * @return GeneratorConfig
      * @throws IOException failed to read file
      */
-    public static GeneratorConfig getInstance(File file) throws IOException {
-        if(instance == null) {
-            synchronized (GeneratorConfig.class) {
-                return instance == null ? (instance = new GeneratorConfig(file)) : instance;
-            }
-        }
-        return instance;
+    public synchronized static void initialize(File file) throws IOException {
+        if(instance != null)
+            instance = null;
+
+        instance = new GeneratorConfig(file);
+    }
+
+    /**
+     * FORCE Initialize GeneratorConfig and discard old one.
+     * @param jsonText generator_config.json
+     */
+    public synchronized static void initialize(String jsonText) {
+        if(instance != null)
+            instance = null;
+
+        instance = new GeneratorConfig(jsonText);
+    }
+
+    /**
+     * FORCE Initialize GeneratorConfig and discard old one.
+     * @param jsonObject generator_config.json
+     */
+    public synchronized static void initialize(JSONObject jsonObject) {
+        if(instance != null)
+            instance = null;
+
+        instance = new GeneratorConfig(jsonObject);
     }
 
     /**
@@ -84,16 +103,21 @@ public class GeneratorConfig extends MetaResult {
     }
 
     private GeneratorConfig(File file) throws IOException {
+        this(FileTool.readAllText(file.getAbsolutePath()));
+    }
+
+    private GeneratorConfig(String jsonText) {
+        this(new JSONObject(new JSONTokener(jsonText)));
+    }
+
+    private GeneratorConfig(JSONObject jsonObject) {
+        this.json     = jsonObject;
         this.basePath = Environment.getBaseMoeCraftPath();
         this.basePath = basePath.endsWith("/") ? basePath : basePath + "/";
-        this.file = file;
         scan();
     }
 
-    private void scan() throws IOException {
-        String jsonText = FileTool.readAllText(file.getAbsolutePath());
-        JSONTokener jsonTokener = new JSONTokener(jsonText);
-        JSONObject json = new JSONObject(jsonTokener);
+    private void scan() {
         setDescription(json.getString("description"));
         setVersion(json.getString("version"));
         setObjectSize(json.getLong("object_size"));
@@ -102,6 +126,10 @@ public class GeneratorConfig extends MetaResult {
         searchFileItems("default_files", MetaNodeType.DefaultFile, json);
         searchRuleItems("excluded_files", excludedFileRule, json);
         searchRuleItems("excluded_dir", excludedDirectoryRule, json);
+    }
+
+    public JSONObject getJsonObject() {
+        return json;
     }
 
     private void searchRuleItems(String key, Set<String> target, JSONObject json) {
@@ -139,9 +167,5 @@ public class GeneratorConfig extends MetaResult {
         } catch (NoSuchFieldException ex) {
             Environment.getLogger().log(Level.CONFIG, "Declaring a invalid field [" + ex.getMessage() + "] Skip...");
         }
-    }
-
-    public File getFile() {
-        return file;
     }
 }

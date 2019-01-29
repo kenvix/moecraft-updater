@@ -62,7 +62,9 @@ public class Main {
 
     private static void runAsGenerator() throws Exception {
         File generatorConfigFile = Environment.getGeneratorConfigFile();
-        GeneratorConfig config = GeneratorConfig.getInstance(generatorConfigFile);
+        GeneratorConfig.initialize(generatorConfigFile);
+
+        GeneratorConfig config = GeneratorConfig.getInstance();
         MetaScanner scanner = new MetaScanner((CommonScanner) Environment.getMetaScanner().newInstance());
 
         if (!Environment.getBaseMoeCraftDir().exists()) {

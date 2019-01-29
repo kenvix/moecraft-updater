@@ -9,10 +9,7 @@ package net.moecraft.generator.jsonengine.engine;
 import net.moecraft.generator.Environment;
 import net.moecraft.generator.jsonengine.GeneratorEngine;
 import net.moecraft.generator.jsonengine.ParserEngine;
-import net.moecraft.generator.meta.DirectoryNode;
-import net.moecraft.generator.meta.FileNode;
-import net.moecraft.generator.meta.MetaNodeType;
-import net.moecraft.generator.meta.MetaResult;
+import net.moecraft.generator.meta.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -31,8 +28,10 @@ public class NewMoeEngine extends CommonEngine implements GeneratorEngine, Parse
     @Override
     public MetaResult decode(String data){
         MetaResult  result  = new MetaResult();
+
         JSONTokener tokener = new JSONTokener(data);
         JSONObject  root    = new JSONObject(tokener);
+
         try {
             result.setDescription(root.getString("description"))
                     .setVersion(root.getString("version"))
@@ -41,13 +40,20 @@ public class NewMoeEngine extends CommonEngine implements GeneratorEngine, Parse
             Environment.getLogger().warning("Detected invalid datetime in json. JSON may be corrupted.");
             ex.printStackTrace();
         }
+
         JSONArray                syncedDirs       = root.getJSONArray("synced_dirs");
         List<DirectoryNode> syncedDirsResult = result.getDirectoryNodesByType(MetaNodeType.SyncedDirectory);
         scanDirForDecoding(syncedDirs, syncedDirsResult);
+
         JSONArray syncedFiles  = root.getJSONArray("synced_files");
         JSONArray defaultFiles = root.getJSONArray("default_files");
+
         syncedFiles.forEach(fileObject -> addFileNodeForDecoding(fileObject, result.getFileNodesByType(MetaNodeType.SyncedFile)));
         defaultFiles.forEach(fileObject -> addFileNodeForDecoding(fileObject, result.getFileNodesByType(MetaNodeType.DefaultFile)));
+
+        JSONObject generatorConfigObject = root.getJSONObject("generator_config");
+        GeneratorConfig.initialize(generatorConfigObject);
+
         return result;
     }
 
@@ -78,6 +84,7 @@ public class NewMoeEngine extends CommonEngine implements GeneratorEngine, Parse
         object.put("synced_files", syncedFiles);
         JSONArray defaultFiles = addFileNodeForEncoding(result.getFileNodesByType(MetaNodeType.DefaultFile).getFileNodes());
         object.put("default_files", defaultFiles);
+        object.put("generator_config", GeneratorConfig.getInstance().getJsonObject());
         return object.toString();
     }
 
