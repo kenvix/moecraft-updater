@@ -4,7 +4,7 @@
 // Written by Kenvix <i@kenvix.com>
 //--------------------------------------------------
 
-package net.moecraft.generator.updater;
+package net.moecraft.generator.updater.update;
 
 import net.moecraft.generator.meta.MetaResult;
 

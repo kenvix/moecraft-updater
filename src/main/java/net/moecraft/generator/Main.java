@@ -9,13 +9,11 @@ package net.moecraft.generator;
 import net.moecraft.generator.jsonengine.GeneratorEngine;
 import net.moecraft.generator.jsonengine.ParserEngine;
 import net.moecraft.generator.meta.*;
-import net.moecraft.generator.updater.repo.Repo;
-import net.moecraft.generator.updater.repo.RepoManager;
-import net.moecraft.generator.updater.ui.UpdaterIndex;
+import net.moecraft.generator.meta.scanner.CommonScanner;
+import net.moecraft.generator.updater.ui.UpdaterUI;
 import org.apache.commons.cli.*;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Modifier;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -86,27 +84,11 @@ public class Main {
     }
 
     private static void runAsUpdater() throws Exception {
-        try {
-            Environment.setRepos(getRepos());
-        } catch (IOException ex) {
-            Environment.getLogger().severe(ex.getMessage());
-            System.exit(7);
-        }
         //testParser(new NewMoeEngine(), result);
         Environment.getLogger().finest("Starting Updater UI Thread ...");
-        new Thread(UpdaterIndex::display).start();
-    }
 
-    private static Repo[] getRepos() throws Exception {
-        Class[] repoManagers = Environment.getRepoManager();
-        for (Class repoManager : repoManagers) {
-            try {
-                return ((RepoManager) repoManager.newInstance()).getRepos();
-            } catch (Exception ex) {
-                Environment.getLogger().warning("Repo manager " + repoManager.getSimpleName() + " Failed! Fallback...");
-            }
-        }
-        throw new Exception("Unable to pull repos: All repo manager failed.");
+        UpdaterUI uiProvider = (UpdaterUI) Environment.getUiProvider().newInstance();
+        uiProvider.display();
     }
 
     private static void generateAll(MetaResult result) throws Exception {

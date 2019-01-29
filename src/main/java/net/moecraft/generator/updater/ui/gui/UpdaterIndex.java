@@ -4,7 +4,7 @@
 // Written by Kenvix <i@kenvix.com>
 //--------------------------------------------------
 
-package net.moecraft.generator.updater.ui;
+package net.moecraft.generator.updater.ui.gui;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -24,8 +24,7 @@ public class UpdaterIndex extends Application {
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
-
     public static void display() {
-        UpdaterIndex.launch();
+        launch();
     }
 }

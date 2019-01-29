@@ -6,7 +6,6 @@
 
 package net.moecraft.generator.jsonengine.engine;
 
-import net.moecraft.generator.jsonengine.CommonEngine;
 import net.moecraft.generator.jsonengine.GeneratorEngine;
 import net.moecraft.generator.meta.DirectoryNode;
 import net.moecraft.generator.meta.FileNode;

@@ -4,7 +4,7 @@
 // Written by Kenvix <i@kenvix.com>
 //--------------------------------------------------
 
-package net.moecraft.generator.jsonengine;
+package net.moecraft.generator.jsonengine.engine;
 
 import com.kenvix.utils.FileTool;
 import net.moecraft.generator.Environment;
@@ -12,7 +12,6 @@ import net.moecraft.generator.Environment;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.logging.Logger;
 
 public abstract class CommonEngine {
     protected static final String basePath = Environment.getBaseMoeCraftPath();

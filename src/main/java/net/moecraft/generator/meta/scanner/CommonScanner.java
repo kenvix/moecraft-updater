@@ -4,7 +4,7 @@
 // Written by Kenvix <i@kenvix.com>
 //--------------------------------------------------
 
-package net.moecraft.generator.meta;
+package net.moecraft.generator.meta.scanner;
 
 import net.moecraft.generator.meta.DirectoryNode;
 import net.moecraft.generator.meta.MetaNodeType;

@@ -10,10 +10,7 @@ import net.moecraft.generator.Environment;
 import org.json.JSONArray;
 import org.json.JSONTokener;
 
-import java.io.InputStream;
 import java.net.URL;
-import java.net.URLConnection;
-import java.nio.charset.StandardCharsets;
 import java.util.TreeSet;
 
 public class AccountCenterRepoManager implements RepoManager {
@@ -21,22 +18,12 @@ public class AccountCenterRepoManager implements RepoManager {
     @Override
     public Repo[] getRepos() throws Exception {
         Environment.getLogger().fine("Pulling repos from " + Environment.getRepoManagerURL());
-
-        StringBuilder data = new StringBuilder();
         TreeSet<Repo> result = new TreeSet<>();
 
         URL url = new URL(Environment.getRepoManagerURL());
-        URLConnection urlConnection = url.openConnection();
+        String data = RepoNetworkUtil.downloadString(url);
 
-        InputStream networkInput = url.openStream();
-        byte[] buffer = new byte[1024];
-        int length;
-
-        while ((length = networkInput.read(buffer)) != -1) {
-            data.append(new String(buffer, 0, length, StandardCharsets.UTF_8));
-        }
-
-        JSONTokener jsonTokener = new JSONTokener(data.toString());
+        JSONTokener jsonTokener = new JSONTokener(data);
         JSONArray repos = new JSONArray(jsonTokener);
 
         repos.forEach(repo -> {

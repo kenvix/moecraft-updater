@@ -1,12 +1,13 @@
 package net.moecraft.generator.meta;
 
 import net.moecraft.generator.Environment;
+import net.moecraft.generator.meta.scanner.CommonScanner;
 
 import java.lang.reflect.Field;
 
 public class MetaScanner {
     private MetaResult      result = new MetaResult();
-    private CommonScanner   scanner;
+    private CommonScanner scanner;
     private GeneratorConfig config = GeneratorConfig.getInstance();
 
     public MetaScanner(CommonScanner scanner) {

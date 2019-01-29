@@ -18,7 +18,7 @@ public class Repo implements Comparable<Repo>, Cloneable {
     }
 
     public Repo(int order, String url, String name, String metaFileName, String description) {
-        this.url = url;
+        this.url = url.endsWith("/") ? url : url + "/";
         this.description = description;
         this.name = name;
         this.order = order;

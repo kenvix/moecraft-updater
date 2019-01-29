@@ -12,6 +12,8 @@ import net.moecraft.generator.meta.scanner.FileScanner;
 import net.moecraft.generator.updater.repo.AccountCenterRepoManager;
 import net.moecraft.generator.updater.repo.LocalIntegratedRepoManager;
 import net.moecraft.generator.updater.repo.Repo;
+import net.moecraft.generator.updater.repo.RepoManager;
+import net.moecraft.generator.updater.ui.cli.CommandLineUI;
 import org.apache.commons.cli.CommandLine;
 import org.jetbrains.annotations.NotNull;
 
@@ -36,6 +38,7 @@ public final class Environment {
     private final static String      dnsRepoDomain    = "updater-repo.moecraft.net";
     private static final String      repoManagerURL   = "https://accounts.moecraft.net/API/Updater/repo";
     private final static String      appName          = "MoeCraft Toolbox";
+    private final static Class       uiProvider       = CommandLineUI.class;
     private static       Repo[]      repos;
     private final static int         downloadMaxTries = 5;
     private final static int         dnsMaxTries      = 20;
@@ -100,6 +103,10 @@ public final class Environment {
         return basePath;
     }
 
+    public static Class getUiProvider() {
+        return uiProvider;
+    }
+
     public static Class getMetaScanner() {
         return metaScanner;
     }
@@ -161,6 +168,16 @@ public final class Environment {
     }
 
     public static Repo[] getRepos() {
+        if(repos == null) {
+            Class[] repoManagers = Environment.getRepoManager();
+            for (Class repoManager : repoManagers) {
+                try {
+                    return repos = ((RepoManager) repoManager.newInstance()).getRepos();
+                } catch (Exception ex) {
+                    Environment.getLogger().warning("Repo manager " + repoManager.getSimpleName() + " Failed! Fallback...");
+                }
+            }
+        }
         return repos;
     }
 
