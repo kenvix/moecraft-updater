@@ -69,7 +69,7 @@ public class DownloadMission {
 		private boolean isFinished = false;
 
 		public RecoveryRunnableInfo(int start, int current, int end) {
-			if (end > start && current > start) {
+			if (end > start && current >= start) {
 				mStartPosition = start;
 				mEndPosition = end;
 				mCurrentPosition = current;
@@ -202,7 +202,7 @@ public class DownloadMission {
 
 		setTargetFile(saveDirectory, saveName);
 
-		setProgessFile(mSaveDirectory, mSaveName);
+		//setProgessFile(mSaveDirectory, mSaveName);
 	}
 
 	public Boolean setTargetFile(String saveDir, String saveName)
@@ -329,11 +329,11 @@ public class DownloadMission {
 
 	public void startMission(DownloadThreadPool threadPool) {
 		setDownloadStatus(DownloadStatus.DOWNLOADING);
-		try {
-			resumeMission();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			resumeMission();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 		mThreadPoolRef = threadPool;
 		if (mRecoveryRunnableInfos.size() != 0) {
 			for (RecoveryRunnableInfo runnableInfo : mRecoveryRunnableInfos) {
@@ -353,8 +353,31 @@ public class DownloadMission {
 				threadPool.submit(runnable);
 			}
 		}
-		mSpeedTimer.scheduleAtFixedRate(mSpeedMonitor, 0, 1000);
-		mStoreTimer.scheduleAtFixedRate(mStoreMonitor, 0, 5000);
+
+		(new Thread(() -> {
+			while (true) {
+				boolean flagAllFinished = true;
+				for (DownloadRunnable runnable : mDownloadParts) {
+					if(!runnable.isFinished()) {
+						flagAllFinished = false;
+						break;
+					}
+				}
+				if(flagAllFinished)
+					break;
+				try	{
+					Thread.sleep(50);
+				} catch (InterruptedException ex) {}
+			}
+			this.setDownloadStatus(DownloadStatus.FINISHED);
+		})).start();
+
+		try {
+			mSpeedTimer.scheduleAtFixedRate(mSpeedMonitor, 0, 1000);
+			mStoreTimer.scheduleAtFixedRate(mStoreMonitor, 0, 5000);
+		} catch (IllegalStateException ex) {
+
+		}
 	}
 
 	public boolean isFinished() {
@@ -371,20 +394,14 @@ public class DownloadMission {
 		return connection.getContentLength();
 	}
 
-	private Boolean setProgessFile(String dir, String filename)
-			throws IOException {
+	private Boolean setProgessFile(String dir, String filename) throws IOException {
 		if (dir.lastIndexOf(File.separator) == dir.length() - 1) {
 			dir = dir.substring(0, dir.length() - 1);
 		}
 		File dirFile = new File(dir);
-		if (dirFile.exists() == false) {
-			if (dirFile.mkdirs() == false) {
-				throw new RuntimeException("Error to create directory");
-			}
-		}
+
 		mProgressDir = dirFile.getPath();
-		File file = new File(dirFile.getPath() + File.separator + filename
-				+ ".tmp");
+		File file = new File(dirFile.getPath() + File.separator + filename + ".info");
 		if (file.exists() == false) {
 			file.createNewFile();
 		}
@@ -448,6 +465,10 @@ public class DownloadMission {
 		return mThreadPoolRef.getActiveCount();
 	}
 
+	public void setFileSize(int size) {
+		mFileSize = size;
+	}
+
 	public int getFileSize() {
 		return mFileSize;
 	}
@@ -472,7 +493,7 @@ public class DownloadMission {
 					.newInstance(DownloadMission.class);
 			Marshaller m = context.createMarshaller();
 			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-			m.marshal(this, getProgressFile());
+			//m.marshal(this, getProgressFile());
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
@@ -501,7 +522,7 @@ public class DownloadMission {
 				throw new IOException(
 						"Try to continue download file , but target file does not exist");
 			}
-			mission.setProgessFile(progressDirectory, progressFileName);
+			//mission.setProgessFile(progressDirectory, progressFileName);
 			mission.mMissionID = MISSION_ID_COUNTER++;
 			ArrayList<RecoveryRunnableInfo> recoveryRunnableInfos = mission
 					.getDownloadProgress();
@@ -510,6 +531,7 @@ public class DownloadMission {
 						.getStartPosition(), runnable.getCurrentPosition(),
 						runnable.getEndPosition()));
 			}
+
 			mission.mDownloadParts.clear();
 			return mission;
 		} catch (JAXBException e) {
@@ -519,7 +541,7 @@ public class DownloadMission {
 	}
 
 	private void deleteProgressFile() {
-		getProgressFile().delete();
+		//getProgressFile().delete();
 	}
 
 	public ArrayList<RecoveryRunnableInfo> getDownloadProgress() {

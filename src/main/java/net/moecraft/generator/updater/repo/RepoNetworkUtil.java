@@ -79,6 +79,7 @@ public final class RepoNetworkUtil {
                     int failNum = 0;
 
                     try {
+
                         DownloadMission mission = new DownloadMission(getRepoFileURL(object).toString(), Environment.getCachePath().toString(), object.getFile().getName());
                         downloadManager.addMission(mission);
 

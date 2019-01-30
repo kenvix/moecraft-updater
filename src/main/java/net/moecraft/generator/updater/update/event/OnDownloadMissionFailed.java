@@ -8,8 +8,6 @@ package net.moecraft.generator.updater.update.event;
 
 import net.moecraft.generator.meta.FileNode;
 
-import java.io.IOException;
-
 @FunctionalInterface
 public interface OnDownloadMissionFailed {
     /**
@@ -19,5 +17,5 @@ public interface OnDownloadMissionFailed {
      * @param exception exception details
      * @return should downloadManager try again?
      */
-    boolean accept(int failNum, FileNode fileNode, IOException exception);
+    boolean accept(int failNum, FileNode fileNode, Exception exception);
 }

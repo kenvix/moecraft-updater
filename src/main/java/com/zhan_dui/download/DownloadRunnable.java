@@ -1,18 +1,17 @@
 package com.zhan_dui.download;
 
+import com.zhan_dui.download.DownloadMission.MissionMonitor;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.net.URL;
 import java.net.URLConnection;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-
-import com.zhan_dui.download.DownloadMission.MissionMonitor;
 
 @XmlRootElement(name = "Downloading")
 @XmlAccessorType(XmlAccessType.NONE)
@@ -131,7 +130,7 @@ public class DownloadRunnable implements Runnable {
 		System.out.print("CurrentPosition:" + mCurrentPosition
 				+ " EndPosition:" + mEndPosition + "Rmaining:" + remaining
 				+ " ");
-		if (remainingCenter > 1048576) {
+		if (remainingCenter > 1024) {
 			int centerPosition = remainingCenter + mCurrentPosition;
 			System.out.print(" Center position:" + centerPosition);
 			mEndPosition = centerPosition;
@@ -143,7 +142,7 @@ public class DownloadRunnable implements Runnable {
 			return newSplitedRunnable;
 		} else {
 			System.out
-					.println(toString() + " can not be splited ,less than 1M");
+					.println(toString() + " can not be splited, less than 1kB");
 			return null;
 		}
 	}

@@ -9,6 +9,7 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -22,5 +23,6 @@ dependencies {
     // https://mvnrepository.com/artifact/org.jboss.arquillian.junit/arquillian-junit-container
     testCompile group: 'org.jboss.arquillian.junit', name: 'arquillian-junit-container', version: '1.4.1.Final'
     compileOnly group: 'org.jetbrains', name: 'annotations', version: '16.0.3'
+
     implementation 'me.tongfei:progressbar:0.7.2'
 }

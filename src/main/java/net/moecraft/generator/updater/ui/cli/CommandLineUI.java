@@ -6,7 +6,6 @@
 
 package net.moecraft.generator.updater.ui.cli;
 
-import me.tongfei.progressbar.ProgressBar;
 import net.moecraft.generator.Environment;
 import net.moecraft.generator.jsonengine.ParserEngine;
 import net.moecraft.generator.jsonengine.engine.NewMoeEngine;
@@ -65,14 +64,14 @@ public class CommandLineUI implements UpdaterUI {
             MetaResult localResult = showUpdateScanLocalPage();
             MetaResult compareResult = showUpdateComparePage(remoteResult, localResult);
 
-            ProgressBar progressBar = new ProgressBar("", 1000);
+            //ProgressBar progressBar = new ProgressBar("", 1000);
             OnDownloadMissionReady onDownloadMissionReady = (mission, downloadManager, fileNode) -> {
-                progressBar.setExtraMessage(String.format("%.2fMB", (float) fileNode.getSize() / 1024 / 1024));
+                //progressBar.setExtraMessage(String.format("%.2fMB", (float) fileNode.getSize() / 1024 / 1024));
             };
             OnDownloadProgressChanged onDownloadProgressChanged = (mission, fileNode) -> {
-                int progress = 1000 * (int) ((double) mission.getDownloadedSize() / (double) fileNode.getSize());
-                progressBar.stepTo(progress);
-                progressBar.setExtraMessage(String.format("%s | %.2fMB", mission.getReadableSpeed(), (float) fileNode.getSize() / 1024 / 1024));
+                //int progress = 1000 * (int) ((double) mission.getDownloadedSize() / (double) fileNode.getSize());
+                //progressBar.stepTo(progress);
+                //progressBar.setExtraMessage(String.format("%s | %.2fMB", mission.getReadableSpeed(), (float) fileNode.getSize() / 1024 / 1024));
             };
             OnDownloadMissionFinished onDownloadMissionFinished = (downloadStatus, mission, fileNode) -> {
 
