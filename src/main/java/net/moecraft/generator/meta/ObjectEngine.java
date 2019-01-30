@@ -97,6 +97,10 @@ public class ObjectEngine {
         return result == null ? new ArrayList<>() : result;
     }
 
+    public static String getObjectFileName(String fileMd5) {
+        return fileMd5;
+    }
+
     public static String getObjectFilePath(int objectID, FileNode source) {
         return String.format(GeneratorConfig.getInstance().getNameRule(), getOutDir(), source.getMD5(), objectID);
     }

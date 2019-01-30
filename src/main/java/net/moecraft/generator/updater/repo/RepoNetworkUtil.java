@@ -6,16 +6,19 @@
 
 package net.moecraft.generator.updater.repo;
 
+import com.kenvix.utils.FileTool;
 import com.zhan_dui.download.DownloadManager;
 import com.zhan_dui.download.DownloadMission;
 import net.moecraft.generator.Environment;
 import net.moecraft.generator.meta.FileNode;
+import net.moecraft.generator.updater.update.event.OnDownloadMissionFailed;
 import net.moecraft.generator.updater.update.event.OnDownloadMissionFinished;
 import net.moecraft.generator.updater.update.event.OnDownloadMissionReady;
 import net.moecraft.generator.updater.update.event.OnDownloadProgressChanged;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -63,35 +66,59 @@ public final class RepoNetworkUtil {
      * Download a filenode's all object.
      * @param file FileNode to download
      */
-    public void downloadObjects(@NotNull FileNode file, @Nullable OnDownloadProgressChanged onDownloadProgressChanged, @Nullable OnDownloadMissionFinished onDownloadMissionFinished, @Nullable OnDownloadMissionReady onReady) throws IOException {
-        downloadObjects(file.getObjects(), onDownloadProgressChanged, onDownloadMissionFinished, onReady);
+    public boolean downloadObjects(@NotNull FileNode file, @Nullable OnDownloadProgressChanged onDownloadProgressChanged, @Nullable OnDownloadMissionFailed onDownloadMissionFailed, @Nullable OnDownloadMissionFinished onDownloadMissionFinished, @Nullable OnDownloadMissionReady onReady)  {
+        return downloadObjects(file.getObjects(), onDownloadProgressChanged, onDownloadMissionFailed, onDownloadMissionFinished, onReady);
     }
 
-    public void downloadObjects(@NotNull List<FileNode> objects, @Nullable OnDownloadProgressChanged onDownloadProgressChanged, @Nullable OnDownloadMissionFinished onDownloadMissionFinished, @Nullable OnDownloadMissionReady onReady) throws IOException {
+    public boolean downloadObjects(@NotNull List<FileNode> objects, @Nullable OnDownloadProgressChanged onDownloadProgressChanged, @Nullable OnDownloadMissionFailed onDownloadMissionFailed, @Nullable OnDownloadMissionFinished onDownloadMissionFinished, @Nullable OnDownloadMissionReady onReady) {
         DownloadManager downloadManager = DownloadManager.getInstance();
 
         for (FileNode object: objects) {
-            if(!object.getFile().exists() || !object.getMD5().equals(object.getExpectedMd5())) {
-                DownloadMission mission = new DownloadMission(getRepoFileURL(object).toString(), Environment.getCachePath().toString(), object.getFile().getName());
-                downloadManager.addMission(mission);
-
-                if(onReady != null)
-                    onReady.accept(mission, downloadManager, object);
-
-                downloadManager.start();
-
-                while (!mission.isFinished()) {
-                    if(onDownloadProgressChanged != null)
-                        onDownloadProgressChanged.accept(mission, object);
+            while (true) {
+                if(!object.getFile().exists() || !object.getMD5().equals(object.getExpectedMd5())) {
+                    int failNum = 0;
 
                     try {
-                        Thread.sleep(50);
-                    } catch (InterruptedException ex) {}
-                }
+                        DownloadMission mission = new DownloadMission(getRepoFileURL(object).toString(), Environment.getCachePath().toString(), object.getFile().getName());
+                        downloadManager.addMission(mission);
 
-                if(onDownloadMissionFinished != null)
-                    onDownloadMissionFinished.accept(mission.getDownloadStatus(), mission, object);
+                        if(onReady != null)
+                            onReady.accept(mission, downloadManager, object);
+
+                        downloadManager.start();
+
+                        while (!mission.isFinished()) {
+                            if(onDownloadProgressChanged != null)
+                                onDownloadProgressChanged.accept(mission, object);
+
+                            try {
+                                Thread.sleep(50);
+                            } catch (InterruptedException ex) {}
+                        }
+
+                        File downloadedObject = Environment.getCachePath().resolve(object.getFile().getName()).toFile();
+
+                        String downloadFile = FileTool.getFileMD5(downloadedObject);
+                        if(downloadedObject.length() != object.getSize() || downloadFile == null || !downloadFile.equals(object.getExpectedMd5()))
+                            throw new IOException("Downloaded file is broken.");
+
+                        if(onDownloadMissionFinished != null)
+                            onDownloadMissionFinished.accept(mission.getDownloadStatus(), mission, object);
+
+                        break;
+                    } catch (IOException ex) {
+                        failNum++;
+
+                        if(onDownloadMissionFailed == null)
+                            return false;
+
+                        if(!onDownloadMissionFailed.accept(failNum, object, ex))
+                            break;
+                    }
+                }
             }
         }
+
+        return true;
     }
 }

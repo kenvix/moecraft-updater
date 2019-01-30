@@ -49,19 +49,23 @@ public final class Environment {
     private static       Path        deployPath;
     private static       Path        updaterPath;
     private static       Path        cachePath;
+    private static       Path        updaterObjectPath;
 
     static void loadEnvironment(CommandLine cmd) throws IOException {
         Environment.cmd = cmd;
+
         baseMoeCraftDir = new File(cmd.hasOption('p') ? cmd.getOptionValue('p') : "./MoeCraft");
         generatorConfigFile = new File(cmd.hasOption('c') ? cmd.getOptionValue('c') : "./generator_config.json");
         baseMoeCraftPath = baseMoeCraftDir.getCanonicalPath().replace('\\', '/');
         updateDescription = cmd.hasOption('i') ? cmd.getOptionValue('i') : "";
         isUpdater = !cmd.hasOption('g');
         updateVersion = cmd.hasOption('l') ? cmd.getOptionValue('l') : "1.0";
+
         basePath = Paths.get(".");
         updaterPath = basePath.resolve("Updater");
         cachePath = updaterPath.resolve("Cache");
         deployPath = basePath.resolve("Deployment");
+        updaterObjectPath = basePath.resolve("Objects");
     }
 
     public static int getDnsMaxTries() {
@@ -108,6 +112,10 @@ public final class Environment {
 
     public static Class getUiProvider() {
         return uiProvider;
+    }
+
+    public static Path getUpdaterObjectPath() {
+        return updaterObjectPath;
     }
 
     public static Class getMetaScanner() {
