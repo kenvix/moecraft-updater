@@ -4,18 +4,16 @@
 // Written by Kenvix <i@kenvix.com>
 //--------------------------------------------------
 
-package net.moecraft.generator.updater.update.event;
+package com.kenvix.downloader.event;
 
-import net.moecraft.generator.meta.FileNode;
+import com.kenvix.downloader.download.DownloadMission;
 
 @FunctionalInterface
 public interface OnDownloadMissionFailed {
     /**
      * Mission failed
-     * @param failNum
-     * @param fileNode FileNode
-     * @param exception exception details
-     * @return should downloadManager try again?
+     * @param mission
+     * @param throwable exception details
      */
-    boolean accept(int failNum, FileNode fileNode, Exception exception);
+    boolean accept(DownloadMission mission, Throwable throwable);
 }

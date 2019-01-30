@@ -1,15 +1,10 @@
 //--------------------------------------------------
-// Enum DownloadStatus
+// Class ServerNotSupportedException
 //--------------------------------------------------
 // Written by Kenvix <i@kenvix.com>
 //--------------------------------------------------
 
-package com.zhan_dui.download;
+package com.kenvix.downloader.exception;
 
-public enum DownloadStatus {
-    READY,
-    DOWNLOADING,
-    PAUSED,
-    FINISHED,
-    CANCELED
+public class ServerNotSupportedException extends Exception {
 }

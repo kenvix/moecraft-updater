@@ -17,10 +17,10 @@ import net.moecraft.generator.updater.repo.RepoNetworkUtil;
 import net.moecraft.generator.updater.ui.UpdaterUI;
 import net.moecraft.generator.updater.update.UpdateComparer;
 import net.moecraft.generator.updater.update.UpdateCriticalException;
-import net.moecraft.generator.updater.update.event.OnDownloadMissionFailed;
-import net.moecraft.generator.updater.update.event.OnDownloadMissionFinished;
-import net.moecraft.generator.updater.update.event.OnDownloadMissionReady;
-import net.moecraft.generator.updater.update.event.OnDownloadProgressChanged;
+import com.kenvix.downloader.event.OnDownloadMissionFailed;
+import com.kenvix.downloader.event.OnDownloadMissionFinished;
+import com.kenvix.downloader.event.OnDownloadMissionReady;
+import com.kenvix.downloader.event.OnDownloadProgressChanged;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;

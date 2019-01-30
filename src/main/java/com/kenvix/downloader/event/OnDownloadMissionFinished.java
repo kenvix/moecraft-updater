@@ -4,13 +4,12 @@
 // Written by Kenvix <i@kenvix.com>
 //--------------------------------------------------
 
-package net.moecraft.generator.updater.update.event;
+package com.kenvix.downloader.event;
 
-import com.zhan_dui.download.DownloadMission;
-import com.zhan_dui.download.DownloadStatus;
-import net.moecraft.generator.meta.FileNode;
+import com.kenvix.downloader.download.DownloadMission;
+import com.kenvix.downloader.download.DownloadStatus;
 
 @FunctionalInterface
 public interface OnDownloadMissionFinished {
-    void accept(DownloadStatus downloadStatus, DownloadMission mission, FileNode fileNode);
+    void accept(DownloadStatus downloadStatus, DownloadMission mission);
 }
