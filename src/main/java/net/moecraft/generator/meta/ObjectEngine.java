@@ -98,7 +98,7 @@ public class ObjectEngine {
     }
 
     public static String getObjectFilePath(int objectID, FileNode source) {
-        return String.format("%s/%s-%d.txt", getOutDir(), source.getMD5(), objectID);
+        return String.format(GeneratorConfig.getInstance().getNameRule(), getOutDir(), source.getMD5(), objectID);
     }
 
     public static void mergeObject(FileNode file) throws IOException {

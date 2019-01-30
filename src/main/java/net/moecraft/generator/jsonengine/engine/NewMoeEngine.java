@@ -18,9 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 public class NewMoeEngine extends CommonEngine implements GeneratorEngine, ParserEngine {
     private final static String dateFormat = "yyyy-MM-dd HH:mm:ss";
@@ -41,15 +39,35 @@ public class NewMoeEngine extends CommonEngine implements GeneratorEngine, Parse
             ex.printStackTrace();
         }
 
+        JSONObject objects = root.getJSONObject("objects");
+        objects.keySet().forEach(key -> {
+            if(!result.hasGlobalObject(key)) {
+                List<FileNode> objectList = new ArrayList<>();
+
+                JSONArray currentObject = objects.getJSONArray(key);
+                currentObject.forEach(jsonObject -> {
+                    JSONObject json = (JSONObject) jsonObject;
+
+                    FileNode objectNode = new FileNode(new File(json.getString("path")));
+                    objectNode.setExpectedMd5(json.getString("md5"));
+                    objectNode.setExpectedSize(json.getLong("size"));
+
+                    objectList.add(objectNode);
+                });
+
+                result.putGlobalObjectsByMd5(key, objectList);
+            }
+        });
+
         JSONArray                syncedDirs       = root.getJSONArray("synced_dirs");
         List<DirectoryNode> syncedDirsResult = result.getDirectoryNodesByType(MetaNodeType.SyncedDirectory);
-        scanDirForDecoding(syncedDirs, syncedDirsResult);
+        scanDirForDecoding(syncedDirs, syncedDirsResult, result.getGlobalObjects());
 
         JSONArray syncedFiles  = root.getJSONArray("synced_files");
-        syncedFiles.forEach(fileObject -> addFileNodeForDecoding(fileObject, result.getFileNodesByType(MetaNodeType.SyncedFile)));
+        syncedFiles.forEach(fileObject -> addFileNodeForDecoding(fileObject, result.getFileNodesByType(MetaNodeType.SyncedFile), result.getGlobalObjects()));
 
         JSONArray defaultFiles = root.getJSONArray("default_files");
-        defaultFiles.forEach(fileObject -> addFileNodeForDecoding(fileObject, result.getFileNodesByType(MetaNodeType.DefaultFile)));
+        defaultFiles.forEach(fileObject -> addFileNodeForDecoding(fileObject, result.getFileNodesByType(MetaNodeType.DefaultFile), result.getGlobalObjects()));
 
         JSONObject generatorConfigObject = root.getJSONObject("generator_config");
         GeneratorConfig.initialize(generatorConfigObject);
@@ -57,12 +75,16 @@ public class NewMoeEngine extends CommonEngine implements GeneratorEngine, Parse
         return result;
     }
 
-    private void addFileNodeForDecoding(Object fileObject, DirectoryNode result) {
+    private void addFileNodeForDecoding(Object jsonObject, DirectoryNode result, Map<String, List<FileNode>> globalObjects) {
         try {
-            JSONObject object   = (JSONObject) fileObject;
+            JSONObject object   = (JSONObject) jsonObject;
             FileNode   fileNode = new FileNode(new File(basePath + "/" + object.getString("path")));
-            fileNode.setExpectedMd5(object.getString("md5"))
-                    .setExpectedSize(object.getLong("size"));
+            String fileMd5 = object.getString("md5");
+
+            fileNode.setExpectedMd5(fileMd5)
+                    .setExpectedSize(object.getLong("size"))
+                    .setObjects(globalObjects.get(fileMd5));
+
             result.addFileNode(fileNode);
         } catch (ClassCastException ex) {
             Environment.getLogger().warning("Detected invalid contents in json. JSON may be corrupted.");
@@ -114,9 +136,11 @@ public class NewMoeEngine extends CommonEngine implements GeneratorEngine, Parse
             if(!file.isObject()) {
                 put("path", file.getRelativePath());
 
-                JSONArray objects = new JSONArray();
-                file.getObjects().forEach(objects::put);
-                put("objects", objects);
+                //JSONArray objects = new JSONArray();
+                //file.getObjects().forEach(objects::put);
+                //put("objects", objects);
+            } else {
+                put("path", file.getFile().getName());
             }
         }};
     }
@@ -159,17 +183,17 @@ public class NewMoeEngine extends CommonEngine implements GeneratorEngine, Parse
         }
     }
 
-    private void scanDirForDecoding(JSONArray array, List<DirectoryNode> result) {
+    private void scanDirForDecoding(JSONArray array, List<DirectoryNode> scanResult, Map<String, List<FileNode>> globalObjects) {
         for (Object syncedDirObject : array) {
             JSONObject    jsonSyncedDirObject = (JSONObject) syncedDirObject;
             File          dirFile             = new File(basePath + "/" + jsonSyncedDirObject.getString("path"));
             DirectoryNode directoryNode       = new DirectoryNode(dirFile);
             JSONArray     filesArray          = jsonSyncedDirObject.getJSONArray("files");
-            filesArray.forEach(fileObject -> addFileNodeForDecoding(fileObject, directoryNode));
+            filesArray.forEach(fileObject -> addFileNodeForDecoding(fileObject, directoryNode, globalObjects));
             List<DirectoryNode> child      = directoryNode.getDirectoryNodes();
             JSONArray                childArray = jsonSyncedDirObject.getJSONArray("child");
-            scanDirForDecoding(childArray, child);
-            result.add(directoryNode);
+            scanDirForDecoding(childArray, child, globalObjects);
+            scanResult.add(directoryNode);
         }
     }
 }

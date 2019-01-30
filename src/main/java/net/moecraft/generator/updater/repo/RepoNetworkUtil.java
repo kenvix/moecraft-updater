@@ -7,7 +7,14 @@
 package net.moecraft.generator.updater.repo;
 
 import com.zhan_dui.download.DownloadManager;
+import com.zhan_dui.download.DownloadMission;
+import net.moecraft.generator.Environment;
 import net.moecraft.generator.meta.FileNode;
+import net.moecraft.generator.updater.update.event.OnDownloadMissionFinished;
+import net.moecraft.generator.updater.update.event.OnDownloadMissionReady;
+import net.moecraft.generator.updater.update.event.OnDownloadProgressChanged;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,15 +27,15 @@ import java.util.List;
 public final class RepoNetworkUtil {
     private final Repo repo;
 
-    public RepoNetworkUtil(Repo repo) {
+    public RepoNetworkUtil(@NotNull Repo repo) {
         this.repo = repo;
     }
 
-    public URL getRepoFileURL(String fileName) throws MalformedURLException {
+    public URL getRepoFileURL(@NotNull String fileName) throws MalformedURLException {
         return new URL(repo.getUrl() + fileName);
     }
 
-    public URL getRepoFileURL(FileNode fileNode) throws MalformedURLException {
+    public URL getRepoFileURL(@NotNull FileNode fileNode) throws MalformedURLException {
         return getRepoFileURL(fileNode.getFile().getName());
     }
 
@@ -36,7 +43,8 @@ public final class RepoNetworkUtil {
         return downloadString(getRepoFileURL(repo.getMetaFileName()));
     }
 
-    public static String downloadString(URL url) throws IOException {
+    @NotNull
+    public static String downloadString(@NotNull URL url) throws IOException {
         StringBuilder data = new StringBuilder();
         URLConnection urlConnection = url.openConnection();
 
@@ -55,18 +63,35 @@ public final class RepoNetworkUtil {
      * Download a filenode's all object.
      * @param file FileNode to download
      */
-    public void downloadSignleFileNode(FileNode file) throws MalformedURLException {
+    public void downloadObjects(@NotNull FileNode file, @Nullable OnDownloadProgressChanged onDownloadProgressChanged, @Nullable OnDownloadMissionFinished onDownloadMissionFinished, @Nullable OnDownloadMissionReady onReady) throws IOException {
+        downloadObjects(file.getObjects(), onDownloadProgressChanged, onDownloadMissionFinished, onReady);
+    }
+
+    public void downloadObjects(@NotNull List<FileNode> objects, @Nullable OnDownloadProgressChanged onDownloadProgressChanged, @Nullable OnDownloadMissionFinished onDownloadMissionFinished, @Nullable OnDownloadMissionReady onReady) throws IOException {
         DownloadManager downloadManager = DownloadManager.getInstance();
-        List<FileNode> objects = file.getObjects();
 
         for (FileNode object: objects) {
-            /*
-            if(!object.getFile().exists() || object.gete)
-            DownloadMission mission = new DownloadMission(getRepoFileURL(object), Environment.getCachePath(), file.get);
-            downloadManager.addMission(mission);
-            downloadManager.start();
-            downloadManager.
-            */
+            if(!object.getFile().exists() || !object.getMD5().equals(object.getExpectedMd5())) {
+                DownloadMission mission = new DownloadMission(getRepoFileURL(object).toString(), Environment.getCachePath().toString(), object.getFile().getName());
+                downloadManager.addMission(mission);
+
+                if(onReady != null)
+                    onReady.accept(mission, downloadManager, object);
+
+                downloadManager.start();
+
+                while (!mission.isFinished()) {
+                    if(onDownloadProgressChanged != null)
+                        onDownloadProgressChanged.accept(mission, object);
+
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException ex) {}
+                }
+
+                if(onDownloadMissionFinished != null)
+                    onDownloadMissionFinished.accept(mission.getDownloadStatus(), mission, object);
+            }
         }
     }
 }

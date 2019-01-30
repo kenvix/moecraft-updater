@@ -1,12 +1,15 @@
 //--------------------------------------------------
-// Interface RepoManager
+// Enum DownloadStatus
 //--------------------------------------------------
 // Written by Kenvix <i@kenvix.com>
 //--------------------------------------------------
 
-package net.moecraft.generator.updater.repo;
+package com.zhan_dui.download;
 
-@FunctionalInterface
-public interface RepoManager {
-    Repo[] getRepos() throws Exception;
+public enum DownloadStatus {
+    READY,
+    DOWNLOADING,
+    PAUSED,
+    FINISHED,
+    CANCELED
 }

@@ -1,5 +1,11 @@
 package com.zhan_dui.download;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -9,25 +15,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 @XmlRootElement(namespace = "com.zhan_dui.downloader")
 @XmlAccessorType(XmlAccessType.NONE)
 public class DownloadMission {
-
-	public static final int READY = 1;
-	public static final int DOWNLOADING = 2;
-	public static final int PAUSED = 3;
-	public static final int FINISHED = 4;
 
 	public static int DEFAULT_THREAD_COUNT = 4;
 
@@ -44,8 +34,12 @@ public class DownloadMission {
 
 	private ArrayList<RecoveryRunnableInfo> mRecoveryRunnableInfos = new ArrayList<DownloadMission.RecoveryRunnableInfo>();
 
+	public DownloadStatus getDownloadStatus() {
+		return mMissionStatus;
+	}
+
 	@XmlElement(name = "MissionStatus")
-	private int mMissionStatus = READY;
+	private DownloadStatus mMissionStatus = DownloadStatus.READY;
 
 	private String mProgressDir;
 	private String mProgressFileName;
@@ -124,7 +118,7 @@ public class DownloadMission {
 		public void down(int size) {
 			mDownloadedSize.addAndGet(size);
 			if (mDownloadedSize.intValue() == mHostMission.getFileSize()) {
-				mHostMission.setDownloadStatus(FINISHED);
+				mHostMission.setDownloadStatus(DownloadStatus.FINISHED);
 			}
 		}
 
@@ -334,7 +328,7 @@ public class DownloadMission {
 	}
 
 	public void startMission(DownloadThreadPool threadPool) {
-		setDownloadStatus(DOWNLOADING);
+		setDownloadStatus(DownloadStatus.DOWNLOADING);
 		try {
 			resumeMission();
 		} catch (IOException e) {
@@ -459,13 +453,13 @@ public class DownloadMission {
 	}
 
 	public void pause() {
-		setDownloadStatus(PAUSED);
+		setDownloadStatus(DownloadStatus.PAUSED);
 		storeProgress();
 		mThreadPoolRef.pause(mMissionID);
 	}
 
-	private void setDownloadStatus(int status) {
-		if (status == FINISHED) {
+	private void setDownloadStatus(DownloadStatus status) {
+		if (status == DownloadStatus.FINISHED) {
 			isFinished = true;
 			mSpeedTimer.cancel();
 		}
@@ -537,5 +531,7 @@ public class DownloadMission {
 		mSpeedTimer.cancel();
 		mDownloadParts.clear();
 		mThreadPoolRef.cancel(mMissionID);
+		isFinished = true;
+		setDownloadStatus(DownloadStatus.CANCELED);
 	}
 }

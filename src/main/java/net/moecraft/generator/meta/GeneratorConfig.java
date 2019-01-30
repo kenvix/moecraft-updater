@@ -22,6 +22,7 @@ import java.util.logging.Level;
 public class GeneratorConfig extends MetaResult implements Serializable {
     private JSONObject json;
     private String basePath;
+    private String nameRule;
     private Set<String> excludedFileRule      = new HashSet<>();
     private Set<String> excludedDirectoryRule = new HashSet<>();
     private static GeneratorConfig instance              = null;
@@ -120,6 +121,7 @@ public class GeneratorConfig extends MetaResult implements Serializable {
     private void scan() {
         setDescription(json.getString("description"));
         setVersion(json.getString("version"));
+        setNameRule(json.getString("name_rule"));
         setObjectSize(json.getLong("object_size"));
         searchFileItems("synced_dirs", MetaNodeType.SyncedDirectory, json);
         searchFileItems("synced_files", MetaNodeType.SyncedFile, json);
@@ -167,5 +169,13 @@ public class GeneratorConfig extends MetaResult implements Serializable {
         } catch (NoSuchFieldException ex) {
             Environment.getLogger().log(Level.CONFIG, "Declaring a invalid field [" + ex.getMessage() + "] Skip...");
         }
+    }
+
+    private void setNameRule(String nameRule) {
+        this.nameRule = nameRule;
+    }
+
+    public String getNameRule() {
+        return nameRule;
     }
 }
