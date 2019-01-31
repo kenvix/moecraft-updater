@@ -85,10 +85,20 @@ public class CommandLineUI implements UpdaterUI {
             showUpdateApplyPage(compareResult);
             showRegisterUserModsPage();
             showUpdateCleanCachePage();
+            showUpdateFinishedPage();
         } catch (UpdateCriticalException ex) {
             logln("更新失败：严重错误：" + ex.getMessage());
             System.exit(ex.getExitCode());
         }
+    }
+
+    final protected void showUpdateFinishedPage() {
+        printNormalBorderLine();
+        logln("更新 MoeCraft 客户端完成。MoeCraft 客户端已被安装到此文件夹下：");
+        logln(Environment.getBaseMoeCraftPath());
+        logln("请打开上述文件夹，启动启动器，即可开始游戏。（启动器的启动方法见用户中心的客户端下载页）");
+        logln("");
+        logln("注意：如果你需要添加自定义 Mod, 请打开 Updater/Mods 文件夹(注意大小写), 并把你的 Mod 放入这个文件夹中, 然后再次运行更新器. 不要把 Mod 直接放在 .minecraft/mods 中, 否则它们会被删除.");
     }
 
     final protected void showUpdateCleanCachePage() {
@@ -207,7 +217,7 @@ public class CommandLineUI implements UpdaterUI {
         Repo[] repos = Environment.getRepos();
 
         UserFileRegister.createUserModsDir();
-        logln("警告: 该程序将于它所在的文件夹安装 MoeCraft 客户端, 并删除该文件夹内的其他 Minecraft 版本. 请勿把安装器与无关文件放在同一文件夹内, 否则, 使用者需自行承担可能发生的数据损失.");
+        logln("说明: 该程序将于它所在的文件夹下的 MoeCraft 文件夹安装本客户端, 并删除该文件夹内的其他 MineCraft 版本. 请勿把安装器与无关文件此文件夹内, 否则, 使用者需自行承担可能发生的数据损失.");
         logln("注意: 如果你需要添加自定义 Mod, 请打开 Updater/Mods 文件夹(注意大小写), 并把你的 Mod 放入这个文件夹中. 不要把 Mod 直接放在 .minecraft/mods 中, 否则它们会被删除.");
 
         printNormalBorderLine();

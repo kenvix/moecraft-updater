@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Class-Path: Updater/Libraries/commons-cli-1.4.jar Updater/Libraries/ha
+ mcrest-core-1.3.jar Updater/Libraries/json-20180813.jar Updater/Libra
+ ries/dnsjava-2.1.8.jar Updater/Libraries/commons-io-2.6.jar
+Main-Class: net.moecraft.generator.Main
+

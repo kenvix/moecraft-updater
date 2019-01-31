@@ -1,0 +1,31 @@
+{
+  "description": "MoeCraft 5 / Update 1",
+  "version": "5.1",
+  "object_size": 3145727,
+  "name_rule": "%s/%s-%d.txt",
+  "synced_dirs": [
+    "HMCLData/Library",
+    ".minecraft/versions",
+    ".minecraft/mods",
+    ".minecraft/scripts",
+    ".minecraft/config/cofh",
+    ".minecraft/config/unidict"
+  ],
+  "synced_files": [
+    "Launcher.jar"
+  ],
+  "default_files": [
+    "HMCLData/hmcl.json"
+  ],
+  "excluded_files": [
+    "*.class",
+    "*.log"
+  ],
+  "excluded_dir": [
+    ".minecraft/crash-reports",
+    ".minecraft/logs",
+    ".minecraft/saves",
+    ".minecraft/journeymap",
+    ".minecraft/local"
+  ]
+}

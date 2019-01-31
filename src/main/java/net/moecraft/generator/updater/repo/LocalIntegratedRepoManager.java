@@ -15,7 +15,7 @@ public class LocalIntegratedRepoManager implements RepoManager {
     public Repo[] getRepos() throws Exception {
         return new Repo[] {
                 new Repo(0, "https://cdn.kotori.net/object/", "moecraft", "moecraft.json", "[推荐] MoeCraft CDN"),
-                new Repo(1, "https://gitlab.com/Kenvix/moxbin/raw/master/object/", "gitlab", "moecraft.json", "GitLab 国外节点")
+                //new Repo(1, "https://gitlab.com/Kenvix/moxbin/raw/master/object/", "gitlab", "moecraft.json", "GitLab 国外节点")
         };
     }
 }

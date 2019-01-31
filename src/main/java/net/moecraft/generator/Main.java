@@ -8,10 +8,14 @@ package net.moecraft.generator;
 
 import net.moecraft.generator.jsonengine.GeneratorEngine;
 import net.moecraft.generator.jsonengine.ParserEngine;
-import net.moecraft.generator.meta.*;
+import net.moecraft.generator.meta.GeneratorConfig;
+import net.moecraft.generator.meta.MetaResult;
+import net.moecraft.generator.meta.MetaScanner;
+import net.moecraft.generator.meta.ObjectEngine;
 import net.moecraft.generator.meta.scanner.CommonScanner;
 import net.moecraft.generator.updater.ui.UpdaterUI;
 import org.apache.commons.cli.*;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.lang.reflect.Modifier;
@@ -33,12 +37,14 @@ public class Main {
             File baseMoeCraftDir = Environment.getBaseMoeCraftDir();
 
             if (!baseMoeCraftDir.exists()) {
-                Environment.getLogger().log(Level.INFO, "MoeCraft root directory not found on '" + baseMoeCraftDir.getCanonicalPath() + "'. Create.");
-
-                if (!baseMoeCraftDir.mkdirs()) {
+                try {
+                    Environment.getLogger().log(Level.FINE, "MoeCraft root directory not found on '" + baseMoeCraftDir.getCanonicalPath() + "'. Create.");
+                    FileUtils.forceMkdir(baseMoeCraftDir);
+                } catch (Exception ex) {
                     Environment.getLogger().log(Level.SEVERE, "Create MoeCraft root directory FAILED '" + baseMoeCraftDir.getCanonicalPath() + "'.");
                     System.exit(9);
                 }
+
             }
 
             String basePath = Environment.getBaseMoeCraftPath();
