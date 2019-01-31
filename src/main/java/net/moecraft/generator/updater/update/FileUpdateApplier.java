@@ -28,30 +28,4 @@ public final class FileUpdateApplier {
     private void handleFile(FileNode fileNode) {
 
     }
-
-    private class FileHandler {
-
-        private boolean delete(FileNode fileNode) {
-            return fileNode.getFile().delete();
-        }
-
-        private void copy(FileNode fileNode) {
-
-        }
-
-        private void link(FileNode fileNode) {
-
-        }
-    }
-
-    private class DirectoryHandler {
-
-        private boolean delete(DirectoryNode directoryNode) {
-            return directoryNode.getDirectory().delete();
-        }
-
-        private boolean create(DirectoryNode directoryNode) {
-            return directoryNode.getDirectory().mkdirs();
-        }
-    }
 }

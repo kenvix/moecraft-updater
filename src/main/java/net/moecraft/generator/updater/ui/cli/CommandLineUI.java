@@ -91,6 +91,10 @@ public class CommandLineUI implements UpdaterUI {
         }
     }
 
+    final private void showUpdateCleanCachePage() {
+
+    }
+
     final protected void showUpdateApplyPage(MetaResult compareResult) throws UpdateCriticalException {
         printNormalBorderLine();
         logln("正在应用更新");
