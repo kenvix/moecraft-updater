@@ -6,7 +6,7 @@
 
 package net.moecraft.generator.updater.update;
 
-public class UpdateCriticalException extends Exception {
+public class UpdateCriticalException extends RuntimeException {
     private int exitCode;
     private Exception originalException;
 

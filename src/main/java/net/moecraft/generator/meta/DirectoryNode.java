@@ -9,6 +9,7 @@ package net.moecraft.generator.meta;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,9 +17,16 @@ public class DirectoryNode implements Cloneable {
     private List<FileNode>      fileNodes      = new ArrayList<>();
     private List<DirectoryNode> directoryNodes = new ArrayList<>();
     private File                     directory;
+    private Path                     path;
 
     public DirectoryNode(File dir) {
         this.directory = dir;
+        this.path = dir.toPath();
+    }
+
+    public DirectoryNode(Path dir) {
+        this.directory = dir.toFile();
+        this.path = dir;
     }
 
     public FileNode addFileNode(FileNode node) {
@@ -38,6 +46,10 @@ public class DirectoryNode implements Cloneable {
     public DirectoryNode addDirectoryNode(DirectoryNode dir) {
         directoryNodes.add(dir);
         return dir;
+    }
+
+    public Path getPath() {
+        return path;
     }
 
     @Deprecated

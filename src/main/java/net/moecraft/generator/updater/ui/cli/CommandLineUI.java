@@ -85,14 +85,22 @@ public class CommandLineUI implements UpdaterUI {
 //            };
             showUpdateDownloadPage(compareResult, selectedRepo);
             showUpdateMergePage(compareResult);
+            showUpdateApplyPage(compareResult);
+            showUpdateCleanCachePage();
         } catch (UpdateCriticalException ex) {
-            logln(ex.getMessage());
+            logln("更新失败：严重错误：" + ex.getMessage());
             System.exit(ex.getExitCode());
         }
     }
 
     final private void showUpdateCleanCachePage() {
-
+        printNormalBorderLine();
+        logln("正在清理缓存 ...");
+        try {
+            FileUtils.deleteDirectory(Environment.getCachePath().toFile());
+        } catch (Exception ex) {
+            Environment.getLogger().info("Clean cache failed: " + ex.getMessage());
+        }
     }
 
     final protected void showUpdateApplyPage(MetaResult compareResult) throws UpdateCriticalException {
@@ -104,7 +112,7 @@ public class CommandLineUI implements UpdaterUI {
 
     final protected void showUpdateMergePage(MetaResult compareResult) throws UpdateCriticalException {
         printNormalBorderLine();
-        logln("正在合并文件对象 ....");
+        logln("正在合并文件对象 ...");
 
         try {
             if(!Environment.getUpdaterObjectPath().toFile().exists())
@@ -122,7 +130,7 @@ public class CommandLineUI implements UpdaterUI {
 
     final protected void showUpdateDownloadPage(MetaResult compareResult, Repo repo) throws UpdateCriticalException {
         printNormalBorderLine();
-        logln("正在下载需要更新的文件 ....");
+        logln("正在下载需要更新的文件 ...");
 
         final RepoNetworkUtil networkUtil = new RepoNetworkUtil(repo);
 

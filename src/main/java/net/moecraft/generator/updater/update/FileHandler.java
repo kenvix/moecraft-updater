@@ -6,7 +6,6 @@
 
 package net.moecraft.generator.updater.update;
 
-import net.moecraft.generator.meta.FileNode;
 import org.apache.commons.io.FileUtils;
 
 import java.io.IOException;
@@ -14,22 +13,27 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public final class FileHandler {
-    private final boolean isWindows;
-
-    public FileHandler() {
-        isWindows = System.getProperties().getProperty("os.name").toUpperCase().contains("WINDOWS");
-    }
+    private static final boolean isWindows = System.getProperties().getProperty("os.name").toUpperCase().contains("WINDOWS");
 
     public enum LinkType {
         Symbol, Hard, DirectorySymbol, DirectoryJoin
     }
 
-    public static void delete(Path target) throws IOException {
-        FileUtils.forceDelete(target.toFile());
+    public static void delete(Path target) {
+        try {
+            FileUtils.forceDelete(target.toFile());
+        } catch (IOException ex) {
+            throw new UpdateCriticalException("Delete file failed: " + target.toString(), 80, ex);
+        }
     }
 
-    public static void copy(Path from, Path dest) throws IOException {
-        FileUtils.copyFile(from.toFile(), dest.toFile());
+    public static void copy(Path from, Path dest) {
+        try {
+            FileUtils.forceMkdirParent(dest.toFile());
+            FileUtils.copyFile(from.toFile(), dest.toFile());
+        } catch (IOException ex) {
+            throw new UpdateCriticalException("Copy file failed: " + from.toString() + " -> " + dest.toString(), 81, ex);
+        }
     }
 
     public static String getWindowsLinkTypeCommand(LinkType type) {
@@ -48,9 +52,30 @@ public final class FileHandler {
         }
     }
 
-    public static void link(Path target, Path linkPath, LinkType type) throws IOException {
+    public static void link(Path target, Path linkPath, LinkType type) {
+        try {
+            FileUtils.forceMkdirParent(linkPath.toFile());
 
+            if(linkPath.toFile().exists())
+                FileUtils.forceDelete(linkPath.toFile());
+
+            if (isWindows)
+                LinkForWindows(target, linkPath, type);
+            else
+                linkForOtherPlatform(target, linkPath, type);
+        } catch (IOException ex) {
+            throw new UpdateCriticalException("Link file failed: " + target.toString() + " -> " + linkPath.toString(), 82, ex);
+        }
     }
+
+    public static void linkCompatible(Path target, Path linkPath, LinkType type) {
+        try {
+            link(target, linkPath, type);
+        } catch (UpdateCriticalException ex) {
+            copy(target, linkPath);
+        }
+    }
+
 
     public static void LinkForWindows(Path target, Path linkPath, LinkType type) throws IOException {
         String command = String.format("/c mklink %s \"%s\" \"%s\"", getWindowsLinkTypeCommand(type), linkPath.toAbsolutePath().toString(), target.toAbsolutePath().toString());
@@ -62,7 +87,7 @@ public final class FileHandler {
         } catch (InterruptedException ex) {}
 
         if (process.exitValue() != 0)
-            throw new IOException("Create link failed" );
+            throw new IOException("Create link failed");
     }
 
     public static void linkForOtherPlatform(Path target, Path linkPath, LinkType type) throws IOException {
@@ -79,9 +104,5 @@ public final class FileHandler {
             case DirectoryJoin:
                 throw new IllegalArgumentException("DirectoryJoin is not supported on this platform.");
         }
-    }
-
-    public static void linkCompat(FileNode fileNode) {
-
     }
 }

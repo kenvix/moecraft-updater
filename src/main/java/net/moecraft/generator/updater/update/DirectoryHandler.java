@@ -6,15 +6,26 @@
 
 package net.moecraft.generator.updater.update;
 
-import net.moecraft.generator.meta.DirectoryNode;
+import org.apache.commons.io.FileUtils;
+
+import java.io.IOException;
+import java.nio.file.Path;
 
 public class DirectoryHandler {
 
-    private boolean delete(DirectoryNode directoryNode) {
-        return directoryNode.getDirectory().delete();
+    public static void delete(Path directory) {
+        try {
+            FileUtils.deleteDirectory(directory.toFile());
+        } catch (IOException ex) {
+            throw new UpdateCriticalException("Delete directory failed: " + directory.toString(), 80, ex);
+        }
     }
 
-    private boolean create(DirectoryNode directoryNode) {
-        return directoryNode.getDirectory().mkdirs();
+    public static void create(Path directory) {
+        try {
+            FileUtils.forceMkdir(directory.toFile());
+        } catch (IOException ex) {
+            throw new UpdateCriticalException("Create directory failed: " + directory.toString(), 80, ex);
+        }
     }
 }
