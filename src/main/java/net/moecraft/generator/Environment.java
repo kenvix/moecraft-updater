@@ -50,6 +50,7 @@ public final class Environment {
     private static       Path        updaterPath;
     private static       Path        cachePath;
     private static       Path        updaterObjectPath;
+    private static       Path        userModsPath;
 
     static void loadEnvironment(CommandLine cmd) throws IOException {
         Environment.cmd = cmd;
@@ -66,6 +67,7 @@ public final class Environment {
         cachePath = updaterPath.resolve("Cache");
         deployPath = basePath.resolve("Deployment");
         updaterObjectPath = updaterPath.resolve("Objects");
+        userModsPath = updaterPath.resolve("Mods");
     }
 
     public static int getDnsMaxTries() {
@@ -202,5 +204,9 @@ public final class Environment {
 
     public static void setRepos(Repo[] repos) {
         Environment.repos = repos;
+    }
+
+    public static Path getUserModsPath() {
+        return userModsPath;
     }
 }

@@ -18,10 +18,7 @@ import net.moecraft.generator.meta.scanner.FileScanner;
 import net.moecraft.generator.updater.repo.Repo;
 import net.moecraft.generator.updater.repo.RepoNetworkUtil;
 import net.moecraft.generator.updater.ui.UpdaterUI;
-import net.moecraft.generator.updater.update.FileDamagedException;
-import net.moecraft.generator.updater.update.FileUpdateApplier;
-import net.moecraft.generator.updater.update.UpdateComparer;
-import net.moecraft.generator.updater.update.UpdateCriticalException;
+import net.moecraft.generator.updater.update.*;
 import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.Nullable;
 
@@ -86,6 +83,7 @@ public class CommandLineUI implements UpdaterUI {
             showUpdateDownloadPage(compareResult, selectedRepo);
             showUpdateMergePage(compareResult);
             showUpdateApplyPage(compareResult);
+            showRegisterUserModsPage();
             showUpdateCleanCachePage();
         } catch (UpdateCriticalException ex) {
             logln("更新失败：严重错误：" + ex.getMessage());
@@ -93,7 +91,7 @@ public class CommandLineUI implements UpdaterUI {
         }
     }
 
-    final private void showUpdateCleanCachePage() {
+    final protected void showUpdateCleanCachePage() {
         printNormalBorderLine();
         logln("正在清理缓存 ...");
         try {
@@ -103,9 +101,16 @@ public class CommandLineUI implements UpdaterUI {
         }
     }
 
+    final protected void showRegisterUserModsPage() {
+        printNormalBorderLine();
+        logln("正在注册用户自定义 Mods ...");
+
+        UserFileRegister.registerUserMods();
+    }
+
     final protected void showUpdateApplyPage(MetaResult compareResult) throws UpdateCriticalException {
         printNormalBorderLine();
-        logln("正在应用更新");
+        logln("正在应用更新 ...");
         FileUpdateApplier updateApplier = new FileUpdateApplier(compareResult);
         updateApplier.start();
     }
@@ -201,8 +206,9 @@ public class CommandLineUI implements UpdaterUI {
         printBoldBorderLine();
         Repo[] repos = Environment.getRepos();
 
+        UserFileRegister.createUserModsDir();
         logln("警告: 该程序将于它所在的文件夹安装 MoeCraft 客户端, 并删除该文件夹内的其他 Minecraft 版本. 请勿把安装器与无关文件放在同一文件夹内, 否则, 使用者需自行承担可能发生的数据损失.");
-        logln("注意: 如果你需要添加自定义 Mod, 请在本程序所在目录下建立 Mods 文件夹(注意大小写), 并把你的 Mod 放入这个文件夹中. 不要把 Mod 直接放在 .minecraft/mods 中, 否则它们会被删除.");
+        logln("注意: 如果你需要添加自定义 Mod, 请打开 Updater/Mods 文件夹(注意大小写), 并把你的 Mod 放入这个文件夹中. 不要把 Mod 直接放在 .minecraft/mods 中, 否则它们会被删除.");
 
         printNormalBorderLine();
         logln("请选择一个下载源 (输入序号)：");

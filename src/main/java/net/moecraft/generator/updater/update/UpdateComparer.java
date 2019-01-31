@@ -72,7 +72,8 @@ public class UpdateComparer {
     }
 
     private void compareUpdateFile(DirectoryNode out, FileNode remote) {
-        if (!remote.getFile().exists() || !remote.getMD5().equals(remote.getExpectedMd5())) {
+        String localFileMd5 = remote.getMD5();
+        if (!remote.getFile().exists() || localFileMd5 == null || !localFileMd5.equals(remote.getExpectedMd5())) {
             out.addFileNode(remote);
             Environment.getLogger().finest("+ Add " + remote.getFile().getPath());
 
@@ -96,7 +97,7 @@ public class UpdateComparer {
             if (directoryNode.hasChildDirectory())
                 compareUpdateDirectoryNodes(directoryNode.getDirectoryNodes(), resultDirectoryNode.getDirectoryNodes());
 
-            result.add(directoryNode);
+            result.add(resultDirectoryNode);
         }
     }
 }
