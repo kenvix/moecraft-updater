@@ -4,12 +4,13 @@
 // Written by Kenvix <i@kenvix.com>
 //--------------------------------------------------
 
-package com.kenvix.downloader.download;
+package com.kenvix.downloader;
 
 import com.kenvix.downloader.event.*;
 
 public class DownloaderSettings {
     private int downloadThreadNum = 1;
+    private boolean overwriteFile = false;
     private OnDownloadMissionPrepared downloadMissionPreparedHandler = null;
     private OnDownloadMissionFailed downloadMissionFailedHandler = null;
     private OnDownloadMissionFinished onDownloadMissionFinished = null;
@@ -67,6 +68,15 @@ public class DownloaderSettings {
 
     public DownloaderSettings setOnDownloadMissionReady(OnDownloadMissionReady onDownloadMissionReady) {
         this.onDownloadMissionReady = onDownloadMissionReady;
+        return this;
+    }
+
+    public boolean isOverwriteFile() {
+        return overwriteFile;
+    }
+
+    public DownloaderSettings setOverwriteFile(boolean overwriteFile) {
+        this.overwriteFile = overwriteFile;
         return this;
     }
 }

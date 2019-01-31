@@ -6,6 +6,8 @@
 
 package com.kenvix.downloader.download;
 
+import com.kenvix.downloader.DownloaderSettings;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Path;

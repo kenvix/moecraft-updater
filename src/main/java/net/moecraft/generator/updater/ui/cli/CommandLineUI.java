@@ -6,27 +6,28 @@
 
 package net.moecraft.generator.updater.ui.cli;
 
+import com.kenvix.utils.FileTool;
 import net.moecraft.generator.Environment;
 import net.moecraft.generator.jsonengine.ParserEngine;
 import net.moecraft.generator.jsonengine.engine.NewMoeEngine;
+import net.moecraft.generator.meta.FileNode;
 import net.moecraft.generator.meta.MetaResult;
 import net.moecraft.generator.meta.MetaScanner;
+import net.moecraft.generator.meta.ObjectEngine;
 import net.moecraft.generator.meta.scanner.FileScanner;
 import net.moecraft.generator.updater.repo.Repo;
 import net.moecraft.generator.updater.repo.RepoNetworkUtil;
 import net.moecraft.generator.updater.ui.UpdaterUI;
+import net.moecraft.generator.updater.update.FileDamagedException;
+import net.moecraft.generator.updater.update.FileUpdateApplier;
 import net.moecraft.generator.updater.update.UpdateComparer;
 import net.moecraft.generator.updater.update.UpdateCriticalException;
-import com.kenvix.downloader.event.OnDownloadMissionFailed;
-import com.kenvix.downloader.event.OnDownloadMissionFinished;
-import com.kenvix.downloader.event.OnDownloadMissionReady;
-import com.kenvix.downloader.event.OnDownloadProgressChanged;
+import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.nio.file.Path;
+import java.util.*;
 import java.util.function.Consumer;
 
 /**
@@ -47,8 +48,6 @@ public class CommandLineUI implements UpdaterUI {
         System.out.printf(format, args);
     }
 
-    private boolean flagDownloadFailed = false;
-
     /**
      * Display command line UI.
      */
@@ -65,49 +64,96 @@ public class CommandLineUI implements UpdaterUI {
             MetaResult compareResult = showUpdateComparePage(remoteResult, localResult);
 
             //ProgressBar progressBar = new ProgressBar("", 1000);
-            OnDownloadMissionReady onDownloadMissionReady = (mission, downloadManager, fileNode) -> {
-                //progressBar.setExtraMessage(String.format("%.2fMB", (float) fileNode.getSize() / 1024 / 1024));
-            };
-            OnDownloadProgressChanged onDownloadProgressChanged = (mission, fileNode) -> {
-                //int progress = 1000 * (int) ((double) mission.getDownloadedSize() / (double) fileNode.getSize());
-                //progressBar.stepTo(progress);
-                //progressBar.setExtraMessage(String.format("%s | %.2fMB", mission.getReadableSpeed(), (float) fileNode.getSize() / 1024 / 1024));
-            };
-            OnDownloadMissionFinished onDownloadMissionFinished = (downloadStatus, mission, fileNode) -> {
-
-            };
-            OnDownloadMissionFailed onDownloadMissionFailed = (failNum, fileNode, exception) -> {
-                if(failNum < Environment.getDownloadMaxTries()) {
-                    return true;
-                } else {
-                    flagDownloadFailed = true;
-                    return false;
-                }
-            };
-            showUpdateDownloadPage(compareResult, selectedRepo, onDownloadProgressChanged, onDownloadMissionFailed, onDownloadMissionFinished, onDownloadMissionReady);
+//            OnDownloadMissionReady onDownloadMissionReady = (mission, downloadManager, fileNode) -> {
+//                //progressBar.setExtraMessage(String.format("%.2fMB", (float) fileNode.getSize() / 1024 / 1024));
+//            };
+//            OnDownloadProgressChanged onDownloadProgressChanged = (mission, fileNode) -> {
+//                //int progress = 1000 * (int) ((double) mission.getDownloadedSize() / (double) fileNode.getSize());
+//                //progressBar.stepTo(progress);
+//                //progressBar.setExtraMessage(String.format("%s | %.2fMB", mission.getReadableSpeed(), (float) fileNode.getSize() / 1024 / 1024));
+//            };
+//            OnDownloadMissionFinished onDownloadMissionFinished = (downloadStatus, mission, fileNode) -> {
+//
+//            };
+//            OnDownloadMissionFailed onDownloadMissionFailed = (failNum, fileNode, exception) -> {
+//                if(failNum < Environment.getDownloadMaxTries()) {
+//                    return true;
+//                } else {
+//                    flagDownloadFailed = true;
+//                    return false;
+//                }
+//            };
+            showUpdateDownloadPage(compareResult, selectedRepo);
+            showUpdateMergePage(compareResult);
         } catch (UpdateCriticalException ex) {
             logln(ex.getMessage());
             System.exit(ex.getExitCode());
         }
     }
 
-    final protected void showUpdateDownloadPage(MetaResult compareReault, Repo repo, @Nullable OnDownloadProgressChanged onDownloadProgressChanged, @Nullable OnDownloadMissionFailed onDownloadMissionFailed, @Nullable OnDownloadMissionFinished onDownloadMissionFinished, @Nullable OnDownloadMissionReady onReady) throws UpdateCriticalException {
+    final protected void showUpdateApplyPage(MetaResult compareResult) throws UpdateCriticalException {
+        printNormalBorderLine();
+        logln("正在应用更新");
+        FileUpdateApplier updateApplier = new FileUpdateApplier(compareResult);
+        updateApplier.start();
+    }
+
+    final protected void showUpdateMergePage(MetaResult compareResult) throws UpdateCriticalException {
+        printNormalBorderLine();
+        logln("正在合并文件对象 ....");
+
+        try {
+            if(!Environment.getUpdaterObjectPath().toFile().exists())
+                FileUtils.forceMkdir(Environment.getUpdaterObjectPath().toFile());
+
+            for (Map.Entry<String, List<FileNode>> objectList :  compareResult.getGlobalObjects().entrySet()) {
+                logln("正在合并: " + objectList.getKey());
+                ObjectEngine.mergeObject(objectList.getKey(), objectList.getValue());
+            }
+
+        } catch (IOException ex) {
+            throw new UpdateCriticalException("合并文件对象失败：" + ex.getMessage(), 78);
+        }
+    }
+
+    final protected void showUpdateDownloadPage(MetaResult compareResult, Repo repo) throws UpdateCriticalException {
         printNormalBorderLine();
         logln("正在下载需要更新的文件 ....");
 
-        RepoNetworkUtil networkUtil = new RepoNetworkUtil(repo);
+        final RepoNetworkUtil networkUtil = new RepoNetworkUtil(repo);
 
-        if(!Environment.getCachePath().toFile().exists())
-            if(!Environment.getCachePath().toFile().mkdirs())
+        if (!Environment.getCachePath().toFile().exists()) {
+            if (!Environment.getCachePath().toFile().mkdirs())
                 throw new UpdateCriticalException("无法创建缓存文件夹", 73);
-
-        compareReault.getGlobalObjects().forEach((objectMd5Key, objectList) -> {
-            networkUtil.downloadObjects(objectList, onDownloadProgressChanged, onDownloadMissionFailed, onDownloadMissionFinished, onReady);
-        });
-
-        if(flagDownloadFailed) {
-            throw new UpdateCriticalException("部分文件下载失败，请检查您的网络", 74);
         }
+
+        for (Map.Entry<String, List<FileNode>> objectList :  compareResult.getGlobalObjects().entrySet()) {
+            for (FileNode object : objectList.getValue()) {
+                Path savePath = Environment.getCachePath().resolve(object.getFile().getName());
+                logln("正在下载: " + object.getPath());
+                int failNum = 0;
+                for(; failNum < Environment.getDownloadMaxTries(); failNum++) {
+                    try {
+                        networkUtil.simpleDownloadFile(networkUtil.getRepoFileURL(object), savePath);
+
+                        String downloadedFileMd5 = FileTool.getFileMD5(savePath.toFile());
+
+                        if(downloadedFileMd5 == null || !downloadedFileMd5.equals(object.getExpectedMd5()))
+                            throw new FileDamagedException(String.format("下载的文件已损坏 ( 下载的文件: %s，服务器上的文件：%s", downloadedFileMd5, object.getExpectedMd5()));
+                        else
+                            break;
+                    } catch (Exception ex) {
+                        logf("下载失败，正在重试 (%d/%d 次): %s -> %s\n", failNum+1, Environment.getDownloadMaxTries(), ex.getMessage(), object.getPath());
+                    }
+                }
+                if(failNum == Environment.getDownloadMaxTries())
+                    throw new UpdateCriticalException("无法下载新文件，请检查您的网络", 75);
+            }
+        }
+
+//        compareResult.getGlobalObjects().forEach((objectMd5Key, objectList) -> {
+//            networkUtil.downloadObjects(objectList, onDownloadProgressChanged, onDownloadMissionFailed, onDownloadMissionFinished, onReady);
+//        });
     }
 
     final protected MetaResult showUpdateComparePage(MetaResult remoteResult, MetaResult localResult) {
@@ -199,11 +245,11 @@ public class CommandLineUI implements UpdaterUI {
     }
 
     private void printBoldBorderLine() {
-        logln("=========================================================");
+        System.out.println("=========================================================");
     }
 
     private void printNormalBorderLine() {
-        logln("---------------------------------------------------------");
+        System.out.println("---------------------------------------------------------");
     }
 
     private void pause() {

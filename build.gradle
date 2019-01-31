@@ -23,6 +23,6 @@ dependencies {
     // https://mvnrepository.com/artifact/org.jboss.arquillian.junit/arquillian-junit-container
     testCompile group: 'org.jboss.arquillian.junit', name: 'arquillian-junit-container', version: '1.4.1.Final'
     compileOnly group: 'org.jetbrains', name: 'annotations', version: '16.0.3'
-
-    implementation 'me.tongfei:progressbar:0.7.2'
+    // https://mvnrepository.com/artifact/commons-io/commons-io
+    compile group: 'commons-io', name: 'commons-io', version: '2.6'
 }

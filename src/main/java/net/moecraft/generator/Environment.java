@@ -65,7 +65,7 @@ public final class Environment {
         updaterPath = basePath.resolve("Updater");
         cachePath = updaterPath.resolve("Cache");
         deployPath = basePath.resolve("Deployment");
-        updaterObjectPath = basePath.resolve("Objects");
+        updaterObjectPath = updaterPath.resolve("Objects");
     }
 
     public static int getDnsMaxTries() {

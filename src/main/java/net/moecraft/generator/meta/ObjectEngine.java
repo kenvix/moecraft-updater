@@ -106,13 +106,29 @@ public class ObjectEngine {
     }
 
     public static void mergeObject(FileNode file) throws IOException {
-        RandomAccessFile outObject = new RandomAccessFile(Environment.getCachePath().resolve(file.getFile().getName()).toFile(), "w");
+        mergeObject(file.getExpectedMd5(), file.getObjects());
+    }
+
+    public static void mergeObject(String objectKey, List<FileNode> objects) throws IOException {
+        File outFile = Environment.getUpdaterObjectPath().resolve(objectKey).toFile();
+        int expectedSize = 0;
+
+        RandomAccessFile outObject = new RandomAccessFile(outFile, "rw");
         FileChannel outChannel = outObject.getChannel();
 
-        for (FileNode object: file.getObjects()) {
-            FileInputStream inObject = new FileInputStream(object.getFile());
-            FileChannel inChannel =  inObject.getChannel();
-
+        for (FileNode object: objects) {
+            expectedSize += object.getExpectedSize();
+            mergeObjectSingle(object, outChannel);
         }
+
+        if(outFile.length() != expectedSize)
+            throw new IOException("合并的对象已损坏");
+    }
+
+    public static void mergeObjectSingle(FileNode object, FileChannel outChannel) throws IOException {
+        FileInputStream inObject = new FileInputStream(Environment.getCachePath().resolve(object.getFile().getName()).toFile());
+        FileChannel inChannel =  inObject.getChannel();
+
+        inChannel.transferTo(0, object.getExpectedSize(), outChannel);
     }
 }

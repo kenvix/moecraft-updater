@@ -10,8 +10,6 @@ import net.moecraft.generator.meta.DirectoryNode;
 import net.moecraft.generator.meta.FileNode;
 import net.moecraft.generator.meta.MetaResult;
 
-import java.nio.file.Files;
-
 public final class FileUpdateApplier {
     private final MetaResult task;
 
@@ -37,7 +35,11 @@ public final class FileUpdateApplier {
             return fileNode.getFile().delete();
         }
 
-        private void write(FileNode fileNode) {
+        private void copy(FileNode fileNode) {
+
+        }
+
+        private void link(FileNode fileNode) {
 
         }
     }
