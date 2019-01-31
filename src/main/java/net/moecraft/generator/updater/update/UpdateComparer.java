@@ -91,8 +91,7 @@ public class UpdateComparer {
     private void compareUpdateDirectoryNodes(List<DirectoryNode> from, List<DirectoryNode> result) {
         for (DirectoryNode directoryNode : from) {
             DirectoryNode       resultDirectoryNode = new DirectoryNode(directoryNode.getDirectory());
-            List<FileNode> fileNodes           = directoryNode.getFileNodes();
-            fileNodes.forEach(fileNode -> compareUpdateFile(resultDirectoryNode, fileNode));
+            directoryNode.getFileNodes().forEach(fileNode -> compareUpdateFile(resultDirectoryNode, fileNode));
 
             if (directoryNode.hasChildDirectory())
                 compareUpdateDirectoryNodes(directoryNode.getDirectoryNodes(), resultDirectoryNode.getDirectoryNodes());

@@ -53,7 +53,7 @@ public final class FileUpdateApplier {
     }
 
     private void handleNewFiles(FileNode fileNode) {
-        FileHandler.link(getObjectPath(fileNode), Paths.get(Environment.getBaseMoeCraftPath()).resolve(fileNode.getRelativePath()), FileHandler.LinkType.Hard);
+        FileHandler.linkCompatible(getObjectPath(fileNode), Paths.get(Environment.getBaseMoeCraftPath()).resolve(fileNode.getRelativePath()), FileHandler.LinkType.Hard);
     }
 
     private Path getObjectPath(FileNode fileNode) {

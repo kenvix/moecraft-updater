@@ -6,6 +6,7 @@
 
 package net.moecraft.generator.updater.update;
 
+import net.moecraft.generator.Environment;
 import org.apache.commons.io.FileUtils;
 
 import java.io.IOException;
@@ -22,6 +23,7 @@ public final class FileHandler {
     public static void delete(Path target) {
         try {
             FileUtils.forceDelete(target.toFile());
+            Environment.getLogger().finest("Delete: " + target.toString());
         } catch (IOException ex) {
             throw new UpdateCriticalException("Delete file failed: " + target.toString(), 80, ex);
         }
@@ -31,6 +33,8 @@ public final class FileHandler {
         try {
             FileUtils.forceMkdirParent(dest.toFile());
             FileUtils.copyFile(from.toFile(), dest.toFile());
+
+            Environment.getLogger().finest("Copy : " + from.toString() + " -> " + dest.toString());
         } catch (IOException ex) {
             throw new UpdateCriticalException("Copy file failed: " + from.toString() + " -> " + dest.toString(), 81, ex);
         }
@@ -63,6 +67,8 @@ public final class FileHandler {
                 LinkForWindows(target, linkPath, type);
             else
                 linkForOtherPlatform(target, linkPath, type);
+
+            Environment.getLogger().finest("Link : " + linkPath.toString() + " => " + target.toString());
         } catch (IOException ex) {
             throw new UpdateCriticalException("Link file failed: " + target.toString() + " -> " + linkPath.toString(), 82, ex);
         }

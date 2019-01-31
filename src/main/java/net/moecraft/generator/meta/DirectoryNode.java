@@ -87,6 +87,14 @@ public class DirectoryNode implements Cloneable {
         return directory.getName();
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof DirectoryNode) {
+            return ((DirectoryNode) obj).getPath().equals(path);
+        }
+        return false;
+    }
+
     /**
      * Clone DirectoryNode. Including all child DirectoryNode and child FileNode.
      * Note: java.io.File object will NOT be cloned for its meaningless.
