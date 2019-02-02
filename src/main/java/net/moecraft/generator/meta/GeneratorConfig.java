@@ -139,7 +139,8 @@ public class GeneratorConfig extends MetaResult implements Serializable {
             if(item instanceof String) {
                 target.add(((String) item).replace('\\', '/'));
             } else {
-                Environment.getLogger().info("Detected invalid config item " + key + " on " + target.getClass().getName());
+                if(!Environment.isUpdater())
+                    Environment.getLogger().info("Detected invalid config item " + key + " on " + target.getClass().getName());
             }
         }
     }
@@ -160,14 +161,17 @@ public class GeneratorConfig extends MetaResult implements Serializable {
                             addFileNode(type, fileNode);
                         }
                     } else {
-                        Environment.getLogger().log(Level.INFO, "Declaring a not-found or invalid file " + dir + ". Skip...");
+                        if(!Environment.isUpdater())
+                            Environment.getLogger().log(Level.INFO, "Declaring a not-found or invalid file " + dir + ". Skip...");
                     }
                 } else {
-                    Environment.getLogger().info("Detected invalid config item " + key + " on " + type.name());
+                    if(!Environment.isUpdater())
+                        Environment.getLogger().info("Detected invalid config item " + key + " on " + type.name());
                 }
             }
         } catch (NoSuchFieldException ex) {
-            Environment.getLogger().log(Level.CONFIG, "Declaring a invalid field [" + ex.getMessage() + "] Skip...");
+            if(!Environment.isUpdater())
+                Environment.getLogger().log(Level.CONFIG, "Declaring a invalid field [" + ex.getMessage() + "] Skip...");
         }
     }
 

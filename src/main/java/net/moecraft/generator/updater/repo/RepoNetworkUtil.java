@@ -43,7 +43,7 @@ public final class RepoNetworkUtil {
                 throw new IOException("Unable to delete exist file");
         }
 
-        FileUtils.copyURLToFile(url, savePath.toFile(), 10, 10000);
+        FileUtils.copyURLToFile(url, savePath.toFile());
     }
 
     @NotNull

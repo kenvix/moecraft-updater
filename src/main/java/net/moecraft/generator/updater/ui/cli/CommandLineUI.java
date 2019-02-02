@@ -87,7 +87,7 @@ public class CommandLineUI implements UpdaterUI {
             showUpdateCleanCachePage();
             showUpdateFinishedPage();
         } catch (UpdateCriticalException ex) {
-            logln("更新失败：严重错误：" + ex.getMessage());
+            logln("更新失败：严重错误：" + ex.getMessage() + " \n " + ex.getOriginalException().getMessage());
             System.exit(ex.getExitCode());
         }
     }
@@ -157,24 +157,36 @@ public class CommandLineUI implements UpdaterUI {
         for (Map.Entry<String, List<FileNode>> objectList :  compareResult.getGlobalObjects().entrySet()) {
             for (FileNode object : objectList.getValue()) {
                 Path savePath = Environment.getCachePath().resolve(object.getFile().getName());
-                logln("正在下载: " + object.getPath());
-                int failNum = 0;
-                for(; failNum < Environment.getDownloadMaxTries(); failNum++) {
-                    try {
-                        networkUtil.simpleDownloadFile(networkUtil.getRepoFileURL(object), savePath);
+                boolean hasCached = false;
 
-                        String downloadedFileMd5 = FileTool.getFileMD5(savePath.toFile());
-
-                        if(downloadedFileMd5 == null || !downloadedFileMd5.equals(object.getExpectedMd5()))
-                            throw new FileDamagedException(String.format("下载的文件已损坏 ( 下载的文件: %s，服务器上的文件：%s", downloadedFileMd5, object.getExpectedMd5()));
-                        else
-                            break;
-                    } catch (Exception ex) {
-                        logf("下载失败，正在重试 (%d/%d 次): %s -> %s\n", failNum+1, Environment.getDownloadMaxTries(), ex.getMessage(), object.getPath());
-                    }
+                if(savePath.toFile().exists()) {
+                    String cacheFileMd5 = FileTool.getFileMD5(savePath.toFile());
+                    if(cacheFileMd5 != null && cacheFileMd5.equals(object.getExpectedMd5()))
+                        hasCached = true;
                 }
-                if(failNum == Environment.getDownloadMaxTries())
-                    throw new UpdateCriticalException("无法下载新文件，请检查您的网络", 75);
+
+                if(hasCached) {
+                    logln("已缓存的下载: " + object.getPath());
+                } else {
+                    logln("正在下载: " + object.getPath());
+                    int failNum = 0;
+                    for(; failNum < Environment.getDownloadMaxTries(); failNum++) {
+                        try {
+                            networkUtil.simpleDownloadFile(networkUtil.getRepoFileURL(object), savePath);
+
+                            String downloadedFileMd5 = FileTool.getFileMD5(savePath.toFile());
+
+                            if(downloadedFileMd5 == null || !downloadedFileMd5.equals(object.getExpectedMd5()))
+                                throw new FileDamagedException(String.format("下载的文件已损坏 ( 下载的文件: %s，服务器上的文件：%s", downloadedFileMd5, object.getExpectedMd5()));
+                            else
+                                break;
+                        } catch (Exception ex) {
+                            logf("下载失败，正在重试 (%d/%d 次): %s -> %s\n", failNum+1, Environment.getDownloadMaxTries(), ex.getMessage(), object.getPath());
+                        }
+                    }
+                    if(failNum == Environment.getDownloadMaxTries())
+                        throw new UpdateCriticalException("无法下载新文件，请检查您的网络", 75);
+                }
             }
         }
 
