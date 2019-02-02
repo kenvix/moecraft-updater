@@ -27,9 +27,9 @@ public final class FileUpdateApplier {
         task.getFileNodesByType(MetaNodeType.ExcludedFile).getFileNodes().forEach(fileNode -> FileHandler.delete(fileNode.getPath()));
         handleExcludedDirectoryNodes(task.getDirectoryNodesByType(MetaNodeType.ExcludedDirectory));
 
-        task.getFileNodesByType(MetaNodeType.DefaultFile).getFileNodes().forEach(this::handleNewFiles);
         task.getFileNodesByType(MetaNodeType.SyncedFile).getFileNodes().forEach(this::handleNewFiles);
         handleNewDirectoryNodes(task.getDirectoryNodesByType(MetaNodeType.SyncedDirectory));
+        task.getFileNodesByType(MetaNodeType.DefaultFile).getFileNodes().forEach(this::handleNewFiles);
     }
 
     private void handleNewDirectoryNodes(List<DirectoryNode> directoryNodes) {

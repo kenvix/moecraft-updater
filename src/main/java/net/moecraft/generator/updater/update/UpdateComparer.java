@@ -33,8 +33,9 @@ public class UpdateComparer {
         result             = new MetaResult();
         List<FileNode> resultDefaultFiles = result.getFileNodesByType(MetaNodeType.DefaultFile).getFileNodes();
         remote.getFileNodesByType(MetaNodeType.DefaultFile).getFileNodes().forEach(fileNode -> {
-            if (!fileNode.getFile().exists())
-                resultDefaultFiles.add(fileNode);
+            if (!fileNode.getFile().exists()) {
+                putFileAndObjectIfNeed(fileNode);
+            }
         });
 
         remote.getFileNodesByType(MetaNodeType.SyncedFile).getFileNodes().forEach(fileNode -> compareUpdateFile(result.getFileNodesByType(MetaNodeType.SyncedFile), fileNode));
@@ -77,13 +78,17 @@ public class UpdateComparer {
             out.addFileNode(remote);
             Environment.getLogger().finest("+ Add " + remote.getFile().getPath());
 
-            if(!result.hasGlobalObject(remote.getExpectedMd5())) {
-                File installedObjectFile = Environment.getUpdaterObjectPath().resolve(ObjectEngine.getObjectFileName(remote.getExpectedMd5())).toFile();
+            putFileAndObjectIfNeed(remote);
+        }
+    }
 
-                if(!installedObjectFile.exists() || !installedObjectFile.isFile() || !FileTool.getFileMD5(installedObjectFile).equals(remote.getExpectedMd5())) {
-                    result.putGlobalObjectsByMd5(remote.getExpectedMd5(), remote.getObjects());
-                    Environment.getLogger().finest("# Download Object: " + installedObjectFile.getName());
-                }
+    private void putFileAndObjectIfNeed(FileNode remote) {
+        if(!result.hasGlobalObject(remote.getExpectedMd5())) {
+            File installedObjectFile = Environment.getUpdaterObjectPath().resolve(ObjectEngine.getObjectFileName(remote.getExpectedMd5())).toFile();
+
+            if(!installedObjectFile.exists() || !installedObjectFile.isFile() || !FileTool.getFileMD5(installedObjectFile).equals(remote.getExpectedMd5())) {
+                result.putGlobalObjectsByMd5(remote.getExpectedMd5(), remote.getObjects());
+                Environment.getLogger().finest("# Download Object: " + installedObjectFile.getName());
             }
         }
     }

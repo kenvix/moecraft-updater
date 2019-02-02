@@ -78,6 +78,7 @@ public final class FileHandler {
         try {
             link(target, linkPath, type);
         } catch (UpdateCriticalException ex) {
+            Environment.getLogger().fine("Link file failed . Fallback into copy mode: " + ex.getMessage());
             copy(target, linkPath);
         }
     }
