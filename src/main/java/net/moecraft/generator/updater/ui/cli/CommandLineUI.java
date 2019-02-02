@@ -24,6 +24,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.function.Consumer;
 
@@ -85,20 +86,30 @@ public class CommandLineUI implements UpdaterUI {
             showUpdateApplyPage(compareResult);
             showRegisterUserModsPage();
             showUpdateCleanCachePage();
-            showUpdateFinishedPage();
+            showUpdateFinishedPage(remoteResult);
         } catch (UpdateCriticalException ex) {
-            logln("更新失败：严重错误：" + ex.getMessage() + " \n " + ex.getOriginalException().getMessage());
+            ex.printStackTrace();
+
+            logln("更新失败：严重错误：" + ex.getMessage());
+
+            if(ex.getOriginalException() != null)
+                logln(ex.getOriginalException().getMessage());
+
             System.exit(ex.getExitCode());
         }
     }
 
-    final protected void showUpdateFinishedPage() {
-        printNormalBorderLine();
+    final protected void showUpdateFinishedPage(MetaResult remoteResult) {
+        printBoldBorderLine();
         logln("更新 MoeCraft 客户端完成。MoeCraft 客户端已被安装到此文件夹下：");
         logln(Environment.getBaseMoeCraftPath());
         logln("请打开上述文件夹，启动启动器，即可开始游戏。（启动器的启动方法见用户中心的客户端下载页）");
         logln("");
         logln("注意：如果你需要添加自定义 Mod, 请打开 Updater/Mods 文件夹(注意大小写), 并把你的 Mod 放入这个文件夹中, 然后再次运行更新器. 不要把 Mod 直接放在 .minecraft/mods 中, 否则它们会被删除.");
+
+        printNormalBorderLine();
+        logf("MoeCraft 版本号：%s // 发行时间：%s\n", remoteResult.getVersion(), new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA).format(new Date(remoteResult.getTime())));
+        logln(remoteResult.getDescription());
     }
 
     final protected void showUpdateCleanCachePage() {
@@ -240,18 +251,25 @@ public class CommandLineUI implements UpdaterUI {
 
         int repoID;
         Repo selectedRepo;
-        while (true) {
-            try {
-                repoID = scanner.nextInt();
-                selectedRepo = repos[repoID];
-                break;
-            } catch (InputMismatchException ex) {
-                scanner.next();
-                log("输入的内容无效，请重新输入下载源的序号: ");
-            } catch (IndexOutOfBoundsException ex) {
-                log("输入的序号无效，请重新输入下载源的序号: ");
+
+        if(repos.length >= 2) {
+            while (true) {
+                try {
+                    repoID = scanner.nextInt();
+                    selectedRepo = repos[repoID];
+                    break;
+                } catch (InputMismatchException ex) {
+                    scanner.next();
+                    log("输入的内容无效，请重新输入下载源的序号: ");
+                } catch (IndexOutOfBoundsException ex) {
+                    log("输入的序号无效，请重新输入下载源的序号: ");
+                }
             }
+        } else {
+            repoID = 0;
+            selectedRepo = repos[0];
         }
+
         logln("使用节点：" + selectedRepo.getDescription());
 
         return selectedRepo;

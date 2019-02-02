@@ -31,8 +31,10 @@ public class NewMoeEngine extends CommonEngine implements GeneratorEngine, Parse
         JSONObject  root    = new JSONObject(tokener);
 
         try {
+            String moecraftVersion = root.getString("version");
+
             result.setDescription(root.getString("description"))
-                    .setVersion(root.getString("version"))
+                    .setVersion(moecraftVersion)
                     .setTime(new SimpleDateFormat(dateFormat, Locale.CHINA).parse(root.getString("update_date")).getTime());
         } catch (ParseException ex) {
             Environment.getLogger().warning("Detected invalid datetime in json. JSON may be corrupted.");

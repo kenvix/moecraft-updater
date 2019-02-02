@@ -34,7 +34,8 @@ public class UpdateComparer {
         List<FileNode> resultDefaultFiles = result.getFileNodesByType(MetaNodeType.DefaultFile).getFileNodes();
         remote.getFileNodesByType(MetaNodeType.DefaultFile).getFileNodes().forEach(fileNode -> {
             if (!fileNode.getFile().exists()) {
-                putFileAndObjectIfNeed(fileNode);
+                resultDefaultFiles.add(fileNode);
+                putObjectIfNeed(fileNode);
             }
         });
 
@@ -78,11 +79,11 @@ public class UpdateComparer {
             out.addFileNode(remote);
             Environment.getLogger().finest("+ Add " + remote.getFile().getPath());
 
-            putFileAndObjectIfNeed(remote);
+            putObjectIfNeed(remote);
         }
     }
 
-    private void putFileAndObjectIfNeed(FileNode remote) {
+    private void putObjectIfNeed(FileNode remote) {
         if(!result.hasGlobalObject(remote.getExpectedMd5())) {
             File installedObjectFile = Environment.getUpdaterObjectPath().resolve(ObjectEngine.getObjectFileName(remote.getExpectedMd5())).toFile();
 
