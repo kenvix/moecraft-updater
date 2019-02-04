@@ -1,0 +1,11 @@
+build
+MoeCraft
+MoeCraftX
+Deployment
+out
+Updater
+.gradle
+*.exe
+desktop.ini
+generator_config.json
+Launcher.jar
