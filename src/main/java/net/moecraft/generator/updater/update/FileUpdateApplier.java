@@ -32,7 +32,7 @@ public final class FileUpdateApplier {
         task.getFileNodesByType(MetaNodeType.DefaultFile).getFileNodes().forEach(this::handleNewFiles);
     }
 
-    private void handleNewDirectoryNodes(List<DirectoryNode> directoryNodes) {
+    public void handleNewDirectoryNodes(List<DirectoryNode> directoryNodes) {
         directoryNodes.forEach(directoryNode -> {
             DirectoryHandler.create(directoryNode.getPath());
 
@@ -43,7 +43,7 @@ public final class FileUpdateApplier {
         });
     }
 
-    private void handleExcludedDirectoryNodes(List<DirectoryNode> directoryNodes) {
+    public void handleExcludedDirectoryNodes(List<DirectoryNode> directoryNodes) {
         directoryNodes.forEach(directoryNode -> {
             if(directoryNode.hasChildDirectory())
                 handleExcludedDirectoryNodes(directoryNode.getDirectoryNodes());
@@ -52,11 +52,11 @@ public final class FileUpdateApplier {
         });
     }
 
-    private void handleNewFiles(FileNode fileNode) {
+    public void handleNewFiles(FileNode fileNode) {
         FileHandler.linkCompatible(getObjectPath(fileNode), Paths.get(Environment.getBaseMoeCraftPath()).resolve(fileNode.getRelativePath()), FileHandler.LinkType.Hard);
     }
 
-    private Path getObjectPath(FileNode fileNode) {
+    public Path getObjectPath(FileNode fileNode) {
         return Environment.getUpdaterObjectPath().resolve(fileNode.getExpectedMd5());
     }
 }

@@ -10,6 +10,6 @@ import net.moecraft.generator.updater.ui.UpdaterUI;
 
 public final class FXGraphicalUI implements UpdaterUI {
     public void display() {
-        UpdaterIndex.display();
+        GUIApplication.display();
     }
 }

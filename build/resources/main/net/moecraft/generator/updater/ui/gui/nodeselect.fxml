@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.201" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.moecraft.generator.updater.ui.gui.NodeSelectController">
+   <children>
+      <Label layoutX="40.0" layoutY="44.0" text="更新节点" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="100.0" />
+      <ChoiceBox fx:id="NodeBox" layoutX="21.0" layoutY="68.0" prefHeight="23.0" prefWidth="200.0" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="120.0" />
+      <Button fx:id="StartBtn" layoutX="40.0" layoutY="106.0" mnemonicParsing="false" onAction="#confirmNode" prefHeight="100.0" prefWidth="200.0" text="      检查更新&#10;(安装 MoeCraft)" wrapText="true" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="100.0">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Button>
+      <Label layoutX="40.0" layoutY="34.0" text="MoeCraft 自动安装与更新实用程序" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="30.0">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <Label layoutX="40.0" layoutY="213.0" text="说明: 该程序将于它所在的文件夹下的 MoeCraft 文件夹安装本客户端, 并删除该文件夹内的其他 MineCraft 版本. 请勿把安装器与无关文件此文件夹内, 否则, 使用者需自行承担可能发生的数据损失.&#10;&#10;注意: 如果你需要添加自定义 Mod, 请打开 Updater/Mods 文件夹(注意大小写), 并把你的 Mod 放入这个文件夹中. 不要把 Mod 直接放在 .minecraft/mods 中, 否则它们会被删除.&#10;&#10;主要编程: Kenvix Zure (@Kenvix)  界面编程: Zbx1425 (@newbieZBX)" textOverrun="CLIP" wrapText="true" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
