@@ -14,6 +14,7 @@ import net.moecraft.generator.updater.repo.LocalIntegratedRepoManager;
 import net.moecraft.generator.updater.repo.Repo;
 import net.moecraft.generator.updater.repo.RepoManager;
 import net.moecraft.generator.updater.ui.cli.CommandLineUI;
+import net.moecraft.generator.updater.ui.gui.FXGraphicalUI;
 import org.apache.commons.cli.CommandLine;
 import org.jetbrains.annotations.NotNull;
 
@@ -39,7 +40,7 @@ public final class Environment {
     private static final String      repoManagerURL   = "https://accounts.moecraft.net/API/Updater/repo";
     private final static String      appName          = "MoeCraft Toolbox";
     private final static String      outJsonName      = "moecraft.json";
-    private final static Class       uiProvider       = CommandLineUI.class;
+    private final static Class       uiProvider       = FXGraphicalUI.class;
     private static       Repo[]      repos;
     private final static int         downloadMaxTries = 5;
     private final static int         dnsMaxTries      = 20;

@@ -2,6 +2,10 @@ plugins {
     id 'java'
 }
 
+tasks.withType(JavaCompile){
+    options.encoding = "UTF-8"
+}
+
 group 'net.moecraft'
 version '1.0-SNAPSHOT'
 
@@ -25,4 +29,13 @@ dependencies {
     compileOnly group: 'org.jetbrains', name: 'annotations', version: '16.0.3'
     // https://mvnrepository.com/artifact/commons-io/commons-io
     compile group: 'commons-io', name: 'commons-io', version: '2.6'
+}
+
+jar {
+  manifest {
+    attributes(
+      'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+      'Main-Class': 'net.moecraft.generator.Main'
+    )
+  }
 }
