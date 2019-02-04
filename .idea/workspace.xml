@@ -1,0 +1,1412 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="Toolbox" />
+    </artifacts-to-build>
+  </component>
+  <component name="BookmarkManager">
+    <bookmark url="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/update/UpdateComparer.java" line="77" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="6fe834da-2d4b-4853-a49e-085c8d5093e9" name="Default Changelist" comment="" />
+    <ignored path="$PROJECT_DIR$/out/" />
+    <ignored path="$PROJECT_DIR$/.gradle/" />
+    <ignored path="$PROJECT_DIR$/build/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
+  </component>
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/updater_generator$Main.ic" NAME="Main Coverage Results" MODIFIED="1544190033506" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>net.moecraft.generator.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/updater_generator$Updater.ic" NAME="Updater Coverage Results" MODIFIED="1548727563245" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>net.moecraft.generator.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/updater_generator$UpdaterIndex.ic" NAME="UpdaterIndex Coverage Results" MODIFIED="1546157532558" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>net.moecraft.generator.updater.ui.*</FILTER>
+    </SUITE>
+  </component>
+  <component name="CoverageViewManager">
+    <option name="myElementSize" value="258" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="updater.generator" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="updater.generator" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/ui/cli/CommandLineUI.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="4662">
+              <caret line="252" column="8" selection-start-line="252" selection-start-column="8" selection-end-line="252" selection-end-column="8" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://D:/Git/MoeCraft-Resourcepack/build.sh">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="357">
+              <caret line="17" column="34" lean-forward="true" selection-start-line="17" selection-start-column="34" selection-end-line="17" selection-end-column="34" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/jsonengine/engine/NewMoeEngine.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="420">
+              <caret line="36" column="48" selection-start-line="36" selection-start-column="48" selection-end-line="36" selection-end-column="48" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/meta/MetaResult.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1428">
+              <caret line="88" selection-start-line="88" selection-end-line="88" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#2062#2063#0" expanded="true" />
+                <element signature="e#2098#2099#0" expanded="true" />
+                <element signature="e#3575#3576#0" expanded="true" />
+                <element signature="e#3622#3623#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/meta/GeneratorConfig.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="588">
+              <caret line="43" column="44" selection-start-line="43" selection-start-column="44" selection-end-line="43" selection-end-column="44" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/update/FileUpdateApplier.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="861">
+              <caret line="55" column="30" selection-start-line="55" selection-start-column="30" selection-end-line="55" selection-end-column="30" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/update/UpdateComparer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1092">
+              <caret line="61" column="7" selection-start-line="61" selection-start-column="7" selection-end-line="61" selection-end-column="7" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/meta/DirectoryNode.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="252">
+              <caret line="21" column="11" selection-start-line="21" selection-start-column="11" selection-end-line="21" selection-end-column="11" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/meta/ObjectEngine.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2478">
+              <caret line="131" column="6" selection-start-line="131" selection-start-column="6" selection-end-line="131" selection-end-column="6" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/Main.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2688">
+              <caret line="150" column="118" selection-start-line="150" selection-start-column="24" selection-end-line="150" selection-end-column="118" />
+              <folding>
+                <element signature="e#7537#7538#0" expanded="true" />
+                <element signature="e#7614#7615#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Arquillian JUnit Test Class" />
+        <option value="FxmlFile" />
+        <option value="Enum" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>out.print</find>
+      <find>moecraft</find>
+      <find>Deploy</find>
+      <find>updater.json</find>
+      <find>.txt</find>
+      <find>isOb</find>
+      <find>1a296071b038eaaef252202a30d9b259</find>
+      <find>mMissionStatus</find>
+      <find>showUpdateGetMetaPage</find>
+      <find>be72661bbf7198b3fc0348aa53cd5ed8</find>
+      <find>addFileNode</find>
+      <find>objects</find>
+      <find>tmp</find>
+      <find>mkdir</find>
+      <find>can not be splited</find>
+      <find>DownloadRunnable</find>
+      <find>Timer already cancelled</find>
+      <find>DownloadRunn</find>
+      <find>onDownloadProgressChanged</find>
+      <find>transf</find>
+      <find>moecr</find>
+      <find>get</find>
+      <find>请在本程序所在目录下建立</find>
+      <find>add</find>
+      <find>MoeCraft root directory not found on</find>
+      <find>user</find>
+      <find>decl</find>
+      <find>new Date</find>
+      <find>setDesc</find>
+      <find>version</find>
+    </findStrings>
+    <replaceStrings>
+      <replace />
+      <replace>ExpectedMd5</replace>
+      <replace>Environment.getLogger()</replace>
+      <replace>logf</replace>
+      <replace>log</replace>
+    </replaceStrings>
+    <dirStrings>
+      <dir>C:\Work Station\Java\MoeCraft Updater Meta Generator\src\main\java</dir>
+    </dirStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/main/resources/net/moecraft/generator/updater/ui/gui.fxml" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/update/NetworkUtil.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/repo/AccountCenterRepoManager.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/NetworkUtil.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/RepoUtil.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/repo/RepoUtil.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/repo/Repo.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/meta/MetaResult.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/kenvix/utils/FileTool.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/meta/FileNode.java" />
+        <option value="$PROJECT_DIR$/generator_config.json" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/repo/RepoManager.java" />
+        <option value="$PROJECT_DIR$/Deployment/moecraft.json" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/update/event/OnDownloadProgressChanged.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/update/event/OnDownloadMissionReady.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/zhan_dui/download/DownloadStatus.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/update/event/OnDownloadMissionFinished.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/zhan_dui/download/DownloadRunnable.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/zhan_dui/download/DownloadMission.java" />
+        <option value="$PROJECT_DIR$/src/main/java/my/xubaipei/downloader/LogUtil.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/update/event/OnDownloadMissionFailed.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/kenvix/downloader/exception/ServerNotSupportedException.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/kenvix/downloader/event/OnDownloadMissionFinished.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/kenvix/downloader/event/OnDownloadMissionReady.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/kenvix/downloader/event/OnDownloadMissionPrepared.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/kenvix/downloader/event/OnDownloadProgressChanged.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/kenvix/downloader/event/OnDownloadMissionFailed.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/kenvix/downloader/download/Downloader.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/kenvix/downloader/download/DownloadStatus.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/kenvix/downloader/download/DownloadTask.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/kenvix/downloader/download/DownloaderSettings.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/kenvix/downloader/DownloaderSettings.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/kenvix/downloader/download/DownloadMission.java" />
+        <option value="$PROJECT_DIR$/build.gradle" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/update/FileDamagedException.java" />
+        <option value="$APPLICATION_CONFIG_DIR$/idea64.exe.vmoptions" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/update/UpdateCriticalException.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/meta/ObjectEngine.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/update/DirectoryHandler.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/Environment.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/meta/DirectoryNode.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/update/UserFileRegister.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/Main.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/repo/LocalIntegratedRepoManager.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/repo/RepoNetworkUtil.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/meta/GeneratorConfig.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/update/FileUpdateApplier.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/update/FileHandler.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/update/UpdateComparer.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/jsonengine/engine/NewMoeEngine.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/ui/cli/CommandLineUI.java" />
+      </list>
+    </option>
+  </component>
+  <component name="PhpServers">
+    <servers />
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="1868" />
+    <option name="y" value="1003" />
+    <option name="width" value="2579" />
+    <option name="height" value="1409" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="updater.generator" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="GO_FMT" value="true" />
+    <property name="GenerateAntBuildDialog.backupFiles" value="true" />
+    <property name="GenerateAntBuildDialog.enableUiFormCompile" value="true" />
+    <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
+    <property name="GenerateAntBuildDialog.outputFileNameProperty" value="updater.generator" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1549113345836" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="Arquillian JUnit4" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.Arquillian JUnit4" value="" />
+    <property name="go.gopath.indexing.explicitly.defined" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Web Projects/MCAccount" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="C:/Program Files/nodejs/node" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.proportion" value="0.15234375" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="net.moecraft.generator.updater" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Work Station\Java\MoeCraft Updater Meta Generator\src\main\resources\net\moecraft\generator\updater\ui\gui" />
+      <recent name="C:\Work Station\Java\MoeCraft Updater Meta Generator\src\main\java\net\moecraft\generator\updater" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="net.moecraft.generator.updater" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Work Station\Java\MoeCraft Updater Meta Generator\src\main\java\net\moecraft\generator\updater\ui" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="cmd" />
+      <command value="powershell" />
+      <command value="bash" />
+      <command value="private static       Path        cachePath;" />
+    </option>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Application.Updater">
+    <configuration name="Generator" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="net.moecraft.generator.Main" />
+      <module name="updater.generator_main" />
+      <option name="PROGRAM_PARAMETERS" value="-g -v" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="net.moecraft.generator.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <extension name="net.ashald.envfile">
+        <option name="IS_ENABLED" value="false" />
+        <option name="IS_SUBST" value="false" />
+        <option name="IS_PATH_MACRO_SUPPORTED" value="false" />
+        <option name="IS_IGNORE_MISSING_FILES" value="false" />
+        <ENTRIES>
+          <ENTRY IS_ENABLED="true" PARSER="runconfig" />
+        </ENTRIES>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Updater" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="net.moecraft.generator.Main" />
+      <module name="updater.generator_main" />
+      <option name="PROGRAM_PARAMETERS" value="-v" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="net.moecraft.generator.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <extension name="net.ashald.envfile">
+        <option name="IS_ENABLED" value="false" />
+        <option name="IS_SUBST" value="false" />
+        <option name="IS_PATH_MACRO_SUPPORTED" value="false" />
+        <option name="IS_IGNORE_MISSING_FILES" value="false" />
+        <ENTRIES>
+          <ENTRY IS_ENABLED="true" PARSER="runconfig" />
+        </ENTRIES>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Manual container configuration: UpdateComparerTest" type="ArquillianJUnit" factoryName="" temporary="true" nameIsGenerated="true">
+      <module name="updater.generator_test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="net.moecraft.generator.updater.repo.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <extension name="net.ashald.envfile">
+        <option name="IS_ENABLED" value="false" />
+        <option name="IS_SUBST" value="false" />
+        <option name="IS_PATH_MACRO_SUPPORTED" value="false" />
+        <option name="IS_IGNORE_MISSING_FILES" value="false" />
+        <ENTRIES>
+          <ENTRY IS_ENABLED="true" PARSER="runconfig" />
+        </ENTRIES>
+      </extension>
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="Manual container configuration" />
+        </value>
+      </option>
+      <option name="PACKAGE_NAME" value="net.moecraft.generator.updater" />
+      <option name="MAIN_CLASS_NAME" value="net.moecraft.generator.updater.UpdateComparerTest" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="PARAMETERS" value="" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="TestNG">
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.Updater" />
+      <item itemvalue="Application.Generator" />
+      <item itemvalue="Arquillian JUnit.Manual container configuration: UpdateComparerTest" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Generator" />
+        <item itemvalue="Arquillian JUnit.Manual container configuration: UpdateComparerTest" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration>C:\Users\kenvi\AppData\Roaming\Subversion</configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6fe834da-2d4b-4853-a49e-085c8d5093e9" name="Default Changelist" comment="" />
+      <created>1544166375520</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1544166375520</updated>
+      <workItem from="1544166378920" duration="3918000" />
+      <workItem from="1544174043465" duration="3667000" />
+      <workItem from="1544184943163" duration="783000" />
+      <workItem from="1544189087881" duration="1633000" />
+      <workItem from="1544190747187" duration="2636000" />
+      <workItem from="1544232684969" duration="2045000" />
+      <workItem from="1544234818512" duration="28085000" />
+      <workItem from="1544617437573" duration="888000" />
+      <workItem from="1544673259027" duration="1079000" />
+      <workItem from="1545044427074" duration="747000" />
+      <workItem from="1545200759124" duration="614000" />
+      <workItem from="1545201725901" duration="916000" />
+      <workItem from="1545822701708" duration="19000" />
+      <workItem from="1545893531278" duration="11189000" />
+      <workItem from="1545983583736" duration="24574000" />
+      <workItem from="1546085285357" duration="32000" />
+      <workItem from="1546088776917" duration="3684000" />
+      <workItem from="1546092486209" duration="1722000" />
+      <workItem from="1546157121057" duration="3359000" />
+      <workItem from="1546218934172" duration="111000" />
+      <workItem from="1546693799448" duration="5307000" />
+      <workItem from="1546774643665" duration="1977000" />
+      <workItem from="1547368805084" duration="57000" />
+      <workItem from="1547625616825" duration="456000" />
+      <workItem from="1547690436437" duration="6320000" />
+      <workItem from="1547776638953" duration="6264000" />
+      <workItem from="1547799616273" duration="4500000" />
+      <workItem from="1547856761215" duration="6131000" />
+      <workItem from="1547906366868" duration="786000" />
+      <workItem from="1548075322451" duration="819000" />
+      <workItem from="1548665151993" duration="1822000" />
+      <workItem from="1548717540111" duration="2555000" />
+      <workItem from="1548720725254" duration="39024000" />
+      <workItem from="1548824429777" duration="6695000" />
+      <workItem from="1548840904627" duration="5475000" />
+      <workItem from="1548897499611" duration="10385000" />
+      <workItem from="1548924661855" duration="56000" />
+      <workItem from="1548924772441" duration="13371000" />
+      <workItem from="1549104694013" duration="6875000" />
+      <workItem from="1549114550493" duration="2347000" />
+    </task>
+    <task id="LOCAL-00001" summary="init commit">
+      <created>1544184392618</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1544184392618</updated>
+    </task>
+    <task id="LOCAL-00002" summary="partial commit">
+      <created>1544234410897</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1544234410897</updated>
+    </task>
+    <task id="LOCAL-00003" summary="basical scanner">
+      <created>1544240251241</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1544240251241</updated>
+    </task>
+    <task id="LOCAL-00004" summary="GeneratorConfig support">
+      <created>1544261662958</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1544261662958</updated>
+    </task>
+    <task id="LOCAL-00005" summary="complete generator">
+      <created>1544271272663</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1544271272663</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Generated Balthld format">
+      <created>1544273334538</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1544273334538</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Fixed a bug that causes root files lost">
+      <created>1544278711863</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1544278711863</updated>
+    </task>
+    <task id="LOCAL-00008" summary="NewMoe Engine">
+      <created>1545916666920</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1545916666920</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Refactor engine. add global environment class">
+      <created>1545919967194</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1545919967194</updated>
+    </task>
+    <task id="LOCAL-00010" summary="update engine">
+      <created>1545989219084</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1545989219084</updated>
+    </task>
+    <task id="LOCAL-00011" summary="ObjectEngine">
+      <created>1545999409435</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1545999409435</updated>
+    </task>
+    <task id="LOCAL-00012" summary="DNSRepoManager">
+      <created>1546004200849</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1546004200849</updated>
+    </task>
+    <task id="LOCAL-00013" summary="用纸糊的界面">
+      <created>1546160476241</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1546160476241</updated>
+    </task>
+    <task id="LOCAL-00014" summary="实现clone">
+      <created>1547702464868</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1547702464868</updated>
+    </task>
+    <task id="LOCAL-00015" summary="临时提交">
+      <created>1548665362317</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1548665362317</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Mode switcher">
+      <created>1548726209394</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1548726209394</updated>
+    </task>
+    <task id="LOCAL-00017" summary="RepoManager">
+      <created>1548731132562</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1548731132562</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Create RepoNetworkUtil">
+      <created>1548737510378</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1548737510378</updated>
+    </task>
+    <task id="LOCAL-00019" summary="CommmandLineUI">
+      <created>1548744626696</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1548744626696</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Object Indexer">
+      <created>1548774009980</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1548774009980</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Object downloader">
+      <created>1548809678558</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1548809678558</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Download manager">
+      <created>1548818019044</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1548818019044</updated>
+    </task>
+    <task id="LOCAL-00023" summary="fuck these shit code">
+      <created>1548842087829</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1548842087829</updated>
+    </task>
+    <task id="LOCAL-00024" summary="ObjectMerge">
+      <created>1548901085261</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1548901085261</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Cross-platform Symbol link">
+      <created>1548915790901</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1548915790901</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Finished in general">
+      <created>1548929884989</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1548929884989</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Support user mods">
+      <created>1548933672134</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1548933672134</updated>
+    </task>
+    <task id="LOCAL-00028" summary="bug fix">
+      <created>1548935605997</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1548935605997</updated>
+    </task>
+    <task id="LOCAL-00029" summary="suppress scanner warnings if it is called by updater">
+      <created>1549105814139</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1549105814139</updated>
+    </task>
+    <task id="LOCAL-00030" summary="fix a bug that objects of default_file will not being downloaded">
+      <created>1549107210550</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1549107210550</updated>
+    </task>
+    <task id="LOCAL-00031" summary="minor bug fix">
+      <created>1549113341538</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1549113341538</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
+    <servers />
+  </component>
+  <component name="TestHistory">
+    <history-entry file="Manual_container_configuration__UpdateComparerTest - 2018.12.29 at 22h 08m 19s.xml">
+      <configuration name="Manual container configuration: UpdateComparerTest" configurationId="ArquillianJUnit" />
+    </history-entry>
+    <history-entry file="Manual_container_configuration__UpdateComparerTest - 2018.12.29 at 22h 09m 41s.xml">
+      <configuration name="Manual container configuration: UpdateComparerTest" configurationId="ArquillianJUnit" />
+    </history-entry>
+    <history-entry file="Manual_container_configuration__UpdateComparerTest - 2018.12.29 at 22h 32m 10s.xml">
+      <configuration name="Manual container configuration: UpdateComparerTest" configurationId="ArquillianJUnit" />
+    </history-entry>
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="212923000" />
+  </component>
+  <component name="TodoView" selected-index="1">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="1495" y="803" width="2063" height="1127" extended-state="0" />
+    <layout>
+      <window_info id="Image Layers" order="0" />
+      <window_info id="Designer" order="1" />
+      <window_info id="UI Designer" order="2" />
+      <window_info id="Capture Tool" order="3" />
+      <window_info active="true" content_ui="combo" id="Project" order="4" visible="true" weight="0.17157108" />
+      <window_info id="Structure" order="5" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="6" weight="0.32995737" />
+      <window_info anchor="bottom" id="Version Control" order="0" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Terminal" order="1" weight="0.3279678" />
+      <window_info anchor="bottom" id="Event Log" order="2" sideWeight="0.500998" side_tool="true" weight="0.3249497" />
+      <window_info anchor="bottom" id="Database Changes" order="3" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Messages" order="4" weight="0.20523138" />
+      <window_info anchor="bottom" id="Message" order="5" />
+      <window_info anchor="bottom" id="Find" order="6" sideWeight="0.499002" weight="0.3249497" />
+      <window_info anchor="bottom" id="Run" order="7" weight="0.29879275" />
+      <window_info anchor="bottom" id="Debug" order="8" sideWeight="0.49946696" weight="0.3581489" />
+      <window_info anchor="bottom" id="Cvs" order="9" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="10" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="11" weight="0.329718" />
+      <window_info anchor="bottom" id="Build" order="12" weight="0.3275488" />
+      <window_info anchor="bottom" id="Docker" order="13" show_stripe_button="false" />
+      <window_info anchor="right" id="Palette" order="0" />
+      <window_info anchor="right" id="Capture Analysis" order="1" />
+      <window_info anchor="right" id="Database" order="2" />
+      <window_info anchor="right" id="Theme Preview" order="3" />
+      <window_info anchor="right" id="Palette&#9;" order="4" />
+      <window_info anchor="right" id="SciView" order="5" />
+      <window_info anchor="right" id="Maven Projects" order="6" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="7" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="8" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="9" weight="0.25" />
+      <window_info anchor="right" id="Gradle" order="10" weight="0.3297587" />
+      <window_info anchor="right" x="0" y="0" width="337" height="638" id="Documentation" order="11" side_tool="true" weight="0.23614073" />
+      <window_info anchor="right" id="Coverage" order="12" side_tool="true" weight="0.29341316" />
+      <window_info anchor="right" id="Maven" order="13" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="NewMoe Engine" />
+    <MESSAGE value="Refactor engine. add global environment class" />
+    <MESSAGE value="update engine" />
+    <MESSAGE value="ObjectEngine" />
+    <MESSAGE value="DNSRepoManager" />
+    <MESSAGE value="用纸糊的界面" />
+    <MESSAGE value="实现clone" />
+    <MESSAGE value="临时提交" />
+    <MESSAGE value="Mode switcher" />
+    <MESSAGE value="RepoManager" />
+    <MESSAGE value="Create RepoNetworkUtil" />
+    <MESSAGE value="CommmandLineUI" />
+    <MESSAGE value="Object Indexer" />
+    <MESSAGE value="Object downloader" />
+    <MESSAGE value="Download manager" />
+    <MESSAGE value="fuck these shit code" />
+    <MESSAGE value="ObjectMerge" />
+    <MESSAGE value="Cross-platform Symbol link" />
+    <MESSAGE value="May be finished" />
+    <MESSAGE value="Finished in general" />
+    <MESSAGE value="Support user mods" />
+    <MESSAGE value="bug fix" />
+    <MESSAGE value="suppress scanner warnings if it is called by updater" />
+    <MESSAGE value="fix a bug that objects of default_file will not being downloaded" />
+    <MESSAGE value="minor bug fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="minor bug fix" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/ui/cli/CommandLineUI.java</url>
+          <line>110</line>
+          <properties />
+          <option name="timeStamp" value="76" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/meta/MetaResult.java</url>
+          <line>88</line>
+          <properties />
+          <option name="timeStamp" value="77" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/jsonengine/engine/NewMoeEngine.java</url>
+          <line>35</line>
+          <properties />
+          <option name="timeStamp" value="78" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="XPathView.XPathProjectComponent">
+    <history />
+    <find-history />
+  </component>
+  <component name="antWorkspaceConfiguration">
+    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
+    <option name="FILTER_TARGETS" value="false" />
+  </component>
+  <component name="debuggerHistoryManager">
+    <expressions id="arrayFilter">
+      <expression>
+        <expression-string>b</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/zhan_dui/download/DownloadMission.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/my/xubaipei/downloader/AndroidDownloader.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/my/xubaipei/downloader/DownloadThread.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/my/xubaipei/downloader/MessageQueen.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/my/xubaipei/downloader/LogUtil.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/my/xubaipei/downloader/Downloader.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/kenvix/downloader/event/OnDownloadMissionFinished.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="13" column="52" selection-start-line="13" selection-start-column="52" selection-end-line="13" selection-end-column="52" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/kenvix/downloader/event/OnDownloadMissionFailed.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="10" selection-start-line="10" selection-end-line="10" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#561#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/kenvix/downloader/event/OnDownloadProgressChanged.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="13" column="25" selection-start-line="13" selection-start-column="25" selection-end-line="13" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_171/src.zip!/java/nio/file/Path.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="798">
+          <caret line="97" column="17" selection-start-line="97" selection-start-column="17" selection-end-line="97" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/kenvix/downloader/exception/ServerNotSupportedException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="84">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/kenvix/downloader/download/DownloadTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="84">
+          <caret line="8" column="26" selection-start-line="8" selection-start-column="26" selection-end-line="8" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_171/src.zip!/java/nio/file/FileAlreadyExistsException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="462">
+          <caret line="45" column="11" selection-start-line="45" selection-start-column="11" selection-end-line="45" selection-end-column="11" />
+          <folding>
+            <element signature="e#745#746#0" expanded="true" />
+            <element signature="e#772#773#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/kenvix/downloader/event/OnDownloadMissionReady.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="13" column="1" selection-start-line="13" selection-start-column="1" selection-end-line="13" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/repo/DNSRepoManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="819">
+          <caret line="49" column="87" selection-start-line="49" selection-start-column="87" selection-end-line="49" selection-end-column="87" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/kenvix/downloader/download/DownloadStatus.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="13" column="11" selection-start-line="13" selection-start-column="11" selection-end-line="13" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/kenvix/downloader/download/Downloader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="15" column="16" selection-start-line="15" selection-start-column="16" selection-end-line="15" selection-end-column="16" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/kenvix/downloader/event/OnDownloadMissionPrepared.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="147">
+          <caret line="11" column="42" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_171/src.zip!/java/nio/file/FileStore.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="726">
+          <caret line="165" column="28" selection-start-line="165" selection-start-column="28" selection-end-line="165" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_171/src.zip!/java/nio/file/Files.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="658">
+          <caret line="1084" column="23" selection-start-line="1084" selection-start-column="23" selection-end-line="1084" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/kenvix/downloader/download/DownloadMission.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="609">
+          <caret line="42" column="13" selection-start-line="42" selection-start-column="13" selection-end-line="42" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1709#1710#0" expanded="true" />
+            <element signature="e#1735#1736#0" expanded="true" />
+            <element signature="e#1768#1769#0" expanded="true" />
+            <element signature="e#1799#1800#0" expanded="true" />
+            <element signature="e#1840#1841#0" expanded="true" />
+            <element signature="e#1869#1870#0" expanded="true" />
+            <element signature="e#1902#1903#0" expanded="true" />
+            <element signature="e#1933#1934#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="504">
+          <caret line="24" column="78" selection-start-line="24" selection-start-column="78" selection-end-line="24" selection-end-column="78" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/idea.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="42">
+          <caret line="2" selection-start-line="2" selection-end-line="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/idea64.exe.vmoptions">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="84">
+          <caret line="4" selection-start-line="4" selection-end-line="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/kenvix/downloader/DownloaderSettings.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="441">
+          <caret line="27" selection-start-line="27" selection-end-line="27" />
+          <folding>
+            <element signature="e#2711#2712#0" expanded="true" />
+            <element signature="e#2747#2748#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_171/src.zip!/java/nio/channels/FileChannel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="902">
+          <caret line="559" selection-start-line="559" selection-end-line="568" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/update/UpdateCriticalException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret line="4" column="52" lean-forward="true" selection-start-line="4" selection-start-column="52" selection-end-line="4" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/meta/MetaNodeType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="84">
+          <caret line="8" column="12" selection-start-line="8" selection-start-column="12" selection-end-line="8" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_171/src.zip!/java/util/function/Consumer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="48" column="9" selection-start-line="48" selection-start-column="9" selection-end-line="48" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/2.6/2566800dc841d9d2c5a0d34d807e45d4107dbbdf/commons-io-2.6-sources.jar!/org/apache/commons/io/FileUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="230">
+          <caret line="514" column="35" selection-start-line="514" selection-start-column="35" selection-end-line="514" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/Environment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3">
+          <caret line="166" column="1" selection-start-line="166" selection-start-column="1" selection-end-line="166" selection-end-column="1" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#4765#4766#0" expanded="true" />
+            <element signature="e#4803#4804#0" expanded="true" />
+            <element signature="e#6740#6741#0" expanded="true" />
+            <element signature="e#6775#6776#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/meta/FileNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="78" column="24" selection-start-line="78" selection-start-column="24" selection-end-line="78" selection-end-column="24" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1840#1841#0" expanded="true" />
+            <element signature="e#1916#1917#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/update/DirectoryHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="462">
+          <caret line="26" column="57" selection-start-line="26" selection-start-column="57" selection-end-line="26" selection-end-column="57" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/repo/LocalIntegratedRepoManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="273">
+          <caret line="17" column="18" selection-start-line="17" selection-start-column="18" selection-end-line="17" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/update/UserFileRegister.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="441">
+          <caret line="30" column="47" selection-start-line="30" selection-start-column="47" selection-end-line="30" selection-end-column="47" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1319#1320#0" expanded="true" />
+            <element signature="e#1389#1390#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/kenvix/utils/FileTool.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1239">
+          <caret line="70" selection-start-line="70" selection-end-line="70" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/update/FileDamagedException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
+          <folding>
+            <element signature="e#377#378#0" expanded="true" />
+            <element signature="e#407#408#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/repo/Repo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="84">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/repo/RepoNetworkUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="39" column="28" selection-start-line="39" selection-start-column="28" selection-end-line="39" selection-end-column="28" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/update/FileHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1764">
+          <caret line="88" column="10" selection-start-line="88" selection-start-column="10" selection-end-line="88" selection-end-column="10" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.json/json/20180813/60753006d96d5fc85b61b0897f3326b5c4e1c4f0/json-20180813-sources.jar!/org/json/JSONObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1401">
+          <caret line="849" column="18" selection-start-line="849" selection-start-column="18" selection-end-line="849" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/ui/cli/CommandLineUI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4662">
+          <caret line="252" column="8" selection-start-line="252" selection-start-column="8" selection-end-line="252" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/jsonengine/engine/NewMoeEngine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="36" column="48" selection-start-line="36" selection-start-column="48" selection-end-line="36" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/meta/MetaResult.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1428">
+          <caret line="88" selection-start-line="88" selection-end-line="88" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2062#2063#0" expanded="true" />
+            <element signature="e#2098#2099#0" expanded="true" />
+            <element signature="e#3575#3576#0" expanded="true" />
+            <element signature="e#3622#3623#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/meta/GeneratorConfig.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="588">
+          <caret line="43" column="44" selection-start-line="43" selection-start-column="44" selection-end-line="43" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/update/FileUpdateApplier.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="861">
+          <caret line="55" column="30" selection-start-line="55" selection-start-column="30" selection-end-line="55" selection-end-column="30" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/update/UpdateComparer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1092">
+          <caret line="61" column="7" selection-start-line="61" selection-start-column="7" selection-end-line="61" selection-end-column="7" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/meta/DirectoryNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="21" column="11" selection-start-line="21" selection-start-column="11" selection-end-line="21" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/meta/ObjectEngine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2478">
+          <caret line="131" column="6" selection-start-line="131" selection-start-column="6" selection-end-line="131" selection-end-column="6" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2688">
+          <caret line="150" column="118" selection-start-line="150" selection-start-column="24" selection-end-line="150" selection-end-column="118" />
+          <folding>
+            <element signature="e#7537#7538#0" expanded="true" />
+            <element signature="e#7614#7615#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Git/MoeCraft-Resourcepack/build.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="17" column="34" lean-forward="true" selection-start-line="17" selection-start-column="34" selection-end-line="17" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArquillianSettingsConfigurable.UI">
+        <settings>
+          <last-edited>Manual container configuration|Manual</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <last-edited>Toolbox</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+                <option value="0.5" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>No facets are configured</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>updater.generator_test|updater.generator</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+                <option value="0.6" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>Gradle: junit:junit:4.12</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>
