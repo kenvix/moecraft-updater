@@ -88,12 +88,12 @@ public class ProgressController implements Initializable {
 				ParserEngine parserEngine = new NewMoeEngine(); 
 				RepoNetworkUtil networkUtil = new RepoNetworkUtil(objrepo);
 				MetaResult remoteResult = null;
+				this.updateMessage("......");
 				Platform.runLater(() -> {
 					ProgressABar.setProgress(0);
 					ProgressBBar.setProgress(-1);
 					ProgressCBar.setProgress(0);
 					ProgressA.setText("下载更新信息 "+objrepo.getMetaFileName()+" ……");
-					ProgressB.setText("......");
 				});
 				for (int i = 0; i < Environment.getDownloadMaxTries(); i++) {
 					try {
@@ -102,9 +102,7 @@ public class ProgressController implements Initializable {
 						break;
 					} catch (java.io.IOException ex) {
 						final int q = i;
-						Platform.runLater(() -> {
-							ProgressB.setText("失败重试("+(q+1)+"/"+Environment.getDownloadMaxTries()+"): "+ex.getMessage());
-						});
+						this.updateMessage("失败重试("+(q+1)+"/"+Environment.getDownloadMaxTries()+"): "+ex.getMessage());
 					}
 				}
 
@@ -112,10 +110,10 @@ public class ProgressController implements Initializable {
 					throw new UpdateCriticalException("无法下载更新信息，更新失败。请检查您的网络", 71);
 				
 				//ScanLocal
+				this.updateMessage("......");
 				Platform.runLater(() -> {
 					ProgressABar.setProgress(0.5);
 					ProgressA.setText("扫描本地文件");
-					ProgressB.setText("......");
 				});
 				MetaScanner metaScanner = new MetaScanner(new FileScanner());
 				MetaResult localResult = metaScanner.scan();
@@ -124,7 +122,6 @@ public class ProgressController implements Initializable {
 				Platform.runLater(() -> {
 					ProgressABar.setProgress(0.15);
 					ProgressA.setText("比较确认缺少文件");
-					ProgressB.setText("......");
 				});
 				UpdateComparer updateComparer = new UpdateComparer(remoteResult, localResult);
 				MetaResult compareResult = updateComparer.compare();
@@ -133,7 +130,6 @@ public class ProgressController implements Initializable {
 				Platform.runLater(() -> {
 					ProgressABar.setProgress(0.2);
 					ProgressA.setText("下载新文件");
-					ProgressB.setText("......");
 				});
 				if (!Environment.getCachePath().toFile().exists()) {
 					if (!Environment.getCachePath().toFile().mkdirs())
@@ -156,15 +152,15 @@ public class ProgressController implements Initializable {
 								hasCached = true;
 						}
 						if(hasCached) {
+							this.updateMessage("不需下载: " + finalobj.getPath());
 							Platform.runLater(() -> {
-								ProgressB.setText("不需下载: " + finalobj.getPath());
 								ProgressCBar.setProgress(fj/objectList.getValue().size());
 								ProgressBBar.setProgress((fi+ProgressCBar.getProgress())/compareResult.getGlobalObjects().entrySet().size());
 								ProgressABar.setProgress(0.2+0.5*ProgressBBar.getProgress());
 							});
 						} else {
+							this.updateMessage("正在下载: " + finalobj.getPath());
 							Platform.runLater(() -> {
-								ProgressB.setText("正在下载: " + finalobj.getPath());
 								ProgressCBar.setProgress(fj/objectList.getValue().size());
 								ProgressBBar.setProgress((fi+ProgressCBar.getProgress())/compareResult.getGlobalObjects().entrySet().size());
 								ProgressABar.setProgress(0.2+0.5*ProgressBBar.getProgress());
@@ -182,9 +178,7 @@ public class ProgressController implements Initializable {
 										break;
 								} catch (Exception ex) {
 									final int ffailnum = failNum;
-									Platform.runLater(() -> {
-										ProgressB.setText(String.format("失败重试(%d/%d): %s -> %s", ffailnum+1, Environment.getDownloadMaxTries(), ex.getMessage(), finalobj.getPath()));
-									});
+									this.updateMessage(String.format("失败重试(%d/%d): %s -> %s", ffailnum+1, Environment.getDownloadMaxTries(), ex.getMessage(), finalobj.getPath()));
 								}
 							}
 							if(failNum == Environment.getDownloadMaxTries())
@@ -201,12 +195,12 @@ public class ProgressController implements Initializable {
 					for (int i=0;i<compareResult.getGlobalObjects().entrySet().size();i++) {
 						Map.Entry<String, List<FileNode>> objectList = (Map.Entry<String, List<FileNode>>) compareResult.getGlobalObjects().entrySet().toArray()[i];
 						final String ffkey = objectList.getKey();
+						this.updateMessage("正在合并: " + ffkey);
 						Platform.runLater(() -> {
 							ProgressABar.setProgress(0.7);
 							ProgressBBar.setProgress(-1);
 							ProgressCBar.setProgress(0);
 							ProgressA.setText("合并对象");
-							ProgressB.setText("正在合并: " + ffkey);
 						});
 						ObjectEngine.mergeObject(objectList.getKey(), objectList.getValue());
 					}
@@ -215,57 +209,60 @@ public class ProgressController implements Initializable {
 				}
 				
 				//Apply
+				this.updateMessage("......");
 				Platform.runLater(() -> {
 					ProgressABar.setProgress(0.75);
+					ProgressBBar.setProgress(-1);
 					ProgressA.setText("应用更新");
-					ProgressB.setText("......");
 				});
 				FileUpdateApplier updateApplier = new FileUpdateApplier(compareResult);
-				
+				/*
 				for (int i=0;i<compareResult.getFileNodesByType(MetaNodeType.ExcludedFile).getFileNodes().size();i++){
 					final int fi = i;
 					final FileNode fileNode = (FileNode) compareResult.getFileNodesByType(MetaNodeType.ExcludedFile).getFileNodes().toArray()[i];
-					Platform.runLater(() -> {
-								ProgressB.setText("额外文件: " + fileNode.getPath());
+					this.updateMessage("额外文件: " + fi);
+					if (i % 30 == 0) Platform.runLater(() -> {
 								ProgressCBar.setProgress(fi/compareResult.getFileNodesByType(MetaNodeType.ExcludedFile).getFileNodes().size());
 								ProgressBBar.setProgress((ProgressCBar.getProgress())*0.2);
 								ProgressABar.setProgress(0.75+0.15*ProgressBBar.getProgress());
 							});
 					FileHandler.delete(fileNode.getPath());
 				}
+				this.updateMessage("额外目录……");
 				updateApplier.handleExcludedDirectoryNodes(compareResult.getDirectoryNodesByType(MetaNodeType.ExcludedDirectory));
-				
 				for (int i=0;i<compareResult.getFileNodesByType(MetaNodeType.SyncedFile).getFileNodes().size();i++){
 					final int fi = i;
 					final FileNode fileNode = (FileNode) compareResult.getFileNodesByType(MetaNodeType.SyncedFile).getFileNodes().toArray()[i];
-					Platform.runLater(() -> {
-								ProgressB.setText("同步文件: " + fileNode.getPath());
+					this.updateMessage("同步文件: " + fi);
+					if (i % 30 == 0) Platform.runLater(() -> {
 								ProgressCBar.setProgress(fi/compareResult.getFileNodesByType(MetaNodeType.SyncedFile).getFileNodes().size());
 								ProgressBBar.setProgress((2+ProgressCBar.getProgress())*0.2);
 								ProgressABar.setProgress(0.75+0.15*ProgressBBar.getProgress());
 							});
 					updateApplier.handleNewFiles(fileNode);
 				}
+				this.updateMessage("同步目录……");
 				updateApplier.handleNewDirectoryNodes(compareResult.getDirectoryNodesByType(MetaNodeType.SyncedDirectory));
+				this.updateMessage("默认文件……");
 				for (int i=0;i<compareResult.getFileNodesByType(MetaNodeType.DefaultFile).getFileNodes().size();i++){
 					final int fi = i;
 					final FileNode fileNode = (FileNode) compareResult.getFileNodesByType(MetaNodeType.DefaultFile).getFileNodes().toArray()[i];
-					Platform.runLater(() -> {
-								ProgressB.setText("默认文件: " + fileNode.getPath());
+					this.updateMessage("默认文件: " + fi);
+					if (i % 30 == 0) Platform.runLater(() -> {
 								ProgressCBar.setProgress(fi/compareResult.getFileNodesByType(MetaNodeType.DefaultFile).getFileNodes().size());
 								ProgressBBar.setProgress((4+ProgressCBar.getProgress())*0.2);
 								ProgressABar.setProgress(0.75+0.15*ProgressBBar.getProgress());
 							});
 					updateApplier.handleNewFiles(fileNode);
-				}
+				}*/
 				
-				//updateApplier.start();
+				updateApplier.start();
 				
 				//RegisterCustomMods
+				this.updateMessage("......");
 				Platform.runLater(() -> {
 					ProgressABar.setProgress(0.9);
 					ProgressA.setText("注册自定义Mod");
-					ProgressB.setText("......");
 				});
 				UserFileRegister.registerUserMods();
 				
@@ -273,7 +270,6 @@ public class ProgressController implements Initializable {
 				Platform.runLater(() -> {
 					ProgressABar.setProgress(0.95);
 					ProgressA.setText("清理缓存");
-					ProgressB.setText("......");
 				});
 				try {
 					FileUtils.deleteDirectory(Environment.getCachePath().toFile());
@@ -284,17 +280,16 @@ public class ProgressController implements Initializable {
 				//Finish
 				final MetaResult frrs = remoteResult;
 				if (compareResult.getGlobalObjects().entrySet().size()==0){
+					this.updateMessage(frrs.getDescription());
 					Platform.runLater(() -> {
 						TitleBar.setText("无需更新");
 						ProgressA.setText(String.format("已是最新版本 %s 发行时间: %s\n", frrs.getVersion(), new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA).format(new Date(frrs.getTime()))));
-						ProgressB.setText(frrs.getDescription());
 					});
 				} else {
+					this.updateMessage(frrs.getDescription());
 					Platform.runLater(() -> {
 						TitleBar.setText("更新完成，谢谢！");
-						ProgressA.setText(String.format("成功更新至 %s 发行时间: %s\n", frrs.getVersion(), new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA).format(new Date(frrs.getTime()))));
-						ProgressB.setText(frrs.getDescription());
-						
+						ProgressA.setText(String.format("成功更新至 %s 发行时间: %s\n", frrs.getVersion(), new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA).format(new Date(frrs.getTime()))));	
 					});
 				}
 				return null;
@@ -312,17 +307,21 @@ public class ProgressController implements Initializable {
 			
 			@Override protected void failed() {
 				super.failed();
+				StringWriter sw = new StringWriter(); 
+				getException().printStackTrace(new PrintWriter(sw, true)); 
+				Environment.getLogger().log(java.util.logging.Level.SEVERE,sw.toString());
+				this.updateMessage("请检查网络链接，再重试。若问题反复出现，请联系管理员。");
 				Platform.runLater(() -> {
 					ProgressABar.setProgress(0);
 					ProgressBBar.setProgress(0);
 					TitleBar.setText("更新失败");
 					ProgressA.setText(getException().getMessage());
-					ProgressB.setText("请检查网络链接，再重试。若问题反复出现，请联系管理员。");
 					ExitBtn.setText("退出");
 					ExitBtn.setDisable(false);
 				});
 			}
 		};
+		ProgressB.textProperty().bind(task.messageProperty());
 		new Thread(task).start();
 	}
 	
@@ -335,7 +334,7 @@ public class ProgressController implements Initializable {
 	public void ExitBtnClick(ActionEvent event){
 		try {
 			if (ExitBtn.getText().equals("启动游戏")) 
-				Runtime.getRuntime().exec(new String[]{"java","-jar",Environment.getBaseMoeCraftPath()+"/launcher.jar"});
+				Runtime.getRuntime().exec(new String[]{"java","-jar",Environment.getBaseMoeCraftPath()+"/launcher.jar"},new String[]{}, new File(Environment.getBaseMoeCraftPath()));
 			Platform.exit();
 		} catch (Exception ex) {
 			TitleBar.setText("未能启动MoeCraft");

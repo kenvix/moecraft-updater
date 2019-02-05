@@ -34,7 +34,7 @@ dependencies {
 jar {
   manifest {
     attributes(
-      'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+      'Class-Path': configurations.compile.collect { 'Updater/Libraries/' + it.getName() }.join(' '),
       'Main-Class': 'net.moecraft.generator.Main'
     )
   }
