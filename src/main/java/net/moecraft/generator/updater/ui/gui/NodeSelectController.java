@@ -46,12 +46,13 @@ public class NodeSelectController implements Initializable {
 	private ChoiceBox NodeBox;
 	
 	@Override
+	@SuppressWarnings("all") // Extremely bad habit! but I'm too lazy.
 	public void initialize(URL location, ResourceBundle resources) {
 		Repo[] repos = Environment.getRepos();
 		UserFileRegister.createUserModsDir();
         //logln("说明: 该程序将于它所在的文件夹下的 MoeCraft 文件夹安装本客户端, 并删除该文件夹内的其他 MineCraft 版本. 请勿把安装器与无关文件此文件夹内, 否则, 使用者需自行承担可能发生的数据损失.");
         //logln("注意: 如果你需要添加自定义 Mod, 请打开 Updater/Mods 文件夹(注意大小写), 并把你的 Mod 放入这个文件夹中. 不要把 Mod 直接放在 .minecraft/mods 中, 否则它们会被删除.");
-		NodeBox.getItems().addAll((Repo[])repos);
+		NodeBox.getItems().addAll(repos);
         NodeBox.converterProperty().set(new StringConverter<Repo>() {
 			@Override
 			public String toString(Repo object) {

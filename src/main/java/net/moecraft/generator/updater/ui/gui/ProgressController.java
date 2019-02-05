@@ -334,7 +334,7 @@ public class ProgressController implements Initializable {
 	public void ExitBtnClick(ActionEvent event){
 		try {
 			if (ExitBtn.getText().equals("启动游戏")) 
-				Runtime.getRuntime().exec(new String[]{"java","-jar",Environment.getBaseMoeCraftPath()+"/launcher.jar"});
+				Runtime.getRuntime().exec(new String[]{"java","-jar",Environment.getBaseMoeCraftPath()+"/launcher.jar"},new String[]{}, new File(Environment.getBaseMoeCraftPath()));
 			Platform.exit();
 		} catch (Exception ex) {
 			TitleBar.setText("未能启动MoeCraft");
