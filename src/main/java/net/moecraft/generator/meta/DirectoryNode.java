@@ -88,6 +88,11 @@ public class DirectoryNode implements Cloneable {
     }
 
     @Override
+    public int hashCode() {
+        return 0xFA01 + path.hashCode() ^ fileNodes.hashCode() ^ directoryNodes.hashCode();
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if(obj instanceof DirectoryNode) {
             return ((DirectoryNode) obj).getPath().equals(path);

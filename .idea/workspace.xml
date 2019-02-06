@@ -9,7 +9,11 @@
     <bookmark url="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/update/UpdateComparer.java" line="77" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6fe834da-2d4b-4853-a49e-085c8d5093e9" name="Default Changelist" comment="" />
+    <list default="true" id="6fe834da-2d4b-4853-a49e-085c8d5093e9" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/moecraft/generator/meta/DirectoryNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/moecraft/generator/meta/DirectoryNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/moecraft/generator/meta/FileNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/moecraft/generator/meta/FileNode.java" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -64,19 +68,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/ui/cli/CommandLineUI.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4662">
-              <caret line="252" column="8" selection-start-line="252" selection-start-column="8" selection-end-line="252" selection-end-column="8" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
         <entry file="file://D:/Git/MoeCraft-Resourcepack/build.sh">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="357">
-              <caret line="17" column="34" lean-forward="true" selection-start-line="17" selection-start-column="34" selection-end-line="17" selection-end-column="34" />
+              <caret line="17" column="34" selection-start-line="17" selection-start-column="34" selection-end-line="17" selection-end-column="34" />
             </state>
           </provider>
         </entry>
@@ -84,8 +79,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/jsonengine/engine/NewMoeEngine.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="420">
-              <caret line="36" column="48" selection-start-line="36" selection-start-column="48" selection-end-line="36" selection-end-column="48" />
+            <state relative-caret-position="-147">
+              <caret line="45" column="46" selection-start-line="45" selection-start-column="46" selection-end-line="45" selection-end-column="46" />
             </state>
           </provider>
         </entry>
@@ -93,7 +88,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/meta/MetaResult.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1428">
+            <state relative-caret-position="-232">
               <caret line="88" selection-start-line="88" selection-end-line="88" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -142,8 +137,28 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/meta/DirectoryNode.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="21" column="11" selection-start-line="21" selection-start-column="11" selection-end-line="21" selection-end-column="11" />
+            <state relative-caret-position="1302">
+              <caret line="89" column="13" lean-forward="true" selection-start-line="89" selection-start-column="13" selection-end-line="89" selection-end-column="13" />
+              <folding>
+                <element signature="e#2217#2218#0" expanded="true" />
+                <element signature="e#2315#2316#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/meta/FileNode.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="776">
+              <caret line="158" column="52" selection-start-line="158" selection-start-column="52" selection-end-line="158" selection-end-column="52" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1840#1841#0" expanded="true" />
+                <element signature="e#1916#1917#0" expanded="true" />
+                <element signature="e#3796#3797#0" expanded="true" />
+                <element signature="e#3871#3872#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -163,7 +178,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2688">
+            <state relative-caret-position="2646">
               <caret line="150" column="118" selection-start-line="150" selection-start-column="24" selection-end-line="150" selection-end-column="118" />
               <folding>
                 <element signature="e#7537#7538#0" expanded="true" />
@@ -245,7 +260,6 @@
         <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/repo/Repo.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/meta/MetaResult.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/kenvix/utils/FileTool.java" />
-        <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/meta/FileNode.java" />
         <option value="$PROJECT_DIR$/generator_config.json" />
         <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/repo/RepoManager.java" />
         <option value="$PROJECT_DIR$/Deployment/moecraft.json" />
@@ -276,7 +290,6 @@
         <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/meta/ObjectEngine.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/update/DirectoryHandler.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/Environment.java" />
-        <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/meta/DirectoryNode.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/update/UserFileRegister.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/Main.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/repo/LocalIntegratedRepoManager.java" />
@@ -287,17 +300,19 @@
         <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/update/UpdateComparer.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/jsonengine/engine/NewMoeEngine.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/ui/cli/CommandLineUI.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/meta/DirectoryNode.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moecraft/generator/meta/FileNode.java" />
       </list>
     </option>
   </component>
   <component name="PhpServers">
     <servers />
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="1868" />
-    <option name="y" value="1003" />
-    <option name="width" value="2579" />
-    <option name="height" value="1409" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-754" />
+    <option name="y" value="360" />
+    <option name="width" value="3225" />
+    <option name="height" value="1464" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -310,14 +325,18 @@
           <expand>
             <path>
               <item name="updater.generator" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MoeCraft Updater Meta Generator" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="updater.generator" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -336,7 +355,7 @@
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="Arquillian JUnit4" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.Arquillian JUnit4" value="" />
     <property name="go.gopath.indexing.explicitly.defined" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Web Projects/MCAccount" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="C:/Program Files/nodejs/node" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -544,6 +563,8 @@
       <workItem from="1548924772441" duration="13371000" />
       <workItem from="1549104694013" duration="6875000" />
       <workItem from="1549114550493" duration="2347000" />
+      <workItem from="1549269305075" duration="618000" />
+      <workItem from="1549438266983" duration="248000" />
     </task>
     <task id="LOCAL-00001" summary="init commit">
       <created>1544184392618</created>
@@ -777,7 +798,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="212923000" />
+    <option name="totallyTimeSpent" value="213789000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -789,13 +810,14 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1495" y="803" width="2063" height="1127" extended-state="0" />
+    <frame x="-7" y="-7" width="2062" height="1126" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Image Layers" order="0" />
       <window_info id="Designer" order="1" />
       <window_info id="UI Designer" order="2" />
       <window_info id="Capture Tool" order="3" />
-      <window_info active="true" content_ui="combo" id="Project" order="4" visible="true" weight="0.17157108" />
+      <window_info active="true" content_ui="combo" id="Project" order="4" visible="true" weight="0.21956088" />
       <window_info id="Structure" order="5" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="6" weight="0.32995737" />
       <window_info anchor="bottom" id="Version Control" order="0" show_stripe_button="false" />
@@ -1123,18 +1145,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/meta/FileNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="78" column="24" selection-start-line="78" selection-start-column="24" selection-end-line="78" selection-end-column="24" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1840#1841#0" expanded="true" />
-            <element signature="e#1916#1917#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/updater/update/DirectoryHandler.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="462">
@@ -1223,24 +1233,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/jsonengine/engine/NewMoeEngine.java">
+    <entry file="file://D:/Git/MoeCraft-Resourcepack/build.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="36" column="48" selection-start-line="36" selection-start-column="48" selection-end-line="36" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/meta/MetaResult.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1428">
-          <caret line="88" selection-start-line="88" selection-end-line="88" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2062#2063#0" expanded="true" />
-            <element signature="e#2098#2099#0" expanded="true" />
-            <element signature="e#3575#3576#0" expanded="true" />
-            <element signature="e#3622#3623#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="357">
+          <caret line="17" column="34" selection-start-line="17" selection-start-column="34" selection-end-line="17" selection-end-column="34" />
         </state>
       </provider>
     </entry>
@@ -1271,13 +1267,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/meta/DirectoryNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="21" column="11" selection-start-line="21" selection-start-column="11" selection-end-line="21" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/meta/ObjectEngine.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2478">
@@ -1290,7 +1279,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2688">
+        <state relative-caret-position="2646">
           <caret line="150" column="118" selection-start-line="150" selection-start-column="24" selection-end-line="150" selection-end-column="118" />
           <folding>
             <element signature="e#7537#7538#0" expanded="true" />
@@ -1299,10 +1288,49 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://D:/Git/MoeCraft-Resourcepack/build.sh">
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/jsonengine/engine/NewMoeEngine.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="17" column="34" lean-forward="true" selection-start-line="17" selection-start-column="34" selection-end-line="17" selection-end-column="34" />
+        <state relative-caret-position="-147">
+          <caret line="45" column="46" selection-start-line="45" selection-start-column="46" selection-end-line="45" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/meta/MetaResult.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-232">
+          <caret line="88" selection-start-line="88" selection-end-line="88" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2062#2063#0" expanded="true" />
+            <element signature="e#2098#2099#0" expanded="true" />
+            <element signature="e#3575#3576#0" expanded="true" />
+            <element signature="e#3622#3623#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/meta/DirectoryNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1302">
+          <caret line="89" column="13" lean-forward="true" selection-start-line="89" selection-start-column="13" selection-end-line="89" selection-end-column="13" />
+          <folding>
+            <element signature="e#2217#2218#0" expanded="true" />
+            <element signature="e#2315#2316#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/moecraft/generator/meta/FileNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="776">
+          <caret line="158" column="52" selection-start-line="158" selection-start-column="52" selection-end-line="158" selection-end-column="52" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1840#1841#0" expanded="true" />
+            <element signature="e#1916#1917#0" expanded="true" />
+            <element signature="e#3796#3797#0" expanded="true" />
+            <element signature="e#3871#3872#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
