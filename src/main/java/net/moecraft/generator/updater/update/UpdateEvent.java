@@ -6,8 +6,11 @@
 
 package net.moecraft.generator.updater.update;
 
+import net.moecraft.generator.meta.FileNode;
 import net.moecraft.generator.meta.MetaResult;
 import net.moecraft.generator.updater.update.events.UpdateChildEvent;
+
+import java.io.File;
 
 public class UpdateEvent implements Cloneable {
 
@@ -45,18 +48,34 @@ public class UpdateEvent implements Cloneable {
         this.description = description;
         this.childEvent = childEvent;
         this.exception = exception;
+        simpleResultType = SimpleResultType.Failed;
     }
 
     public UpdateEvent(UpdateStage updateStage, Object result, SimpleResultType simpleResultType) {
         this.updateStage = updateStage;
         this.result = result;
         this.simpleResultType = simpleResultType;
+        this.description = "Operation successfully completed";
     }
 
     public UpdateEvent(UpdateStage updateStage, Object result) {
         this.updateStage = updateStage;
         this.result = result;
         this.simpleResultType = SimpleResultType.Success;
+        this.description = "Operation successfully completed";
+    }
+
+    public UpdateEvent(UpdateStage updateStage, String description, Object result) {
+        this.updateStage = updateStage;
+        this.description = description;
+        this.result = result;
+    }
+
+    public UpdateEvent(UpdateStage updateStage, String description, Object result, SimpleResultType simpleResultType) {
+        this.updateStage = updateStage;
+        this.description = description;
+        this.result = result;
+        this.simpleResultType = simpleResultType;
     }
 
 
@@ -105,10 +124,6 @@ public class UpdateEvent implements Cloneable {
         return (String) result;
     }
 
-    public MetaResult getMetaResult() {
-        return (MetaResult) result;
-    }
-
     UpdateEvent setResult(Object result) {
         this.result = result;
         return this;
@@ -116,6 +131,22 @@ public class UpdateEvent implements Cloneable {
 
     public Object getResult() {
         return result;
+    }
+
+    public MetaResult getResultAsMetaResult() {
+        return (MetaResult) result;
+    }
+
+    public String getResultAsString() {
+        return (String) result;
+    }
+
+    public File getResultAsFile() {
+        return (File) result;
+    }
+
+    public FileNode getResultAsFileNode() {
+        return (FileNode) result;
     }
 
     public SimpleResultType getSimpleResultType() {

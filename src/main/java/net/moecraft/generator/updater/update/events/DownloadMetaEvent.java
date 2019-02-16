@@ -7,20 +7,20 @@
 package net.moecraft.generator.updater.update.events;
 
 public class DownloadMetaEvent extends UpdateChildEvent {
-    private DownloadMetaEventType downloadMetaEventType;
+    private DownloadEventType downloadEventType;
     private int triedNum;
 
-    public DownloadMetaEvent(DownloadMetaEventType downloadMetaEventType, int triedNum) {
-        this.downloadMetaEventType = downloadMetaEventType;
+    public DownloadMetaEvent(DownloadEventType downloadEventType, int triedNum) {
+        this.downloadEventType = downloadEventType;
         this.triedNum = triedNum;
     }
 
-    public DownloadMetaEvent(DownloadMetaEventType downloadMetaEventType) {
-        this.downloadMetaEventType = downloadMetaEventType;
+    public DownloadMetaEvent(DownloadEventType downloadEventType) {
+        this.downloadEventType = downloadEventType;
     }
 
-    public DownloadMetaEventType getDownloadMetaEventType() {
-        return downloadMetaEventType;
+    public DownloadEventType getDownloadEventType() {
+        return downloadEventType;
     }
 
     public int getTriedNum() {
