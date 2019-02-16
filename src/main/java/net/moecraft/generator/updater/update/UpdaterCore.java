@@ -38,7 +38,8 @@ public class UpdaterCore extends Observable {
             UpdateStage.MergeObject,
             UpdateStage.ApplyNewFile,
             UpdateStage.RegisterUserMod,
-            UpdateStage.CleanCache
+            UpdateStage.CleanCache,
+            UpdateStage.Finish
     };
 
     private UpdateStage stage = UpdateStage.Prepare;
@@ -68,19 +69,20 @@ public class UpdaterCore extends Observable {
                     break;
 
                 case Compare:
-                    compareResult = startCompareStage(remoteResult == null ? (MetaResult) initVars[0] : remoteResult, localResult == null ? (MetaResult) initVars[1] : localResult);
+                    compareResult = startCompareStage(remoteResult == null ? remoteResult = (MetaResult) initVars[0] : remoteResult,
+                            localResult == null ? localResult = (MetaResult) initVars[1] : localResult);
                     break;
 
                 case DownloadNewFile:
-                    startDownloadNewFileStage(compareResult == null ? (MetaResult) initVars[0]: compareResult);
+                    startDownloadNewFileStage(compareResult == null ? compareResult = (MetaResult) initVars[0]: compareResult);
                     break;
 
                 case MergeObject:
-                    startMergeObjectStage(compareResult == null ? (MetaResult) initVars[0]: compareResult);
+                    startMergeObjectStage(compareResult == null ? compareResult = (MetaResult) initVars[0]: compareResult);
                     break;
 
                 case ApplyNewFile:
-                    startApplyNewFileStage(compareResult == null ? (MetaResult) initVars[0]: compareResult);
+                    startApplyNewFileStage(compareResult == null ? compareResult = (MetaResult) initVars[0]: compareResult);
                     break;
 
                 case RegisterUserMod:
@@ -90,12 +92,21 @@ public class UpdaterCore extends Observable {
                 case CleanCache:
                     startCleanCacheStage();
                     break;
+
+                case Finish:
+                    startFinishStage(remoteResult == null ? remoteResult = (MetaResult) initVars[0] : remoteResult);
+                    break;
             }
         }
     }
 
     public void resume(UpdateStage fromStage, Object... initVars) throws UpdateCriticalException {
         resume(Arrays.binarySearch(updateOrder, fromStage), initVars);
+    }
+
+    public void startFinishStage(MetaResult remoteResult) {
+        setStage(UpdateStage.Finish);
+        notifyObservers(remoteResult);
     }
 
     public void startCleanCacheStage() {
