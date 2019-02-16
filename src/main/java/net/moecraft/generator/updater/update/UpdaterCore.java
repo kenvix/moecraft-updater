@@ -30,7 +30,7 @@ import java.util.Observable;
 import java.util.function.Consumer;
 
 public class UpdaterCore extends Observable {
-    public static UpdateStage[] updateOrder = new UpdateStage[] {
+    public static final UpdateStage[] updateOrder = new UpdateStage[] {
             UpdateStage.DownloadMeta,
             UpdateStage.ScanLocalFile,
             UpdateStage.Compare,
@@ -49,14 +49,54 @@ public class UpdaterCore extends Observable {
     }
 
     public void start() throws UpdateCriticalException {
-
+        resume(0);
     }
 
-    public void resume(UpdateStage fromStage) throws UpdateCriticalException {
-        int index = Arrays.binarySearch(updateOrder, fromStage);
+    public void resume(int stageIndex, Object... initVars) throws UpdateCriticalException {
+        MetaResult remoteResult = null;
+        MetaResult localResult = null;
+        MetaResult compareResult = null;
+
+        for (int i = stageIndex; i < updateOrder.length; i++) {
+            switch (updateOrder[i]) {
+                case DownloadMeta:
+                    remoteResult = startDownloadMetaStage(null);
+                    break;
+
+                case ScanLocalFile:
+                    localResult = startScanLocalFileStage();
+                    break;
+
+                case Compare:
+                    compareResult = startCompareStage(remoteResult == null ? (MetaResult) initVars[0] : remoteResult, localResult == null ? (MetaResult) initVars[1] : localResult);
+                    break;
+
+                case DownloadNewFile:
+                    startDownloadNewFileStage(compareResult == null ? (MetaResult) initVars[0]: compareResult);
+                    break;
+
+                case MergeObject:
+                    startMergeObjectStage(compareResult == null ? (MetaResult) initVars[0]: compareResult);
+                    break;
+
+                case ApplyNewFile:
+                    startApplyNewFileStage(compareResult == null ? (MetaResult) initVars[0]: compareResult);
+                    break;
+
+                case RegisterUserMod:
+                    startRegisterUserModStage();
+                    break;
+
+                case CleanCache:
+                    startCleanCacheStage();
+                    break;
+            }
+        }
     }
 
-
+    public void resume(UpdateStage fromStage, Object... initVars) throws UpdateCriticalException {
+        resume(Arrays.binarySearch(updateOrder, fromStage), initVars);
+    }
 
     public void startCleanCacheStage() {
         setStage(UpdateStage.CleanCache);
@@ -104,7 +144,7 @@ public class UpdaterCore extends Observable {
             }
 
         } catch (IOException ex) {
-            UpdateCriticalException exception = new UpdateCriticalException("合并文件对象失败：" + ex.getMessage(), 78)
+            UpdateCriticalException exception = new UpdateCriticalException("合并文件对象失败：" + ex.getMessage(), 78);
             notifyObservers(ex.getMessage(), exception);
             throw exception;
         }
