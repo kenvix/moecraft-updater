@@ -40,7 +40,7 @@ public final class Environment {
     private static final String      repoManagerURL   = "https://accounts.moecraft.net/API/Updater/repo";
     private final static String      appName          = "MoeCraft Toolbox";
     private final static String      outJsonName      = "moecraft.json";
-    private final static Class       uiProvider       = FXGraphicalUI.class;
+    private static       Class       uiProvider;
     private static       Repo[]      repos;
     private final static int         downloadMaxTries = 5;
     private final static int         dnsMaxTries      = 20;
@@ -55,6 +55,8 @@ public final class Environment {
 
     static void loadEnvironment(CommandLine cmd) throws IOException {
         Environment.cmd = cmd;
+
+        uiProvider = cmd.hasOption("cli") ? CommandLineUI.class : FXGraphicalUI.class;
 
         baseMoeCraftDir = new File(cmd.hasOption('p') ? cmd.getOptionValue('p') : "./MoeCraft");
         generatorConfigFile = new File(cmd.hasOption('c') ? cmd.getOptionValue('c') : "./generator_config.json");

@@ -1,11 +1,12 @@
 build
-MoeCraft
-MoeCraftX
+/MoeCraft
+/MoeCraftX
 Deployment
 out
-Updater
+/Updater
 .gradle
 *.exe
 desktop.ini
 generator_config.json
 Launcher.jar
+.idea/workspace.xml

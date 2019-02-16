@@ -116,6 +116,7 @@ public class CommandLineUI implements UpdaterUI {
         printNormalBorderLine();
         logln("正在清理缓存 ...");
         try {
+            System.gc();
             FileUtils.deleteDirectory(Environment.getCachePath().toFile());
         } catch (Exception ex) {
             Environment.getLogger().info("Clean cache failed: " + ex.getMessage());
@@ -168,7 +169,7 @@ public class CommandLineUI implements UpdaterUI {
         for (Map.Entry<String, List<FileNode>> objectList :  compareResult.getGlobalObjects().entrySet()) {
             for (FileNode object : objectList.getValue()) {
                 Path savePath = Environment.getCachePath().resolve(object.getFile().getName());
-                boolean hasCached = false;
+                boolean hasCached= false;
 
                 if(savePath.toFile().exists()) {
                     String cacheFileMd5 = FileTool.getFileMD5(savePath.toFile());
