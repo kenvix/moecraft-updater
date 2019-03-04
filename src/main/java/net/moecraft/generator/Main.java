@@ -132,6 +132,7 @@ public class Main {
         ops.addOption("i", "description", true, "[Generator] Add a description for this update. Default for description generator_config.json");
         ops.addOption("l", "version", true, "[Generator] Version this update. Default for version in generator_config.json");
         ops.addOption("v", "verbose", false, "Verbose logging mode.");
+        ops.addOption("cli", false, "Use Command Line User Interface.");
         ops.addOption("h", "help", false, "Print help messages");
 
         DefaultParser parser = new DefaultParser();

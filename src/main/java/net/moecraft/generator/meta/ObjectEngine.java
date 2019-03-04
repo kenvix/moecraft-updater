@@ -7,9 +7,11 @@
 package net.moecraft.generator.meta;
 
 import net.moecraft.generator.Environment;
+import org.apache.commons.io.FileUtils;
 
 import java.io.*;
 import java.nio.channels.FileChannel;
+import java.nio.channels.WritableByteChannel;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -111,6 +113,10 @@ public class ObjectEngine {
 
     public static void mergeObject(String objectKey, List<FileNode> objects) throws IOException {
         File outFile = Environment.getUpdaterObjectPath().resolve(objectKey).toFile();
+
+        if (outFile.exists())
+            FileUtils.forceDelete(outFile);
+
         int expectedSize = 0;
 
         RandomAccessFile outObject = new RandomAccessFile(outFile, "rw");
@@ -118,14 +124,14 @@ public class ObjectEngine {
 
         for (FileNode object: objects) {
             expectedSize += object.getExpectedSize();
-            mergeObjectSingle(object, outChannel);
+            mergeObjectToChannel(object, outChannel);
         }
 
         if(outFile.length() != expectedSize)
             throw new IOException("合并的对象已损坏");
     }
 
-    public static void mergeObjectSingle(FileNode object, FileChannel outChannel) throws IOException {
+    public static void mergeObjectToChannel(FileNode object, WritableByteChannel outChannel) throws IOException {
         FileInputStream inObject = new FileInputStream(Environment.getCachePath().resolve(object.getFile().getName()).toFile());
         FileChannel inChannel =  inObject.getChannel();
 

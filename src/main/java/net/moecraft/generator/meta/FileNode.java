@@ -156,7 +156,7 @@ public final class FileNode implements Cloneable {
 
     @Override
     public int hashCode() {
-        return getRelativePath().hashCode();
+        return 0xFA02 + getRelativePath().hashCode();
     }
 
     @Override
