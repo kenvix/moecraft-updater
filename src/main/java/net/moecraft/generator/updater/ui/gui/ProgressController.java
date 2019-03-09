@@ -80,6 +80,7 @@ public class ProgressController implements Initializable {
 		model.textProperty().addListener((obs, oldText, newText) -> MajorWork(Integer.parseInt(newText)));
 	}
 	
+	@SuppressWarnings("unchecked") //Relax! Nothing could go wrong.
 	private void MajorWork(int node){
 		final Repo objrepo = Environment.getRepos()[node];
 		Task task = new Task<Void>() {
