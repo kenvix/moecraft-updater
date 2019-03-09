@@ -50,11 +50,11 @@ public class ProgressController implements Initializable {
 	public static RubbishModel model = new RubbishModel();
 	
 	@FXML
-    private ProgressIndicator ProgressABar;
+	private ProgressIndicator ProgressABar;
 	@FXML
-    private ProgressBar ProgressBBar;
+	private ProgressBar ProgressBBar;
 	@FXML
-    private ProgressBar ProgressCBar;
+	private ProgressBar ProgressCBar;
 	
 	@FXML
 	private Label TitleBar;
@@ -102,13 +102,13 @@ public class ProgressController implements Initializable {
 						remoteResult = parserEngine.decode(remoteJSONData);
 						
 						//TODO: Temporary JSON String process, should be replaced by proper process.
-						StringBuilder SB_WhatAnAmazingName = new StringBuilder();
-						SB_WhatAnAmazingName.append(remoteJSONData.trim());
-						SB_WhatAnAmazingName.insert(1,"\"node_url\":\""+objrepo.getUrl()+objrepo.getMetaFileName()+"\",");
+						StringBuilder stringBuilder = new StringBuilder();
+						stringBuilder.append(remoteJSONData.trim());
+						stringBuilder.insert(1,"\"node_url\":\""+objrepo.getUrl()+objrepo.getMetaFileName()+"\",");
 						File file = new File(Environment.getUpdaterPath().resolve("metadata.json").toString());
 						if (!file.exists()) file.createNewFile();
 						BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file.getAbsoluteFile()),"utf-8"));
-						bw.write(SB_WhatAnAmazingName.toString());
+						bw.write(stringBuilder.toString());
 						bw.close();
 						break;
 					} catch (java.io.IOException ex) {

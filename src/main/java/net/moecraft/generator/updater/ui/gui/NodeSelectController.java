@@ -37,7 +37,7 @@ import javafx.util.StringConverter;
 
 public class NodeSelectController implements Initializable {
 	@FXML
-    private AnchorPane rootPane;
+	private AnchorPane rootPane;
 	
 	@FXML
 	private Button StartBtn;
@@ -50,11 +50,11 @@ public class NodeSelectController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		Repo[] repos = Environment.getRepos();
 		UserFileRegister.createUserModsDir();
-        //logln("说明: 该程序将于它所在的文件夹下的 MoeCraft 文件夹
+		//logln("说明: 该程序将于它所在的文件夹下的 MoeCraft 文件夹
 		//安装本客户端, 并删除该文件夹内的其他 MineCraft 版本. 请勿把安装器与无关文件此文件夹内, 否则, 使用者需自行承担可能发生的数据损失.");
-        //logln("注意: 如果你需要添加自定义 Mod, 请打开 Updater/Mods 文件夹(注意大小写), 并把你的 Mod 放入这个文件夹中. 不要把 Mod 直接放在 .minecraft/mods 中, 否则它们会被删除.");
+		//logln("注意: 如果你需要添加自定义 Mod, 请打开 Updater/Mods 文件夹(注意大小写), 并把你的 Mod 放入这个文件夹中. 不要把 Mod 直接放在 .minecraft/mods 中, 否则它们会被删除.");
 		NodeBox.getItems().addAll((Object[])repos);
-        NodeBox.converterProperty().set(new StringConverter<Object>() {
+		NodeBox.converterProperty().set(new StringConverter<Object>() {
 			@Override
 			public String toString(Object object) {
 				return ((Repo) object).getDescription();
@@ -71,7 +71,7 @@ public class NodeSelectController implements Initializable {
 	public void confirmNode(ActionEvent event) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("progress.fxml"));
-            AnchorPane progress = (AnchorPane) loader.load();
+			AnchorPane progress = (AnchorPane) loader.load();
 			ProgressController control = (ProgressController) loader.getController();
 			control.model.setText(Integer.toString(((Repo)NodeBox.getValue()).getOrder()));
 			rootPane.getChildren().setAll(progress.getChildren());
