@@ -99,6 +99,16 @@ public class ProgressController implements Initializable {
 					try {
 						String remoteJSONData = networkUtil.downloadRepoMetaAsString();
 						remoteResult = parserEngine.decode(remoteJSONData);
+						
+						//TODO: Temporary JSON String process, should be replaced by proper process.
+						StringBuilder SB_WhatAnAmazingName = new StringBuilder();
+						SB_WhatAnAmazingName.append(remoteJSONData.trim());
+						SB_WhatAnAmazingName.insert(1,"\"node_url\":\""+objrepo.getUrl()+objrepo.getMetaFileName()+"\",");
+						File file = new File(Environment.getUpdaterPath().resolve("metadata.json").toString());
+						if (!file.exists()) file.createNewFile();
+						BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file.getAbsoluteFile()),"utf-8"));
+						bw.write(SB_WhatAnAmazingName.toString());
+						bw.close();
 						break;
 					} catch (java.io.IOException ex) {
 						final int q = i;

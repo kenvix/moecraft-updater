@@ -22,7 +22,7 @@ import net.moecraft.generator.updater.update.*;
 import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -288,7 +288,16 @@ public class CommandLineUI implements UpdaterUI {
             try {
                 String remoteJSONData = networkUtil.downloadRepoMetaAsString();
                 remoteResult = parserEngine.decode(remoteJSONData);
-                break;
+				
+                //TODO: Temporary JSON String process, should be replaced by proper process.
+				StringBuilder SB_WhatAnAmazingName = new StringBuilder();
+				SB_WhatAnAmazingName.append(remoteJSONData.trim());
+				SB_WhatAnAmazingName.insert(1,"\"node_url\":\""+repo.getUrl()+repo.getMetaFileName()+"\",");
+				File file = new File(Environment.getUpdaterPath().resolve("metadata.json").toString());
+				if (!file.exists()) file.createNewFile();
+				BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file.getAbsoluteFile()),"utf-8"));
+				bw.write(SB_WhatAnAmazingName.toString());
+				bw.close();
             } catch (IOException ex) {
                 if(onDownloadFailed != null)
                     onDownloadFailed.accept(ex);
