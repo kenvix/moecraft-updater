@@ -10,18 +10,18 @@ import net.moecraft.generator.Environment;
 import net.moecraft.generator.meta.MetaResult;
 import net.moecraft.generator.updater.repo.Repo;
 import net.moecraft.generator.updater.ui.UpdaterUI;
-import net.moecraft.generator.updater.update.UpdateCriticalException;
-import net.moecraft.generator.updater.update.UpdateEvent;
-import net.moecraft.generator.updater.update.UserFileRegister;
+import net.moecraft.generator.updater.update.*;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.function.Consumer;
 
 /**
  * Command Line UI and basic of GraphicalUI
  */
 public class CommandLineUI implements UpdaterUI, Observer {
     private Scanner scanner;
+    private UpdateEvent incomingMessage;
 
     protected void logln(String text) {
         System.out.println(text);
@@ -42,21 +42,34 @@ public class CommandLineUI implements UpdaterUI, Observer {
     public void display() {
         scanner = new Scanner(System.in);
 
-        try {
-            showWelcomePage();
-            Repo selectedRepo = showRepoSelectPage();
+        showWelcomePage();
+        Repo selectedRepo = showRepoSelectPage();
 
+        new Thread(() -> {
+            try {
+                UpdaterCore core = new UpdaterCore(selectedRepo);
+                core.addObserver(CommandLineUI.this);
+                core.start();
+            } catch (UpdateCriticalException ex) {
+                ex.printStackTrace();
 
-        } catch (UpdateCriticalException ex) {
-            ex.printStackTrace();
+                logln("更新失败：严重错误：" + ex.getMessage());
 
-            logln("更新失败：严重错误：" + ex.getMessage());
+                if(ex.getOriginalException() != null)
+                    logln(ex.getOriginalException().getMessage());
 
-            if(ex.getOriginalException() != null)
-                logln(ex.getOriginalException().getMessage());
+                System.exit(ex.getExitCode());
+            }
+        }).start();
+    }
 
-            System.exit(ex.getExitCode());
-        }
+    private void waitMessage(UpdateEventType eventType, Consumer<UpdateEvent> callback) {
+
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        incomingMessage = (UpdateEvent) arg;
     }
 
     final protected void showUpdateFinishedPage(MetaResult remoteResult) {
@@ -136,13 +149,6 @@ public class CommandLineUI implements UpdaterUI, Observer {
     }
 
     private void pause() {
-
-    }
-
-    @Override
-    public void update(Observable o, Object arg) {
-        UpdateEvent event = (UpdateEvent) arg;
-
 
     }
 }
