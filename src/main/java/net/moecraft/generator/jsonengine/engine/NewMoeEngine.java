@@ -10,6 +10,8 @@ import net.moecraft.generator.Environment;
 import net.moecraft.generator.jsonengine.GeneratorEngine;
 import net.moecraft.generator.jsonengine.ParserEngine;
 import net.moecraft.generator.meta.*;
+import net.moecraft.generator.updater.update.selfupdate.UpdaterInfo;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -71,27 +73,41 @@ public class NewMoeEngine extends CommonEngine implements GeneratorEngine, Parse
         JSONArray defaultFiles = root.getJSONArray("default_files");
         defaultFiles.forEach(fileObject -> addFileNodeForDecoding(fileObject, result.getFileNodesByType(MetaNodeType.DefaultFile), result.getGlobalObjects()));
 
-        JSONObject generatorConfigObject = root.getJSONObject("generator_config");
-        GeneratorConfig.initialize(generatorConfigObject);
+        if (root.has("updater_info") && root.getJSONObject("updater_info") != null) {
+            JSONObject updaterInfoJsonObject = root.getJSONObject("updater_info");
 
+            UpdaterInfo updaterInfo = new UpdaterInfo(updaterInfoJsonObject.getInt("version_code"));
+            updaterInfo.setVersionName(updaterInfoJsonObject.getString("version_name"));
+            updaterInfo.setObjectFile(getFileNodeForDecoding(root.getJSONObject("object"), result.getGlobalObjects()));
+
+            result.setUpdaterInfo(updaterInfo);
+        }
+
+        JSONObject generatorConfigObject = root.getJSONObject("generator_config");
+        GeneratorConfig.initialize(generatorConfigObject).startScan();
         return result;
     }
 
     private void addFileNodeForDecoding(Object jsonObject, DirectoryNode result, Map<String, List<FileNode>> globalObjects) {
         try {
-            JSONObject object   = (JSONObject) jsonObject;
-            FileNode   fileNode = new FileNode(new File(basePath + "/" + object.getString("path")));
-            String fileMd5 = object.getString("md5");
-
-            fileNode.setExpectedMd5(fileMd5)
-                    .setExpectedSize(object.getLong("size"))
-                    .setObjects(globalObjects.get(fileMd5));
+            FileNode fileNode = getFileNodeForDecoding((JSONObject) jsonObject, globalObjects);
 
             result.addFileNode(fileNode);
         } catch (ClassCastException ex) {
             Environment.getLogger().warning("Detected invalid contents in json. JSON may be corrupted.");
             ex.printStackTrace();
         }
+    }
+
+    @NotNull
+    private FileNode getFileNodeForDecoding(JSONObject jsonObject, Map<String, List<FileNode>> globalObjects) {
+        FileNode   fileNode = new FileNode(new File(basePath + "/" + jsonObject.getString("path")));
+        String fileMd5 = jsonObject.getString("md5");
+
+        fileNode.setExpectedMd5(fileMd5)
+                .setExpectedSize(jsonObject.getLong("size"))
+                .setObjects(globalObjects.get(fileMd5));
+        return fileNode;
     }
 
     @Override
@@ -102,6 +118,15 @@ public class NewMoeEngine extends CommonEngine implements GeneratorEngine, Parse
         object.put("version", result.getVersion());
         object.put("updated_time", result.getTime() / 1000);
         object.put("update_date", new SimpleDateFormat(dateFormat, Locale.CHINA).format(new Date(result.getTime())));
+
+        if (result.getUpdaterInfo() != null && result.getUpdaterInfo().getObjectFile() != null) {
+            JSONObject updaterInfoJsonObject = new JSONObject();
+            updaterInfoJsonObject.put("version_code", result.getUpdaterInfo().getVersionCode());
+            updaterInfoJsonObject.put("version_name", result.getUpdaterInfo().getVersionName());
+            updaterInfoJsonObject.put("object", getJsonObjectForEncoding(result.getUpdaterInfo().getObjectFile()));
+
+            object.put("updater_info", updaterInfoJsonObject);
+        }
 
         JSONArray syncedDirs = new JSONArray();
         scanDirForEncoding(syncedDirs, result.getDirectoryNodesByType(MetaNodeType.SyncedDirectory));
@@ -126,11 +151,11 @@ public class NewMoeEngine extends CommonEngine implements GeneratorEngine, Parse
 
     private JSONArray addFileNodeForEncoding(List<FileNode> fileNodes) {
         return new JSONArray() {{
-            fileNodes.forEach(file -> put(prepareObjectForEncoding(file)));
+            fileNodes.forEach(file -> put(getJsonObjectForEncoding(file)));
         }};
     }
 
-    private JSONObject prepareObjectForEncoding(FileNode file) {
+    private JSONObject getJsonObjectForEncoding(FileNode file) {
         return new JSONObject() {{
             put("size", file.getSize());
             put("md5", file.getMD5());
@@ -165,7 +190,7 @@ public class NewMoeEngine extends CommonEngine implements GeneratorEngine, Parse
             JSONArray dirFiles = new JSONArray();
             for (FileNode file : dir.getFileNodes()) {
                 try {
-                    dirFiles.put(prepareObjectForEncoding(file));
+                    dirFiles.put(getJsonObjectForEncoding(file));
                 } catch (Exception ex) {
                     Environment.getLogger().warning("Add file failed: " + file.getFile().getName());
                     ex.printStackTrace();

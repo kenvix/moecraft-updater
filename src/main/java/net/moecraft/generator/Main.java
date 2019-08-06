@@ -52,7 +52,7 @@ public class Main {
 
     private static void runAsGenerator() throws Exception {
         File generatorConfigFile = Environment.getGeneratorConfigFile();
-        GeneratorConfig.initialize(generatorConfigFile);
+        GeneratorConfig.initialize(generatorConfigFile).startScan();
 
         GeneratorConfig config = GeneratorConfig.getInstance();
         MetaScanner scanner = new MetaScanner((CommonScanner) Environment.getMetaScanner().newInstance());

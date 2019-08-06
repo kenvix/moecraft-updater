@@ -8,7 +8,9 @@ package net.moecraft.generator.meta;
 
 import com.kenvix.utils.FileTool;
 import com.kenvix.utils.StringTool;
+import net.moecraft.generator.BuildConfig;
 import net.moecraft.generator.Environment;
+import net.moecraft.generator.updater.update.selfupdate.UpdaterInfo;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -19,7 +21,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
 
-public class GeneratorConfig extends MetaResult implements Serializable {
+public final class GeneratorConfig extends MetaResult implements Serializable {
     private JSONObject json;
     private String basePath;
     private String nameRule;
@@ -32,33 +34,33 @@ public class GeneratorConfig extends MetaResult implements Serializable {
      * @param file generator_config.json
      * @throws IOException failed to read file
      */
-    public synchronized static void initialize(File file) throws IOException {
+    public synchronized static GeneratorConfig initialize(File file) throws IOException {
         if(instance != null)
             instance = null;
 
-        instance = new GeneratorConfig(file);
+        return instance = new GeneratorConfig(file);
     }
 
     /**
      * FORCE Initialize GeneratorConfig and discard old one.
      * @param jsonText generator_config.json
      */
-    public synchronized static void initialize(String jsonText) {
+    public synchronized static GeneratorConfig initialize(String jsonText) {
         if(instance != null)
             instance = null;
 
-        instance = new GeneratorConfig(jsonText);
+        return instance = new GeneratorConfig(jsonText);
     }
 
     /**
      * FORCE Initialize GeneratorConfig and discard old one.
      * @param jsonObject generator_config.json
      */
-    public synchronized static void initialize(JSONObject jsonObject) {
+    public synchronized static GeneratorConfig initialize(JSONObject jsonObject) {
         if(instance != null)
             instance = null;
 
-        instance = new GeneratorConfig(jsonObject);
+        return instance = new GeneratorConfig(jsonObject);
     }
 
     /**
@@ -115,14 +117,19 @@ public class GeneratorConfig extends MetaResult implements Serializable {
         this.json     = jsonObject;
         this.basePath = Environment.getBaseMoeCraftPath();
         this.basePath = basePath.endsWith("/") ? basePath : basePath + "/";
-        scan();
-    }
 
-    private void scan() {
+        UpdaterInfo updaterInfo = new UpdaterInfo(BuildConfig.VERSION_CODE);
+        updaterInfo.setVersionName(BuildConfig.VERSION_NAME);
+        updaterInfo.setObjectFile(new FileNode(new File(System.getProperty("java.class.path")), true));
+
+        setUpdaterInfo(updaterInfo);
         setDescription(json.getString("description"));
         setVersion(json.getString("version"));
         setNameRule(json.getString("name_rule"));
         setObjectSize(json.getLong("object_size"));
+    }
+
+    public void startScan() {
         searchFileItems("synced_dirs", MetaNodeType.SyncedDirectory, json);
         searchFileItems("synced_files", MetaNodeType.SyncedFile, json);
         searchFileItems("default_files", MetaNodeType.DefaultFile, json);
