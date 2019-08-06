@@ -22,8 +22,9 @@ class WindowsUpdateApplier : UpdateApplier {
         return """
 @ECHO OFF
 title Updating ${BuildConfig.APPLICATION_NAME}
+cd /D ..
 echo Killing Current VM (Old version ${BuildConfig.VERSION_NAME})
-taskkill /F /PID ${Environment.getJvmPid()}
+taskkill /PID ${Environment.getJvmPid()}
 ping 127.0.0.1 -n 2 > nul
 echo Updating File
 copy /Y "$targetFilePath" "$targetFilePath.old"
@@ -33,11 +34,14 @@ del /f "$newFilePath"
 echo Restarting JVM
 "${Environment.getJvmPath(true)}" -jar "$targetFilePath"
 ping 127.0.0.1 -n 3 > nul
+del /f "%~f0"
         """.trimIndent()
     }
 
     override fun startApplier(context: SelfUpdateApplier, currentJarFile: File, newJarFile: File, applierFile: File): Process {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return ProcessBuilder()
+                .command(applierFile.canonicalPath)
+                .directory(Environment.getUpdaterPath().toFile())
+                .start()
     }
-
 }

@@ -9,6 +9,7 @@ package net.moecraft.generator.updater.update.selfupdate
 import net.moecraft.generator.Environment
 import java.io.File
 import java.io.FileNotFoundException
+import kotlin.system.exitProcess
 
 class SelfUpdateApplier(applier: UpdateApplier? = null) {
     private val applier: UpdateApplier
@@ -33,11 +34,15 @@ class SelfUpdateApplier(applier: UpdateApplier? = null) {
             throw FileNotFoundException("Current jar file not found")
 
         val applierTemplate: String = applier.getApplierTemplate(this, currentJarFile, newJarFile)
-        val applierFile: File = Environment.getBasePath().resolve(applier.getApplierFileName(this)).toFile()
+        val applierFile: File = Environment.getUpdaterPath().resolve(applier.getApplierFileName(this)).toFile()
 
         if (applierFile.exists())
             applierFile.delete()
 
         applierFile.writeText(applierTemplate)
+        val process = applier.startApplier(this, currentJarFile, newJarFile, applierFile)
+
+        process.waitFor()
+        exitProcess(0)
     }
 }
