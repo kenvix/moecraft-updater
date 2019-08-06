@@ -18,8 +18,11 @@ import net.moecraft.generator.updater.ui.gui.FXGraphicalUI;
 import org.apache.commons.cli.CommandLine;
 import org.jetbrains.annotations.NotNull;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
+import java.lang.management.ManagementFactory;
+import java.lang.management.RuntimeMXBean;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.logging.Logger;
@@ -37,7 +40,7 @@ public final class Environment {
     private final static Class       metaScanner      = FileScanner.class;
     private final static Class[]     repoManager      = {AccountCenterRepoManager.class, LocalIntegratedRepoManager.class};
     private final static String      dnsRepoDomain    = "updater-repo.moecraft.net";
-    private static final String      repoManagerURL   = "https://accounts.moecraft.net/API/Updater/repo";
+    private static final String      repoManagerURL   = "https://user.moecraft.net:8443/API/Updater/repo";
     private final static String      appName          = "MoeCraft Toolbox";
     private final static String      outJsonName      = "moecraft.json";
     private static       Class       uiProvider;
@@ -52,6 +55,9 @@ public final class Environment {
     private static       Path        cachePath;
     private static       Path        updaterObjectPath;
     private static       Path        userModsPath;
+    private static       boolean     isConsoleWindowExists;
+    private static       boolean     isRunningOnWindowsPlatform;
+    private static       int         jvmPid = -1;
 
     static void loadEnvironment(CommandLine cmd) throws IOException {
         Environment.cmd = cmd;
@@ -71,6 +77,8 @@ public final class Environment {
         deployPath = basePath.resolve("Deployment");
         updaterObjectPath = updaterPath.resolve("Objects");
         userModsPath = updaterPath.resolve("Mods");
+        isConsoleWindowExists = System.console() != null;
+        isRunningOnWindowsPlatform = System.getProperties().getProperty("os.name").toUpperCase().contains("WINDOWS");
     }
 
     public static int getDnsMaxTries() {
@@ -106,6 +114,9 @@ public final class Environment {
         return repoManagerURL;
     }
 
+    public static boolean isIsConsoleWindowExists() {
+        return isConsoleWindowExists;
+    }
 
     public static Path getCachePath() {
         return cachePath;
@@ -205,11 +216,70 @@ public final class Environment {
         return repos;
     }
 
+    public static boolean isRunningOnWindowsPlatform() {
+        return isRunningOnWindowsPlatform;
+    }
+
     public static void setRepos(Repo[] repos) {
         Environment.repos = repos;
     }
 
     public static Path getUserModsPath() {
         return userModsPath;
+    }
+
+    public static void showErrorMessage(String message) {
+        if (!isConsoleWindowExists) {
+            JOptionPane.showMessageDialog(null, message, "错误", JOptionPane.ERROR_MESSAGE);
+        }
+
+        System.err.println(message);
+    }
+
+    /**
+     * Get JVM PID
+     * @return int JVM PID
+     * @throws UnsupportedOperationException Getting PID is not support on current JVM
+     */
+    @SuppressWarnings("all")
+    public static int getJvmPid() {
+        if (jvmPid != -1)
+            return jvmPid;
+
+        RuntimeMXBean runtime = ManagementFactory.getRuntimeMXBean();
+        try {
+            java.lang.reflect.Field jvm = runtime.getClass().getDeclaredField("jvm");
+            jvm.setAccessible(true);
+
+            sun.management.VMManagement mgmt = (sun.management.VMManagement) jvm.get(runtime);
+            java.lang.reflect.Method pid_method = mgmt.getClass().getDeclaredMethod("getProcessId");
+            pid_method.setAccessible(true);
+
+            return jvmPid = (Integer) pid_method.invoke(mgmt);
+        } catch (Throwable ignored1) {
+            //Fallback
+            String jvmName = runtime.getName();
+            String pidString = jvmName.split("@")[0];
+
+            if (pidString == null || pidString.isEmpty())
+                throw new UnsupportedOperationException();
+
+            try {
+                return jvmPid = Integer.parseInt(pidString);
+            } catch (NumberFormatException exception) {
+                throw new UnsupportedOperationException();
+            }
+        }
+    }
+
+    public static String getJvmPath(boolean useJavaW) {
+        if (isRunningOnWindowsPlatform)
+            return System.getProperties().getProperty("java.home") + File.separator + "bin" + File.separator + (useJavaW ? "javaw.exe" : "java.exe");
+        else
+            return System.getProperties().getProperty("java.home") + File.separator + "bin" + File.separator + "java";
+    }
+
+    public static String getJvmPath() {
+        return getJvmPath(false);
     }
 }

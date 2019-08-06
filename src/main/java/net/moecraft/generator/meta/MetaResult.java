@@ -6,19 +6,21 @@
 package net.moecraft.generator.meta;
 
 import net.moecraft.generator.Environment;
+import net.moecraft.generator.updater.update.selfupdate.UpdaterInfo;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.util.*;
 
 public class MetaResult implements Cloneable {
-    private Map<MetaNodeType, List<DirectoryNode>> directoryNodes;
-    private Map<MetaNodeType, DirectoryNode> fileNodes;
-    private Map<String, List<FileNode>> globalObjects = new HashMap<>();
-    private String                                          description = null;
-    private String                                          version     = null;
-    private long                                            objectSize  = 0;
-    private long                                            time        = new Date().getTime();
+    private Map<MetaNodeType, List<DirectoryNode>>          directoryNodes;
+    private Map<MetaNodeType, DirectoryNode>                fileNodes;
+    private Map<String, List<FileNode>>                     globalObjects = new HashMap<>();
+    private String                                          description   = null;
+    private String                                          version       = null;
+    private long                                            objectSize    = 0;
+    private long                                            time          = new Date().getTime();
+    private UpdaterInfo                                     updaterInfo   = null;
 
     {
         directoryNodes = new HashMap<>();
@@ -62,6 +64,15 @@ public class MetaResult implements Cloneable {
             directoryNodes.put(type, new ArrayList<>());
         directoryNodes.get(type).add(dir);
         return dir;
+    }
+
+    public UpdaterInfo getUpdaterInfo() {
+        return updaterInfo;
+    }
+
+    public MetaResult setUpdaterInfo(UpdaterInfo updaterInfo) {
+        this.updaterInfo = updaterInfo;
+        return this;
     }
 
     public DirectoryNode addDirectoryNode(MetaNodeType type, File dir) {

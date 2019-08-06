@@ -1,5 +1,7 @@
 plugins {
     id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.3.41'
+    id 'de.fuerstenau.buildconfig' version '1.1.8'
 }
 
 tasks.withType(JavaCompile){
@@ -7,9 +9,17 @@ tasks.withType(JavaCompile){
 }
 
 group 'net.moecraft'
-version '1.0-SNAPSHOT'
+version '2.0-SNAPSHOT'
+def applicationName = 'MoeCraft-Toolbox'
+def versionCode = 2
 
-sourceCompatibility = 1.8
+archivesBaseName = 'generator'
+def mainSrcDir = 'src/main/java'
+def fullPackageName = "${group}.$archivesBaseName"
+def fullPackagePath = fullPackageName.replaceAll('.', '/')
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
     mavenCentral()
@@ -33,13 +43,61 @@ dependencies {
     compileOnly group: 'org.jetbrains', name: 'annotations', version: '16.0.3'
     // https://mvnrepository.com/artifact/commons-io/commons-io
     compile group: 'commons-io', name: 'commons-io', version: '2.6'
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
 
 jar {
-  manifest {
-    attributes(
-      'Class-Path': configurations.compile.collect { 'Updater/Libraries/' + it.getName() }.join(' '),
-      'Main-Class': 'net.moecraft.generator.Main'
-    )
-  }
+    manifestContentCharset 'utf-8'
+    metadataCharset 'utf-8'
+    from {
+        //configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.runtime.collect{zipTree(it)}
+    }
+    manifest {
+        attributes(
+          'Class-Path': configurations.compile.collect { 'Updater/Libraries/' + it.getName() }.join(' '),
+          'Main-Class': 'net.moecraft.generator.Main'
+        )
+    }
+}
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+buildConfig {
+    appName = project.name       // sets value of NAME field
+    version = project.version   // sets value of VERSION field,
+    // 'unspecified' if project.version is not set
+
+    clsName = 'BuildConfig'      // sets the name of the BuildConfig class
+    packageName = fullPackageName  // sets the package of the BuildConfig class,
+    // 'de.fuerstenau.buildconfig' if project.group is not set
+    charset = 'UTF-8'            // sets charset of the generated class,
+    // 'UTF-8' if not set otherwise
+
+    buildConfigField 'String', 'APPLICATION_NAME', applicationName
+    buildConfigField 'String', 'VERSION_NAME',     version as String
+    buildConfigField 'int',    'VERSION_CODE',     versionCode as String
+    buildConfigField 'long',   'BUILD_UNIXTIME',   System.currentTimeMillis() + 'L'
+    buildConfigField 'java.util.Date', 'BUILD_DATE', 'new java.util.Date(' + System.currentTimeMillis() + 'L)'
+
+    buildConfigField 'String', 'BUILD_USER',       System.getProperty("user.name")
+    buildConfigField 'String', 'BUILD_JDK',        System.getProperty("java.version")
+    buildConfigField 'String', 'BUILD_OS',         System.getProperty("os.name")
+
+}
+
+// Add generated build-config directories to the main source set, so that the
+// IDE doesn't complain when the app references BuildConfig classes
+sourceSets.main.java {
+    srcDirs += new File(mainSrcDir)
+    srcDirs += new File(buildDir, 'gen/buildconfig/src')
 }

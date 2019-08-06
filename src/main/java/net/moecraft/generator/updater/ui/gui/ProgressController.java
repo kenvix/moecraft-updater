@@ -6,11 +6,15 @@
 
 package net.moecraft.generator.updater.ui.gui;
 import com.kenvix.utils.FileTool;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
 import net.moecraft.generator.Environment;
 import net.moecraft.generator.jsonengine.ParserEngine;
 import net.moecraft.generator.jsonengine.engine.NewMoeEngine;
-import net.moecraft.generator.meta.DirectoryNode;
-import net.moecraft.generator.meta.MetaNodeType;
 import net.moecraft.generator.meta.FileNode;
 import net.moecraft.generator.meta.MetaResult;
 import net.moecraft.generator.meta.MetaScanner;
@@ -18,34 +22,19 @@ import net.moecraft.generator.meta.ObjectEngine;
 import net.moecraft.generator.meta.scanner.FileScanner;
 import net.moecraft.generator.updater.repo.Repo;
 import net.moecraft.generator.updater.repo.RepoNetworkUtil;
-import net.moecraft.generator.updater.ui.UpdaterUI;
 import net.moecraft.generator.updater.update.*;
 import org.apache.commons.io.FileUtils;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.ResourceBundle;
-import java.io.*;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.function.Consumer;
 
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.collections.FXCollections;
-import javafx.util.StringConverter;
-import javafx.concurrent.Task;
-import javafx.application.Platform;
-
-
+@SuppressWarnings("all") // Extremely bad habit! but I'm too lazy.
 public class ProgressController implements Initializable {
 	public static RubbishModel model = new RubbishModel();
 	
