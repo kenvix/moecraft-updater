@@ -9,8 +9,8 @@ tasks.withType(JavaCompile){
 }
 
 group 'net.moecraft'
-version '1.0-SNAPSHOT'
-def applicationName = 'MoeCraftBotNG'
+version '2.0-SNAPSHOT'
+def applicationName = 'MoeCraft-Toolbox'
 def versionCode = 2
 
 archivesBaseName = 'generator'
@@ -18,7 +18,8 @@ def mainSrcDir = 'src/main/java'
 def fullPackageName = "${group}.$archivesBaseName"
 def fullPackagePath = fullPackageName.replaceAll('.', '/')
 
-sourceCompatibility = 1.8
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
     mavenCentral()
@@ -38,12 +39,16 @@ dependencies {
     compileOnly group: 'org.jetbrains', name: 'annotations', version: '16.0.3'
     // https://mvnrepository.com/artifact/commons-io/commons-io
     compile group: 'commons-io', name: 'commons-io', version: '2.6'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
 
 jar {
     manifestContentCharset 'utf-8'
     metadataCharset 'utf-8'
+    from {
+        //configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.runtime.collect{zipTree(it)}
+    }
     manifest {
         attributes(
           'Class-Path': configurations.compile.collect { 'Updater/Libraries/' + it.getName() }.join(' '),

@@ -14,6 +14,7 @@ import net.moecraft.generator.meta.MetaScanner;
 import net.moecraft.generator.meta.ObjectEngine;
 import net.moecraft.generator.meta.scanner.CommonScanner;
 import net.moecraft.generator.updater.ui.UpdaterUI;
+import net.moecraft.generator.updater.update.selfupdate.SelfUpdateApplier;
 
 import java.io.File;
 import java.lang.reflect.Modifier;
@@ -27,6 +28,10 @@ public class Main {
 
         try {
             Init.initSystem(args);
+
+            SelfUpdateApplier selfUpdateApplier = new SelfUpdateApplier();
+            selfUpdateApplier.start("generator-1.0-SNAPSHOT.jar");
+
             String basePath = Environment.getBaseMoeCraftPath();
             Environment.getLogger().log(Level.FINEST, "Current path: " + basePath);
 

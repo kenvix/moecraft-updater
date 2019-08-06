@@ -1,4 +1,5 @@
-package net.moecraft.generator;//--------------------------------------------------
+package net.moecraft.generator;
+//--------------------------------------------------
 // Class net.moecraft.generator.Init
 //--------------------------------------------------
 // Written by Kenvix <i@kenvix.com>
@@ -13,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.logging.*;
+import net.moecraft.generator.BuildConfig;
 
 import static java.lang.System.out;
 
@@ -21,6 +23,7 @@ class Init {
         try {
             Environment.getLogger().setLevel(Level.FINE);
             out.println(Init.getHeader());
+            out.printf("Built at %s. Running at JDK %s\n", BuildConfig.BUILD_DATE.toString(), System.getProperty("java.version"));
 
             Environment.loadEnvironment(getCmd(args));
             File baseMoeCraftDir = Environment.getBaseMoeCraftDir();
@@ -93,6 +96,6 @@ class Init {
     }
 
     static String getHeader() {
-        return "MoeCraft Updater Meta Generator // Written by Kenvix";
+        return String.format("MoeCraft Updater Meta Generator Ver.%s/%d // Written by Kenvix", BuildConfig.VERSION, BuildConfig.VERSION_CODE);
     }
 }

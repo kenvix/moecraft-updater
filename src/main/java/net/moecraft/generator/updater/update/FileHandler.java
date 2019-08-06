@@ -14,8 +14,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public final class FileHandler {
-    private static final boolean isWindows = System.getProperties().getProperty("os.name").toUpperCase().contains("WINDOWS");
-
     public enum LinkType {
         Symbol, Hard, DirectorySymbol, DirectoryJoin
     }
@@ -63,7 +61,7 @@ public final class FileHandler {
             if(linkPath.toFile().exists())
                 FileUtils.forceDelete(linkPath.toFile());
 
-            if (isWindows)
+            if (Environment.isRunningOnWindowsPlatform())
                 LinkForWindows(target, linkPath, type);
             else
                 linkForOtherPlatform(target, linkPath, type);
