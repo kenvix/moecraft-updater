@@ -58,7 +58,7 @@ public final class FileHandler {
         try {
             FileUtils.forceMkdirParent(linkPath.toFile());
 
-            if(linkPath.toFile().exists())
+            if (linkPath.toFile().exists())
                 FileUtils.forceDelete(linkPath.toFile());
 
             if (Environment.isRunningOnWindowsPlatform())
@@ -89,7 +89,8 @@ public final class FileHandler {
 
         try {
             process.waitFor();
-        } catch (InterruptedException ex) {}
+        } catch (InterruptedException ex) {
+        }
 
         if (process.exitValue() != 0)
             throw new IOException("Create link failed");

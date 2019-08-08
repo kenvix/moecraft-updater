@@ -36,7 +36,7 @@ public final class FileUpdateApplier {
         directoryNodes.forEach(directoryNode -> {
             DirectoryHandler.create(directoryNode.getPath());
 
-            if(directoryNode.hasChildDirectory())
+            if (directoryNode.hasChildDirectory())
                 handleNewDirectoryNodes(directoryNode.getDirectoryNodes());
 
             directoryNode.getFileNodes().forEach(this::handleNewFiles);
@@ -45,7 +45,7 @@ public final class FileUpdateApplier {
 
     public void handleExcludedDirectoryNodes(List<DirectoryNode> directoryNodes) {
         directoryNodes.forEach(directoryNode -> {
-            if(directoryNode.hasChildDirectory())
+            if (directoryNode.hasChildDirectory())
                 handleExcludedDirectoryNodes(directoryNode.getDirectoryNodes());
             else
                 DirectoryHandler.delete(directoryNode.getPath());

@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class FileNode implements Cloneable {
-    private File   file;
+    private File file;
     private Path path;
 
     /**
@@ -110,15 +110,15 @@ public final class FileNode implements Cloneable {
     }
 
     public String getRelativePath() {
-        if(relativePath == null) {
-            if(file.exists()) {
+        if (relativePath == null) {
+            if (file.exists()) {
                 try {
                     relativePath = FileTool.getRelativePath(Environment.getBaseMoeCraftPath(), file.getCanonicalPath());
                 } catch (IOException ex) {
                     relativePath = null;
                 }
             }
-            if(relativePath == null)
+            if (relativePath == null)
                 relativePath = FileTool.getRelativePath(Environment.getBaseMoeCraftPath(), file.getPath());
         }
         return relativePath;
@@ -135,9 +135,9 @@ public final class FileNode implements Cloneable {
     }
 
     public final List<FileNode> getObjects() {
-        if(objects == null) {
+        if (objects == null) {
             synchronized (FileNode.class) {
-                if(objects == null)
+                if (objects == null)
                     objects = new ArrayList<>();
             }
         }
@@ -170,6 +170,7 @@ public final class FileNode implements Cloneable {
     /**
      * Clone FileNode. Including all child DirectoryNode and child FileNode.
      * Note: java.io.File object will NOT be cloned for its meaningless.
+     *
      * @return FileNode
      */
     @Override
@@ -180,8 +181,8 @@ public final class FileNode implements Cloneable {
         } catch (CloneNotSupportedException ex) {
             ex.printStackTrace();
         }
-        if(fileNode != null) {
-            ArrayList<FileNode> newFileNodes  = new ArrayList<>();
+        if (fileNode != null) {
+            ArrayList<FileNode> newFileNodes = new ArrayList<>();
             this.objects.forEach(node -> newFileNodes.add(node.clone()));
             fileNode.objects = newFileNodes;
         }

@@ -17,8 +17,8 @@ public abstract class CommonEngine {
     protected static final String basePath = Environment.getBaseMoeCraftPath();
 
     protected void writeJson(File target, String result) throws IOException {
-        if(target.exists())
-            if(!target.delete()) {
+        if (target.exists())
+            if (!target.delete()) {
                 Environment.getLogger().warning("Unable to delete: " + target.getName() + " . Generation failed");
                 return;
             }

@@ -14,10 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DirectoryNode implements Cloneable {
-    private List<FileNode>      fileNodes      = new ArrayList<>();
+    private List<FileNode> fileNodes = new ArrayList<>();
     private List<DirectoryNode> directoryNodes = new ArrayList<>();
-    private File                     directory;
-    private Path                     path;
+    private File directory;
+    private Path path;
 
     public DirectoryNode(File dir) {
         this.directory = dir;
@@ -94,7 +94,7 @@ public class DirectoryNode implements Cloneable {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof DirectoryNode) {
+        if (obj instanceof DirectoryNode) {
             return ((DirectoryNode) obj).getPath().equals(path);
         }
         return false;

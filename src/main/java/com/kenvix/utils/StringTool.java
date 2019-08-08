@@ -19,12 +19,12 @@ public class StringTool {
         if (pattern == null || str == null)
             return false;
 
-        boolean result     = false;
-        char    c; // 当前要匹配的字符串
+        boolean result = false;
+        char c; // 当前要匹配的字符串
         boolean beforeStar = false; // 是否遇到通配符*
-        int     back_i     = 0;// 回溯,当遇到通配符时,匹配不成功则回溯
-        int     back_j     = 0;
-        int     i, j;
+        int back_i = 0;// 回溯,当遇到通配符时,匹配不成功则回溯
+        int back_j = 0;
+        int i, j;
         for (i = 0, j = 0; i < str.length(); ) {
             if (pattern.length() <= j) {
                 if (back_i != 0) {// 有通配符,但是匹配未成功,回溯

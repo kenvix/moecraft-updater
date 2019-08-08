@@ -18,7 +18,7 @@ class SelfUpdateApplier(applier: UpdateApplier? = null) {
 
     init {
         if (applier == null) {
-            this.applier = if(Environment.isRunningOnWindowsPlatform()) WindowsUpdateApplier() else LinuxUpdateApplier()
+            this.applier = if (Environment.isRunningOnWindowsPlatform()) WindowsUpdateApplier() else LinuxUpdateApplier()
         } else {
             this.applier = applier
         }

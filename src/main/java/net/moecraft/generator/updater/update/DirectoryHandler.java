@@ -23,7 +23,7 @@ public class DirectoryHandler {
 
     public static void create(Path directory) {
         try {
-            if(!directory.toFile().exists())
+            if (!directory.toFile().exists())
                 FileUtils.forceMkdir(directory.toFile());
         } catch (IOException ex) {
             throw new UpdateCriticalException("Create directory failed: " + directory.toString(), 80, ex);

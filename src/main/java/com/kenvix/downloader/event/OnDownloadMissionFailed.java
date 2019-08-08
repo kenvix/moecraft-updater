@@ -12,6 +12,7 @@ import com.kenvix.downloader.download.DownloadMission;
 public interface OnDownloadMissionFailed {
     /**
      * Mission failed
+     *
      * @param mission
      * @param throwable exception details
      */

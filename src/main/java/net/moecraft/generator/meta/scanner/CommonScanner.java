@@ -15,5 +15,6 @@ import java.io.File;
 
 public interface CommonScanner {
     MetaResult scan(File dir, MetaNodeType type, MetaScanner in);
+
     DirectoryNode scan(File dir, DirectoryNode parentNode, boolean isRootDirectory);
 }

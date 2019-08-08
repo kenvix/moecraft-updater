@@ -27,10 +27,10 @@ public class FileTool {
         if (!file.isFile()) {
             return null;
         }
-        MessageDigest   digest   = null;
-        FileInputStream in       = null;
-        byte            buffer[] = new byte[1024];
-        int             len;
+        MessageDigest digest = null;
+        FileInputStream in = null;
+        byte buffer[] = new byte[1024];
+        int len;
         try {
             digest = MessageDigest.getInstance("MD5");
             in = new FileInputStream(file);

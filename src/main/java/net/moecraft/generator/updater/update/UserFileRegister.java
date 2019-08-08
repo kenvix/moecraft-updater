@@ -24,10 +24,10 @@ public class UserFileRegister {
             DirectoryHandler.create(minecraftModsDirectoryPath);
 
         modFiles.forEach(file -> {
-            if(!file.isDirectory()) {
+            if (!file.isDirectory()) {
                 Path linkFile = minecraftModsDirectoryPath.resolve(file.getName());
 
-                if(!linkFile.toFile().exists())
+                if (!linkFile.toFile().exists())
                     FileHandler.linkCompatible(file.toPath(), linkFile, FileHandler.LinkType.Hard);
             }
         });

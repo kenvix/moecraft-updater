@@ -5,6 +5,7 @@
 //--------------------------------------------------
 
 package net.moecraft.generator.updater.ui.gui;
+
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -43,7 +44,7 @@ public class TextAreaHandler extends StreamHandler {
         flush();
 
         Platform.runLater(() -> {
-            textArea.appendText("["+record.getLevel().getName()+"]"+record.getMessage()+"\n");
+            textArea.appendText("[" + record.getLevel().getName() + "]" + record.getMessage() + "\n");
         });
     }
 }

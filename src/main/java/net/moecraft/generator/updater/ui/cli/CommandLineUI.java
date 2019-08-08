@@ -31,7 +31,7 @@ public class CommandLineUI implements UpdaterUI, Observer {
         System.out.print(text);
     }
 
-    protected void logf(String format, Object ... args) {
+    protected void logf(String format, Object... args) {
         System.out.printf(format, args);
     }
 
@@ -55,7 +55,7 @@ public class CommandLineUI implements UpdaterUI, Observer {
 
                 logln("更新失败：严重错误：" + ex.getMessage());
 
-                if(ex.getOriginalException() != null)
+                if (ex.getOriginalException() != null)
                     logln(ex.getOriginalException().getMessage());
 
                 System.exit(ex.getExitCode());
@@ -86,7 +86,6 @@ public class CommandLineUI implements UpdaterUI, Observer {
     }
 
 
-
     final protected Repo[] showWelcomePage() throws UpdateCriticalException {
         printBoldBorderLine();
 
@@ -94,7 +93,7 @@ public class CommandLineUI implements UpdaterUI, Observer {
         logln("正在获取更新节点列表，请稍候 ...");
 
         Repo[] repos = Environment.getRepos();
-        if(repos == null)
+        if (repos == null)
             throw new UpdateCriticalException("错误：无法获取更新节点，请检查您的网络", 7);
 
         return repos;
@@ -117,7 +116,7 @@ public class CommandLineUI implements UpdaterUI, Observer {
         int repoID;
         Repo selectedRepo;
 
-        if(repos.length >= 2) {
+        if (repos.length >= 2) {
             while (true) {
                 try {
                     repoID = scanner.nextInt();
