@@ -15,7 +15,6 @@
     private final static String dnsRepoDomain = "updater-repo.moecraft.net";//不确定有何用处，故不作更改
     /*
     节点仓库，如果你是群组服或者有非同一时间同步多个客户端需求，你也可以把他当做客户端列表。
-    节点仓库的示例文件您可以在wiki文件夹找到
     该文件应为json格式，且不应该有注释。地址则为您的网页服务器（即客户端文件存放服务器）
      */
     private static final String repoManagerURL = "https://modpack.qwq2333.top/repo";//节点仓库，如果你是群组服或者有非同一时间同步多个客户端需求，你也可以把他当做客户端列表。
@@ -149,5 +148,5 @@ java -jar 构建出的jar文件 -g -c 指定的配置文件
 
 # 作者<br />
  编程：[kenvix](https://kenvix.com)<br />
- 界面：newbieZBX<br />
- 教程编写：[gao_cai_sheng](https://github.com/qwq233/)<br />
+ 界面：[newbieZBX](https://zbx1425.tk/)<br />
+ 教程编写：[gao_cai_sheng](https://www.qwq2333.top)<br />
