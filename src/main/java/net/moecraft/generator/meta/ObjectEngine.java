@@ -29,7 +29,7 @@ public class ObjectEngine {
         objectSize = (int) config.getObjectSize();
 
         File outdir = new File(getOutDir());
-        if(!outdir.exists() && !outdir.mkdirs())
+        if (!outdir.exists() && !outdir.mkdirs())
             throw new IOException("Unable to create directory: " + outdir.getPath());
     }
 
@@ -42,7 +42,7 @@ public class ObjectEngine {
     private void scanDir(List<DirectoryNode> result) {
         for (DirectoryNode directoryNode : result) {
             directoryNode.getFileNodes().forEach(fileNode -> fileNode.setObjects(makeObject(fileNode)));
-            if(directoryNode.hasChildDirectory())
+            if (directoryNode.hasChildDirectory())
                 scanDir(directoryNode.getDirectoryNodes());
         }
     }
@@ -57,7 +57,7 @@ public class ObjectEngine {
             int objectID = 0;
             boolean exitFlag = false;
 
-            if(!this.result.hasGlobalObject(fileNode.getMD5())) {
+            if (!this.result.hasGlobalObject(fileNode.getMD5())) {
                 result = new ArrayList<>();
 
                 while (!exitFlag) {
@@ -68,11 +68,11 @@ public class ObjectEngine {
                     FileOutputStream output = new FileOutputStream(objectFile);
                     int offset = 0;
 
-                    for (; offset < objectSize;) {
+                    for (; offset < objectSize; ) {
                         byte[] buffer = new byte[objectSize];
                         byte[] zlibBuffer = new byte[objectSize];
                         int readedLength = input.read(buffer);
-                        if(readedLength == -1) {
+                        if (readedLength == -1) {
                             exitFlag = true;
                             break;
                         }
@@ -122,18 +122,18 @@ public class ObjectEngine {
         RandomAccessFile outObject = new RandomAccessFile(outFile, "rw");
         FileChannel outChannel = outObject.getChannel();
 
-        for (FileNode object: objects) {
+        for (FileNode object : objects) {
             expectedSize += object.getExpectedSize();
             mergeObjectToChannel(object, outChannel);
         }
 
-        if(outFile.length() != expectedSize)
+        if (outFile.length() != expectedSize)
             throw new IOException("合并的对象已损坏");
     }
 
     public static void mergeObjectToChannel(FileNode object, WritableByteChannel outChannel) throws IOException {
         FileInputStream inObject = new FileInputStream(Environment.getCachePath().resolve(object.getFile().getName()).toFile());
-        FileChannel inChannel =  inObject.getChannel();
+        FileChannel inChannel = inObject.getChannel();
 
         inChannel.transferTo(0, object.getExpectedSize(), outChannel);
     }

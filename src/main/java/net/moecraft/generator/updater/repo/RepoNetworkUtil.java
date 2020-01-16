@@ -38,8 +38,8 @@ public final class RepoNetworkUtil {
     }
 
     public void simpleDownloadFile(URL url, Path savePath) throws IOException {
-        if(savePath.toFile().exists()) {
-            if(!savePath.toFile().delete())
+        if (savePath.toFile().exists()) {
+            if (!savePath.toFile().delete())
                 throw new IOException("Unable to delete exist file");
         }
 

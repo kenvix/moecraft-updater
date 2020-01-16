@@ -25,17 +25,18 @@ public final class GeneratorConfig extends MetaResult implements Serializable {
     private JSONObject json;
     private String basePath;
     private String nameRule;
-    private Set<String> excludedFileRule      = new HashSet<>();
+    private Set<String> excludedFileRule = new HashSet<>();
     private Set<String> excludedDirectoryRule = new HashSet<>();
-    private static GeneratorConfig instance              = null;
+    private static GeneratorConfig instance = null;
 
     /**
      * FORCE Initialize GeneratorConfig and discard old one.
+     *
      * @param file generator_config.json
      * @throws IOException failed to read file
      */
     public synchronized static GeneratorConfig initialize(File file) throws IOException {
-        if(instance != null)
+        if (instance != null)
             instance = null;
 
         return instance = new GeneratorConfig(file);
@@ -43,10 +44,11 @@ public final class GeneratorConfig extends MetaResult implements Serializable {
 
     /**
      * FORCE Initialize GeneratorConfig and discard old one.
+     *
      * @param jsonText generator_config.json
      */
     public synchronized static GeneratorConfig initialize(String jsonText) {
-        if(instance != null)
+        if (instance != null)
             instance = null;
 
         return instance = new GeneratorConfig(jsonText);
@@ -54,10 +56,11 @@ public final class GeneratorConfig extends MetaResult implements Serializable {
 
     /**
      * FORCE Initialize GeneratorConfig and discard old one.
+     *
      * @param jsonObject generator_config.json
      */
     public synchronized static GeneratorConfig initialize(JSONObject jsonObject) {
-        if(instance != null)
+        if (instance != null)
             instance = null;
 
         return instance = new GeneratorConfig(jsonObject);
@@ -65,11 +68,12 @@ public final class GeneratorConfig extends MetaResult implements Serializable {
 
     /**
      * Directly get an instance of GeneratorConfig if it has been initialized.
+     *
      * @return GeneratorConfig
      * @throws IllegalStateException throws if GeneratorConfig has not been initialized.
      */
     public static GeneratorConfig getInstance() throws IllegalStateException {
-        if(instance == null)
+        if (instance == null)
             throw new IllegalStateException("Stupid. GeneratorConfig not initialized.");
         return instance;
     }
@@ -114,7 +118,7 @@ public final class GeneratorConfig extends MetaResult implements Serializable {
     }
 
     private GeneratorConfig(JSONObject jsonObject) {
-        this.json     = jsonObject;
+        this.json = jsonObject;
         this.basePath = Environment.getBaseMoeCraftPath();
         this.basePath = basePath.endsWith("/") ? basePath : basePath + "/";
 
@@ -143,10 +147,10 @@ public final class GeneratorConfig extends MetaResult implements Serializable {
 
     private void searchRuleItems(String key, Set<String> target, JSONObject json) {
         for (Object item : json.getJSONArray("excluded_files")) {
-            if(item instanceof String) {
+            if (item instanceof String) {
                 target.add(((String) item).replace('\\', '/'));
             } else {
-                if(!Environment.isUpdater())
+                if (!Environment.isUpdater())
                     Environment.getLogger().info("Detected invalid config item " + key + " on " + target.getClass().getName());
             }
         }
@@ -157,27 +161,27 @@ public final class GeneratorConfig extends MetaResult implements Serializable {
             boolean isDirectory = type.getClass().getField(type.name()).isAnnotationPresent(DirectoryMetaNode.class);
             boolean isFile = type.getClass().getField(type.name()).isAnnotationPresent(FileMetaNode.class);
             for (Object dir : json.getJSONArray(key)) {
-                if(dir instanceof String) {
+                if (dir instanceof String) {
                     File dirFile = new File(basePath + dir);
-                    if(dirFile.exists()) {
-                        if(isDirectory && !dirFile.isFile()) {
+                    if (dirFile.exists()) {
+                        if (isDirectory && !dirFile.isFile()) {
                             DirectoryNode directoryNode = new DirectoryNode(dirFile);
                             addDirectoryNode(type, directoryNode);
-                        } else if(isFile && dirFile.isFile()) {
+                        } else if (isFile && dirFile.isFile()) {
                             FileNode fileNode = new FileNode(dirFile);
                             addFileNode(type, fileNode);
                         }
                     } else {
-                        if(!Environment.isUpdater())
+                        if (!Environment.isUpdater())
                             Environment.getLogger().log(Level.INFO, "Declaring a not-found or invalid file " + dir + ". Skip...");
                     }
                 } else {
-                    if(!Environment.isUpdater())
+                    if (!Environment.isUpdater())
                         Environment.getLogger().info("Detected invalid config item " + key + " on " + type.name());
                 }
             }
         } catch (NoSuchFieldException ex) {
-            if(!Environment.isUpdater())
+            if (!Environment.isUpdater())
                 Environment.getLogger().log(Level.CONFIG, "Declaring a invalid field [" + ex.getMessage() + "] Skip...");
         }
     }

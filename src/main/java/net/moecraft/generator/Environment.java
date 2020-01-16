@@ -29,35 +29,35 @@ import java.util.logging.Logger;
 
 public final class Environment {
 
-    private static       CommandLine cmd;
-    private final static Class[]     generatorEngines = {BalthildEngine.class, NewMoeEngine.class};
-    private static       File        baseMoeCraftDir;
-    private final static Class[]     parserEngines    = {NewMoeEngine.class};
-    private static       File        generatorConfigFile;
-    private static       String      baseMoeCraftPath;
-    private static       String      updateDescription;
-    private static       String      updateVersion;
-    private final static Class       metaScanner      = FileScanner.class;
-    private final static Class[]     repoManager      = {AccountCenterRepoManager.class, LocalIntegratedRepoManager.class};
-    private final static String      dnsRepoDomain    = "updater-repo.moecraft.net";
-    private static final String      repoManagerURL   = "https://user.moecraft.net:8443/API/Updater/repo";
-    private final static String      appName          = "MoeCraft Toolbox";
-    private final static String      outJsonName      = "moecraft.json";
-    private static       Class       uiProvider;
-    private static       Repo[]      repos;
-    private final static int         downloadMaxTries = 5;
-    private final static int         dnsMaxTries      = 20;
-    private static       Logger      logger;
-    private static       boolean     isUpdater;
-    private static       Path        basePath;
-    private static       Path        deployPath;
-    private static       Path        updaterPath;
-    private static       Path        cachePath;
-    private static       Path        updaterObjectPath;
-    private static       Path        userModsPath;
-    private static       boolean     isConsoleWindowExists;
-    private static       boolean     isRunningOnWindowsPlatform;
-    private static       int         jvmPid = -1;
+    private static CommandLine cmd;
+    private final static Class[] generatorEngines = {BalthildEngine.class, NewMoeEngine.class};
+    private static File baseMoeCraftDir;
+    private final static Class[] parserEngines = {NewMoeEngine.class};
+    private static File generatorConfigFile;
+    private static String baseMoeCraftPath;
+    private static String updateDescription;
+    private static String updateVersion;
+    private final static Class metaScanner = FileScanner.class;
+    private final static Class[] repoManager = {AccountCenterRepoManager.class, LocalIntegratedRepoManager.class};
+    private final static String dnsRepoDomain = "updater-repo.moecraft.net";
+    private static final String repoManagerURL = "https://user.moecraft.net:8443/API/Updater/repo";
+    private final static String appName = "MoeCraft Toolbox";
+    private final static String outJsonName = "moecraft.json";
+    private static Class uiProvider;
+    private static Repo[] repos;
+    private final static int downloadMaxTries = 5;
+    private final static int dnsMaxTries = 20;
+    private static Logger logger;
+    private static boolean isUpdater;
+    private static Path basePath;
+    private static Path deployPath;
+    private static Path updaterPath;
+    private static Path cachePath;
+    private static Path updaterObjectPath;
+    private static Path userModsPath;
+    private static boolean isConsoleWindowExists;
+    private static boolean isRunningOnWindowsPlatform;
+    private static int jvmPid = -1;
 
     static void loadEnvironment(CommandLine cmd) throws IOException {
         Environment.cmd = cmd;
@@ -95,7 +95,7 @@ public final class Environment {
 
     @NotNull
     public static Logger getLogger() {
-        if(logger == null) {
+        if (logger == null) {
             synchronized (Environment.class) {
                 if (logger != null)
                     return logger;
@@ -203,7 +203,7 @@ public final class Environment {
     }
 
     public static Repo[] getRepos() {
-        if(repos == null) {
+        if (repos == null) {
             Class[] repoManagers = Environment.getRepoManager();
             for (Class repoManager : repoManagers) {
                 try {
@@ -238,6 +238,7 @@ public final class Environment {
 
     /**
      * Get JVM PID
+     *
      * @return int JVM PID
      * @throws UnsupportedOperationException Getting PID is not support on current JVM
      */

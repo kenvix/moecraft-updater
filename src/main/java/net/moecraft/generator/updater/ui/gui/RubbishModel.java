@@ -1,13 +1,12 @@
 package net.moecraft.generator.updater.ui.gui;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class RubbishModel
-{
+public class RubbishModel {
     private StringProperty text = new SimpleStringProperty();
 
-    public RubbishModel()
-    {
+    public RubbishModel() {
         this.text = new SimpleStringProperty();
     }
 

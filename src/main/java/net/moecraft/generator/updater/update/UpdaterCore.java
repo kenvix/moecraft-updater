@@ -30,7 +30,7 @@ import java.util.Observable;
 import java.util.function.Consumer;
 
 public class UpdaterCore extends Observable {
-    public static final UpdateStage[] updateOrder = new UpdateStage[] {
+    public static final UpdateStage[] updateOrder = new UpdateStage[]{
             UpdateStage.DownloadMeta,
             UpdateStage.ScanLocalFile,
             UpdateStage.Compare,
@@ -74,15 +74,15 @@ public class UpdaterCore extends Observable {
                     break;
 
                 case DownloadNewFile:
-                    startDownloadNewFileStage(compareResult == null ? compareResult = (MetaResult) initVars[0]: compareResult);
+                    startDownloadNewFileStage(compareResult == null ? compareResult = (MetaResult) initVars[0] : compareResult);
                     break;
 
                 case MergeObject:
-                    startMergeObjectStage(compareResult == null ? compareResult = (MetaResult) initVars[0]: compareResult);
+                    startMergeObjectStage(compareResult == null ? compareResult = (MetaResult) initVars[0] : compareResult);
                     break;
 
                 case ApplyNewFile:
-                    startApplyNewFileStage(compareResult == null ? compareResult = (MetaResult) initVars[0]: compareResult);
+                    startApplyNewFileStage(compareResult == null ? compareResult = (MetaResult) initVars[0] : compareResult);
                     break;
 
                 case RegisterUserMod:
@@ -146,10 +146,10 @@ public class UpdaterCore extends Observable {
         notifyObservers("正在合并文件对象 ...", compareResult, SimpleResultType.Started);
 
         try {
-            if(!Environment.getUpdaterObjectPath().toFile().exists())
+            if (!Environment.getUpdaterObjectPath().toFile().exists())
                 FileUtils.forceMkdir(Environment.getUpdaterObjectPath().toFile());
 
-            for (Map.Entry<String, List<FileNode>> objectList :  compareResult.getGlobalObjects().entrySet()) {
+            for (Map.Entry<String, List<FileNode>> objectList : compareResult.getGlobalObjects().entrySet()) {
                 notifyObservers("正在合并: " + objectList.getKey(), objectList, SimpleResultType.Loading);
                 ObjectEngine.mergeObject(objectList.getKey(), objectList.getValue());
             }
@@ -174,41 +174,41 @@ public class UpdaterCore extends Observable {
                     throw new UpdateCriticalException("无法创建缓存文件夹", 73);
             }
 
-            for (Map.Entry<String, List<FileNode>> objectList :  compareResult.getGlobalObjects().entrySet()) {
+            for (Map.Entry<String, List<FileNode>> objectList : compareResult.getGlobalObjects().entrySet()) {
                 for (FileNode object : objectList.getValue()) {
                     notifyObservers("准备下载: " + object.getPath(), new DownloadNewFileEvent(DownloadEventType.Downloading, DownloadEventAction.FileIsCached));
 
                     Path savePath = Environment.getCachePath().resolve(object.getFile().getName());
-                    boolean hasCached= false;
+                    boolean hasCached = false;
 
-                    if(savePath.toFile().exists()) {
+                    if (savePath.toFile().exists()) {
                         String cacheFileMd5 = FileTool.getFileMD5(savePath.toFile());
-                        if(cacheFileMd5 != null && cacheFileMd5.equals(object.getExpectedMd5()))
+                        if (cacheFileMd5 != null && cacheFileMd5.equals(object.getExpectedMd5()))
                             hasCached = true;
                     }
 
-                    if(hasCached) {
+                    if (hasCached) {
                         notifyObservers("已缓存的下载: " + object.getPath(), new DownloadNewFileEvent(DownloadEventType.Downloading, DownloadEventAction.FileIsCached));
                     } else {
                         notifyObservers("正在下载: " + object.getPath(), new DownloadNewFileEvent(DownloadEventType.Downloading, DownloadEventAction.Downloading));
 
                         int failNum = 0;
-                        for(; failNum < Environment.getDownloadMaxTries(); failNum++) {
+                        for (; failNum < Environment.getDownloadMaxTries(); failNum++) {
                             try {
                                 networkUtil.simpleDownloadFile(networkUtil.getRepoFileURL(object), savePath);
 
                                 String downloadedFileMd5 = FileTool.getFileMD5(savePath.toFile());
 
-                                if(downloadedFileMd5 == null || !downloadedFileMd5.equals(object.getExpectedMd5()))
+                                if (downloadedFileMd5 == null || !downloadedFileMd5.equals(object.getExpectedMd5()))
                                     throw new FileDamagedException(String.format("下载的文件已损坏 ( 下载的文件: %s，服务器上的文件：%s", downloadedFileMd5, object.getExpectedMd5()));
                                 else
                                     break;
                             } catch (Exception ex) {
-                                notifyObservers(String.format("下载失败，正在重试 (%d/%d 次): %s -> %s\n", failNum+1, Environment.getDownloadMaxTries(), ex.getMessage(), object.getPath()),
+                                notifyObservers(String.format("下载失败，正在重试 (%d/%d 次): %s -> %s\n", failNum + 1, Environment.getDownloadMaxTries(), ex.getMessage(), object.getPath()),
                                         new DownloadNewFileEvent(DownloadEventType.FailedButRedownloading, DownloadEventAction.DownloadFailed), ex);
                             }
                         }
-                        if(failNum == Environment.getDownloadMaxTries())
+                        if (failNum == Environment.getDownloadMaxTries())
                             throw new UpdateCriticalException("无法下载新文件，请检查您的网络", 75);
                     }
                 }
@@ -256,15 +256,15 @@ public class UpdaterCore extends Observable {
                 remoteResult = parserEngine.decode(remoteJSONData);
                 break;
             } catch (IOException ex) {
-                if(onDownloadFailed != null)
+                if (onDownloadFailed != null)
                     onDownloadFailed.accept(ex);
 
-                notifyObservers(String.format("尝试下载更新信息时出错 (第 %d/%d 次尝试): %s\n", i+1, Environment.getDownloadMaxTries(), ex.getMessage()),
-                        new DownloadMetaEvent(DownloadEventType.FailedButRedownloading, i+1), ex);
+                notifyObservers(String.format("尝试下载更新信息时出错 (第 %d/%d 次尝试): %s\n", i + 1, Environment.getDownloadMaxTries(), ex.getMessage()),
+                        new DownloadMetaEvent(DownloadEventType.FailedButRedownloading, i + 1), ex);
             }
         }
 
-        if(remoteResult == null) {
+        if (remoteResult == null) {
             UpdateCriticalException ex = new UpdateCriticalException("无法下载更新信息，更新失败。请检查您的网络", 71);
 
             notifyObservers(ex.getMessage(),

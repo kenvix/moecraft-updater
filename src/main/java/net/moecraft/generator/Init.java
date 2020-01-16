@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.logging.*;
+
 import net.moecraft.generator.BuildConfig;
 
 import static java.lang.System.out;
@@ -44,7 +45,7 @@ class Init {
         } catch (UnrecognizedOptionException ex) {
             Environment.showErrorMessage("Wrong Argument given: " + ex.getMessage());
             throw new RuntimeException(ex);
-        } catch (IOException | ParseException e ) {
+        } catch (IOException | ParseException e) {
             throw new RuntimeException(e);
         }
     }

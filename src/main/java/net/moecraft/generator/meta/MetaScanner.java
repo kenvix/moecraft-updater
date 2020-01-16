@@ -6,7 +6,7 @@ import net.moecraft.generator.meta.scanner.CommonScanner;
 import java.lang.reflect.Field;
 
 public class MetaScanner {
-    private MetaResult      result = new MetaResult();
+    private MetaResult result = new MetaResult();
     private CommonScanner scanner;
     private GeneratorConfig config = GeneratorConfig.getInstance();
 
@@ -17,6 +17,7 @@ public class MetaScanner {
     /**
      * Get scanned result
      * Warning: this method does not scan files!!
+     *
      * @return result
      */
     public MetaResult getResult() {
@@ -32,8 +33,8 @@ public class MetaScanner {
         for (MetaNodeType type : MetaNodeType.values()) {
             try {
                 Field field = type.getClass().getField(type.name());
-                if(field.isAnnotationPresent(ScanableMetaNode.class)) {
-                    if(field.isAnnotationPresent(DirectoryMetaNode.class))
+                if (field.isAnnotationPresent(ScanableMetaNode.class)) {
+                    if (field.isAnnotationPresent(DirectoryMetaNode.class))
                         config.getDirectoryNodesByType(type).forEach(dir -> scanner.scan(dir.getDirectory(), type, this));
                     else if (field.isAnnotationPresent(FileMetaNode.class))
                         config.getFileNodesByType(type).getFileNodes().forEach(file -> result.addFileNode(type, file));

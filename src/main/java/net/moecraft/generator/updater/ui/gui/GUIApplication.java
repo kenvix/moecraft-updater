@@ -19,15 +19,18 @@ import java.net.URL;
 public class GUIApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        URL    resource = getClass().getResource("nodeselect.fxml");
-        Parent root     = FXMLLoader.load(resource);
-		
+        URL resource = getClass().getResource("nodeselect.fxml");
+        Parent root = FXMLLoader.load(resource);
+
         primaryStage.setTitle(Environment.getAppName());
         primaryStage.setScene(new Scene(root));
-		primaryStage.setResizable(false);
-		primaryStage.setOnCloseRequest((event) -> {Platform.exit();});
+        primaryStage.setResizable(false);
+        primaryStage.setOnCloseRequest((event) -> {
+            Platform.exit();
+        });
         primaryStage.show();
     }
+
     public static void display() {
         launch();
     }

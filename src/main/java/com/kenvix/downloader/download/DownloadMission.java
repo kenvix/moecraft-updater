@@ -34,7 +34,7 @@ public class DownloadMission {
 
 
     public void start() throws ServerNotSupportedException, IOException {
-        if(savePath.toFile().exists()) {
+        if (savePath.toFile().exists()) {
             if (settings.isOverwriteFile()) {
                 if (!savePath.toFile().delete())
                     throw new IOException("Unable to delete exist file.");
@@ -42,7 +42,6 @@ public class DownloadMission {
                     throw new FileAlreadyExistsException("Local File Already Exists! If you want to overwrite this file, please use setOverwriteFile()");
             }
         }
-
 
 
         ReadableByteChannel readableByteChannel = Channels.newChannel(url.openStream());

@@ -13,14 +13,14 @@ import java.io.File;
 import java.util.*;
 
 public class MetaResult implements Cloneable {
-    private Map<MetaNodeType, List<DirectoryNode>>          directoryNodes;
-    private Map<MetaNodeType, DirectoryNode>                fileNodes;
-    private Map<String, List<FileNode>>                     globalObjects = new HashMap<>();
-    private String                                          description   = null;
-    private String                                          version       = null;
-    private long                                            objectSize    = 0;
-    private long                                            time          = new Date().getTime();
-    private UpdaterInfo                                     updaterInfo   = null;
+    private Map<MetaNodeType, List<DirectoryNode>> directoryNodes;
+    private Map<MetaNodeType, DirectoryNode> fileNodes;
+    private Map<String, List<FileNode>> globalObjects = new HashMap<>();
+    private String description = null;
+    private String version = null;
+    private long objectSize = 0;
+    private long time = new Date().getTime();
+    private UpdaterInfo updaterInfo = null;
 
     {
         directoryNodes = new HashMap<>();
@@ -158,16 +158,16 @@ public class MetaResult implements Cloneable {
             ex.printStackTrace();
         }
 
-        if(metaResult != null) {
+        if (metaResult != null) {
             HashMap<MetaNodeType, List<DirectoryNode>> newDirectoryNodes = new HashMap<>();
             this.directoryNodes.forEach((nodeType, nodeList) ->
-                newDirectoryNodes.put(nodeType, new ArrayList<DirectoryNode>() {{
-                    directoryNodes.get(nodeType).forEach(node -> this.add(node.clone()));
-                }})
+                    newDirectoryNodes.put(nodeType, new ArrayList<DirectoryNode>() {{
+                        directoryNodes.get(nodeType).forEach(node -> this.add(node.clone()));
+                    }})
             );
             metaResult.directoryNodes = newDirectoryNodes;
 
-            HashMap<MetaNodeType, DirectoryNode>            newFileNodes = new HashMap<>();
+            HashMap<MetaNodeType, DirectoryNode> newFileNodes = new HashMap<>();
             this.fileNodes.forEach((nodeType, node) -> newFileNodes.put(nodeType, node.clone()));
             metaResult.fileNodes = newFileNodes;
         }

@@ -17,10 +17,10 @@ import java.util.TreeSet;
 public class DNSRepoManager implements RepoManager {
 
     @Override
-    @SuppressWarnings ("unchecked")
+    @SuppressWarnings("unchecked")
     public Repo[] getRepos() throws Exception {
-        TreeSet<Repo> repos  = new TreeSet<>();
-        final Lookup  lookup = new Lookup(Environment.getDnsRepoDomain(), Type.TXT);
+        TreeSet<Repo> repos = new TreeSet<>();
+        final Lookup lookup = new Lookup(Environment.getDnsRepoDomain(), Type.TXT);
 
         //lookup.setResolver(new SimpleResolver());
         //lookup.setCache(null);
@@ -29,9 +29,9 @@ public class DNSRepoManager implements RepoManager {
         int lookupResult = Lookup.TRY_AGAIN;
 
         for (int i = -1; i < Environment.getDnsMaxTries() && lookupResult == Lookup.TRY_AGAIN; i++) {
-            Environment.getLogger().fine(String.format("Fetching repos by DNS Query (try %d/%d) on %s", i+1, Environment.getDnsMaxTries(), Environment.getDnsRepoDomain()));
+            Environment.getLogger().fine(String.format("Fetching repos by DNS Query (try %d/%d) on %s", i + 1, Environment.getDnsMaxTries(), Environment.getDnsRepoDomain()));
             lookup.run();
-            records      = lookup.getAnswers();
+            records = lookup.getAnswers();
             lookupResult = lookup.getResult();
         }
 
@@ -40,8 +40,8 @@ public class DNSRepoManager implements RepoManager {
 
             for (Record record : records) {
                 try {
-                    final TXTRecord txt    = (TXTRecord) record;
-                    StringBuilder   buffer = new StringBuilder();
+                    final TXTRecord txt = (TXTRecord) record;
+                    StringBuilder buffer = new StringBuilder();
                     txt.getStrings().forEach(buffer::append);
 
                     String content = new String(Base64.getDecoder().decode(buffer.toString()), StandardCharsets.UTF_8);

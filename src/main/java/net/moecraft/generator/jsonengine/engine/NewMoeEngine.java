@@ -26,11 +26,11 @@ public class NewMoeEngine extends CommonEngine implements GeneratorEngine, Parse
     private final static String dateFormat = "yyyy-MM-dd HH:mm:ss";
 
     @Override
-    public MetaResult decode(String data){
-        MetaResult  result  = new MetaResult();
+    public MetaResult decode(String data) {
+        MetaResult result = new MetaResult();
 
         JSONTokener tokener = new JSONTokener(data);
-        JSONObject  root    = new JSONObject(tokener);
+        JSONObject root = new JSONObject(tokener);
 
         try {
             String moecraftVersion = root.getString("version");
@@ -45,7 +45,7 @@ public class NewMoeEngine extends CommonEngine implements GeneratorEngine, Parse
 
         JSONObject objects = root.getJSONObject("objects");
         objects.keySet().forEach(key -> {
-            if(!result.hasGlobalObject(key)) {
+            if (!result.hasGlobalObject(key)) {
                 List<FileNode> objectList = new ArrayList<>();
 
                 JSONArray currentObject = objects.getJSONArray(key);
@@ -63,11 +63,11 @@ public class NewMoeEngine extends CommonEngine implements GeneratorEngine, Parse
             }
         });
 
-        JSONArray                syncedDirs       = root.getJSONArray("synced_dirs");
+        JSONArray syncedDirs = root.getJSONArray("synced_dirs");
         List<DirectoryNode> syncedDirsResult = result.getDirectoryNodesByType(MetaNodeType.SyncedDirectory);
         scanDirForDecoding(syncedDirs, syncedDirsResult, result.getGlobalObjects());
 
-        JSONArray syncedFiles  = root.getJSONArray("synced_files");
+        JSONArray syncedFiles = root.getJSONArray("synced_files");
         syncedFiles.forEach(fileObject -> addFileNodeForDecoding(fileObject, result.getFileNodesByType(MetaNodeType.SyncedFile), result.getGlobalObjects()));
 
         JSONArray defaultFiles = root.getJSONArray("default_files");
@@ -101,7 +101,7 @@ public class NewMoeEngine extends CommonEngine implements GeneratorEngine, Parse
 
     @NotNull
     private FileNode getFileNodeForDecoding(JSONObject jsonObject, Map<String, List<FileNode>> globalObjects) {
-        FileNode   fileNode = new FileNode(new File(basePath + "/" + jsonObject.getString("path")));
+        FileNode fileNode = new FileNode(new File(basePath + "/" + jsonObject.getString("path")));
         String fileMd5 = jsonObject.getString("md5");
 
         fileNode.setExpectedMd5(fileMd5)
@@ -160,7 +160,7 @@ public class NewMoeEngine extends CommonEngine implements GeneratorEngine, Parse
             put("size", file.getSize());
             put("md5", file.getMD5());
 
-            if(!file.isObject()) {
+            if (!file.isObject()) {
                 put("path", file.getRelativePath());
 
                 //JSONArray objects = new JSONArray();
@@ -176,7 +176,7 @@ public class NewMoeEngine extends CommonEngine implements GeneratorEngine, Parse
     public void save(Object in) throws IOException, ClassCastException {
         String result = (String) in;
         File deployDir = Environment.getDeployPath().toFile();
-        if(!deployDir.exists() && !deployDir.mkdirs())
+        if (!deployDir.exists() && !deployDir.mkdirs())
             throw new IOException("NewMoeEngine: unable to create Deployment dir");
         writeJson(Environment.getDeployPath().resolve(Environment.getOutJsonName()).toFile(), result);
     }
@@ -212,13 +212,13 @@ public class NewMoeEngine extends CommonEngine implements GeneratorEngine, Parse
 
     private void scanDirForDecoding(JSONArray array, List<DirectoryNode> scanResult, Map<String, List<FileNode>> globalObjects) {
         for (Object syncedDirObject : array) {
-            JSONObject    jsonSyncedDirObject = (JSONObject) syncedDirObject;
-            File          dirFile             = new File(basePath + "/" + jsonSyncedDirObject.getString("path"));
-            DirectoryNode directoryNode       = new DirectoryNode(dirFile);
-            JSONArray     filesArray          = jsonSyncedDirObject.getJSONArray("files");
+            JSONObject jsonSyncedDirObject = (JSONObject) syncedDirObject;
+            File dirFile = new File(basePath + "/" + jsonSyncedDirObject.getString("path"));
+            DirectoryNode directoryNode = new DirectoryNode(dirFile);
+            JSONArray filesArray = jsonSyncedDirObject.getJSONArray("files");
             filesArray.forEach(fileObject -> addFileNodeForDecoding(fileObject, directoryNode, globalObjects));
-            List<DirectoryNode> child      = directoryNode.getDirectoryNodes();
-            JSONArray                childArray = jsonSyncedDirObject.getJSONArray("child");
+            List<DirectoryNode> child = directoryNode.getDirectoryNodes();
+            JSONArray childArray = jsonSyncedDirObject.getJSONArray("child");
             scanDirForDecoding(childArray, child, globalObjects);
             scanResult.add(directoryNode);
         }
