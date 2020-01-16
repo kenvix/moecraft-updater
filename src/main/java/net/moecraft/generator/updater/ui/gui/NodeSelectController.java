@@ -39,7 +39,7 @@ public class NodeSelectController implements Initializable {
         //logln("注意: 如果你需要添加自定义 Mod, 请打开 Updater/Mods 文件夹(注意大小写), 并把你的 Mod 放入这个文件夹中. 不要把 Mod 直接放在 .minecraft/mods 中, 否则它们会被删除.");
 		NodeBox.getItems().addAll((Object[]) repos);
 
-        NodeBox.converterProperty().set(new StringConverter<Repo>() {
+        NodeBox.converterProperty().set(new StringConverter<Object>() {
 			@Override
 			public String toString(Object object) {
 				return ((Repo) object).getDescription();
