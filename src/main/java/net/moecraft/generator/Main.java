@@ -29,8 +29,9 @@ public class Main {
         try {
             Init.initSystem(args);
 
-            SelfUpdateApplier selfUpdateApplier = new SelfUpdateApplier();
-            selfUpdateApplier.start("generator-1.0-SNAPSHOT.jar");
+            //The selfupdateapplier does not seem to be working correctly? --zbx1425
+            //SelfUpdateApplier selfUpdateApplier = new SelfUpdateApplier();
+            //selfUpdateApplier.start("generator-1.0-SNAPSHOT.jar");
 
             String basePath = Environment.getBaseMoeCraftPath();
             Environment.getLogger().log(Level.FINEST, "Current path: " + basePath);
