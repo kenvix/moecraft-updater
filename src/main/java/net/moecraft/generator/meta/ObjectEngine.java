@@ -16,16 +16,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ObjectEngine {
-    private final static GeneratorConfig config = GeneratorConfig.getInstance();
+    private GeneratorConfig config;
     private int objectSize;
     private MetaResult result;
+    private static ObjectEngine currentConfigInstance;
 
-    public static String getOutDir() {
+    public ObjectEngine(MetaResult result) throws IOException {
+        this(result, GeneratorConfig.getInstance());
+    }
+
+    public String getOutDir() {
         return Environment.getBaseMoeCraftPath() + "/../Deployment";
     }
 
-    public ObjectEngine(MetaResult result) throws IOException {
+    public ObjectEngine(MetaResult result, GeneratorConfig config) throws IOException {
         this.result = result;
+        this.config = config;
         objectSize = (int) config.getObjectSize();
 
         File outdir = new File(getOutDir());
@@ -103,11 +109,11 @@ public class ObjectEngine {
         return fileMd5;
     }
 
-    public static String getObjectFilePath(int objectID, FileNode source) {
+    public String getObjectFilePath(int objectID, FileNode source) {
         return String.format(GeneratorConfig.getInstance().getNameRule(), getOutDir(), source.getMD5(), objectID);
     }
 
-    public static void mergeObject(FileNode file) throws IOException {
+    public void mergeObject(FileNode file) throws IOException {
         mergeObject(file.getExpectedMd5(), file.getObjects());
     }
 

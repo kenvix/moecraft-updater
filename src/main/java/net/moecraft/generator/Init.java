@@ -60,6 +60,7 @@ class Init {
         ops.addOption("l", "version", true, "[Generator] Version this update. Default for version in generator_config.json");
         ops.addOption("v", "verbose", false, "Verbose logging mode.");
         ops.addOption("cli", false, "Use Command Line User Interface.");
+        ops.addOption("clean", false, "Clean unused objects");
         ops.addOption("h", "help", false, "Print help messages");
 
         DefaultParser parser = new DefaultParser();

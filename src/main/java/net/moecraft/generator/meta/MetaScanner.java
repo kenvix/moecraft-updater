@@ -8,10 +8,15 @@ import java.lang.reflect.Field;
 public class MetaScanner {
     private MetaResult result = new MetaResult();
     private CommonScanner scanner;
-    private GeneratorConfig config = GeneratorConfig.getInstance();
+    private GeneratorConfig config;
 
     public MetaScanner(CommonScanner scanner) {
         this.scanner = scanner;
+    }
+
+    public MetaScanner(CommonScanner scanner, GeneratorConfig config) {
+        this.scanner = scanner;
+        this.config = config;
     }
 
     /**

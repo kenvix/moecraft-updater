@@ -28,6 +28,7 @@ repositories {
 
 compileJava {
     options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+    options.encoding = 'UTF-8'
 }
 
 dependencies {
@@ -99,5 +100,5 @@ buildConfig {
 // IDE doesn't complain when the app references BuildConfig classes
 sourceSets.main.java {
     srcDirs += new File(mainSrcDir)
-    srcDirs += new File(buildDir, 'gen/buildconfig/src')
+    srcDirs += new File(buildDir, 'gen/buildconfig/src/main')
 }
