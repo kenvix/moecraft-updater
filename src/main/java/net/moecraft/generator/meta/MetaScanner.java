@@ -11,7 +11,7 @@ public class MetaScanner {
     private GeneratorConfig config;
 
     public MetaScanner(CommonScanner scanner) {
-        this.scanner = scanner;
+        this(scanner, GeneratorConfig.getInstance());
     }
 
     public MetaScanner(CommonScanner scanner, GeneratorConfig config) {

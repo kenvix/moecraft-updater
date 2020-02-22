@@ -47,7 +47,7 @@ public class DNSRepoManager implements RepoManager {
                     String content = new String(Base64.getDecoder().decode(buffer.toString()), StandardCharsets.UTF_8);
                     String[] data = content.split("\\|\\|");
                     int repoOrder = Integer.parseInt(data[0]);
-                    Repo repo = new Repo(repoOrder, data[1], data[2], data[3], data[4]);
+                    Repo repo = new Repo(repoOrder, data[1], data[2], data[3], data[4], data.length >= 6 ? data[5] : null);
                     repos.add(repo);
                 } catch (IndexOutOfBoundsException ex) {
                     Environment.getLogger().info("Detected invalid Repo: " + ex.getMessage());

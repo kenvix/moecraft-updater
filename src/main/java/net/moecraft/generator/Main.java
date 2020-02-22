@@ -6,17 +6,17 @@
 
 package net.moecraft.generator;
 
+import kotlin.Unit;
 import net.moecraft.generator.jsonengine.GeneratorEngine;
 import net.moecraft.generator.jsonengine.ParserEngine;
-import net.moecraft.generator.meta.GeneratorConfig;
-import net.moecraft.generator.meta.MetaResult;
-import net.moecraft.generator.meta.MetaScanner;
-import net.moecraft.generator.meta.ObjectEngine;
+import net.moecraft.generator.jsonengine.engine.NewMoeEngine;
+import net.moecraft.generator.meta.*;
 import net.moecraft.generator.meta.scanner.CommonScanner;
 import net.moecraft.generator.updater.ui.UpdaterUI;
 import net.moecraft.generator.updater.update.selfupdate.SelfUpdateApplier;
 
 import java.io.File;
+import java.io.RandomAccessFile;
 import java.lang.reflect.Modifier;
 import java.util.logging.Level;
 
@@ -35,6 +35,11 @@ public class Main {
 
             String basePath = Environment.getBaseMoeCraftPath();
             Environment.getLogger().log(Level.FINEST, "Current path: " + basePath);
+
+            if (Environment.getCommandLine().hasOption("clean")) {
+                runAsCleaner();
+                System.exit(0);
+            }
 
             if (Environment.isUpdater())
                 runAsUpdater();
@@ -84,8 +89,15 @@ public class Main {
         uiProvider.display();
     }
 
+    private static void runAsCleaner() throws Exception {
+        out.println("Scanning and Cleaning unused deployment objects");
+        File jsonFile = Environment.getDeployPath().resolve(Environment.getOutJsonName()).toFile();
+        Cleaner cleaner = new Cleaner(jsonFile, Environment.getDeployPath());
+        cleaner.scanAndDelete(file -> out.println("Delete: " + file.getName()));
+    }
+
     private static void generateAll(MetaResult result) throws Exception {
-        for (Class engine : Environment.getGeneratorEngines()) {
+        for (Class<?> engine : Environment.getGeneratorEngines()) {
             if (!Modifier.isAbstract(engine.getModifiers())) {
                 Environment.getLogger().info("Generating result using " + engine.getSimpleName());
 

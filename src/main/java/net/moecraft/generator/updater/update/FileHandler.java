@@ -12,6 +12,7 @@ import org.apache.commons.io.FileUtils;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Scanner;
 
 public final class FileHandler {
     public enum LinkType {
@@ -89,11 +90,10 @@ public final class FileHandler {
 
         try {
             process.waitFor();
-        } catch (InterruptedException ex) {
-        }
+        } catch (InterruptedException ignored) { }
 
         if (process.exitValue() != 0)
-            throw new IOException("Create link failed");
+            throw new IOException("Create link failed: ");
     }
 
     public static void linkForOtherPlatform(Path target, Path linkPath, LinkType type) throws IOException {

@@ -9,22 +9,26 @@ package net.moecraft.generator;
 import net.moecraft.generator.jsonengine.engine.BalthildEngine;
 import net.moecraft.generator.jsonengine.engine.NewMoeEngine;
 import net.moecraft.generator.meta.scanner.FileScanner;
-import net.moecraft.generator.updater.repo.AccountCenterRepoManager;
-import net.moecraft.generator.updater.repo.LocalIntegratedRepoManager;
-import net.moecraft.generator.updater.repo.Repo;
-import net.moecraft.generator.updater.repo.RepoManager;
+import net.moecraft.generator.updater.repo.*;
 import net.moecraft.generator.updater.ui.cli.CommandLineUI;
 import net.moecraft.generator.updater.ui.gui.FXGraphicalUI;
 import org.apache.commons.cli.CommandLine;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 public final class Environment {
@@ -38,7 +42,7 @@ public final class Environment {
     private static String updateDescription;
     private static String updateVersion;
     private final static Class metaScanner = FileScanner.class;
-    private final static Class[] repoManager = {AccountCenterRepoManager.class, LocalIntegratedRepoManager.class};
+    private final static Class[] repoManager = {AccountCenterRepoManager.class, DNSRepoManager.class, LocalIntegratedRepoManager.class};
     private final static String dnsRepoDomain = "updater-repo.moecraft.net";
     private static final String repoManagerURL = "https://user.moecraft.net:8443/API/Updater/repo";
     private final static String appName = "MoeCraft Toolbox";
@@ -104,6 +108,56 @@ public final class Environment {
             }
         }
         return logger;
+    }
+
+    public static String getColoredString(String str, Level level) {
+        if (level == Level.FINER || level == Level.FINEST)
+            return "\033[32m" + str + "\033[0m";
+
+        else if (level == Level.FINE)
+            return "\033[1;32m" + str + "\033[0m";
+
+        else if (level == Level.INFO)
+            return "\033[1;36m" + str + "\033[0m";
+
+        else if (level == Level.WARNING)
+            return "\033[1;33m" + str + "\033[0m";
+
+        else if (level == Level.SEVERE)
+            return "\033[1;31m" + str + "\033[0m";
+
+        else if (level == Level.CONFIG)
+            return "\033[35m" + str + "\033[0m";
+        else
+            return str;
+    }
+
+    private static Map<String, String> simplifiedSourceClassNameMap = new HashMap<>();
+    public static String getSimplifiedSourceClassName(String sourceClassName) {
+        if (simplifiedSourceClassNameMap.containsKey(sourceClassName))
+            return simplifiedSourceClassNameMap.get(sourceClassName);
+
+        String result = getShortPackageName(sourceClassName);
+        simplifiedSourceClassNameMap.put(sourceClassName, result);
+        return result;
+    }
+
+    public static String getShortPackageName(String sourceClassName) {
+        StringBuilder builder = new StringBuilder(sourceClassName);
+
+        if (sourceClassName.contains(".")) {
+            int beginPosition = 0;
+            int nextPosition = 0;
+
+            do {
+                nextPosition = builder.indexOf(".", beginPosition + 1);
+                int deletedLength = nextPosition - beginPosition - 1;
+                builder.delete(beginPosition + 1, nextPosition);
+                beginPosition = nextPosition - deletedLength + 1;
+            } while ((nextPosition = builder.indexOf(".", beginPosition + 1)) >= 0);
+        }
+
+        return builder.toString();
     }
 
     public static Path getUpdaterPath() {

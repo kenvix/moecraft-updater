@@ -109,6 +109,13 @@ public class ObjectEngine {
         return fileMd5;
     }
 
+    public static String getObjectMd5FromFileName(String fileName) {
+        if (fileName.length() < 32)
+            throw new IllegalArgumentException("Illegal filename");
+
+        return fileName.substring(0, 32);
+    }
+
     public String getObjectFilePath(int objectID, FileNode source) {
         return String.format(GeneratorConfig.getInstance().getNameRule(), getOutDir(), source.getMD5(), objectID);
     }

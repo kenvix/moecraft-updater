@@ -61,6 +61,7 @@ class Init {
         ops.addOption("v", "verbose", false, "Verbose logging mode.");
         ops.addOption("cli", false, "Use Command Line User Interface.");
         ops.addOption("clean", false, "Clean unused objects");
+        ops.addOption("o", "output", false, "[Generator] Output json file name or relative path. default moecraft.json");
         ops.addOption("h", "help", false, "Print help messages");
 
         DefaultParser parser = new DefaultParser();

@@ -25,6 +25,7 @@ public final class GeneratorConfig extends MetaResult implements Serializable {
     private JSONObject json;
     private String basePath;
     private String nameRule;
+    private String outputJsonName;
     private Set<String> excludedFileRule = new HashSet<>();
     private Set<String> excludedDirectoryRule = new HashSet<>();
     private static GeneratorConfig instance = null;
@@ -124,19 +125,25 @@ public final class GeneratorConfig extends MetaResult implements Serializable {
 
         UpdaterInfo updaterInfo = new UpdaterInfo(BuildConfig.VERSION_CODE);
         updaterInfo.setVersionName(BuildConfig.VERSION_NAME);
-        updaterInfo.setObjectFile(new FileNode(new File(System.getProperty("java.class.path")), true));
+
+        //Self update is only available for jar build
+        if (!System.getProperty("java.class.path").contains(";")) {
+            updaterInfo.setObjectFile(new FileNode(new File(System.getProperty("java.class.path")), true));
+        }
 
         setUpdaterInfo(updaterInfo);
         setDescription(json.getString("description"));
         setVersion(json.getString("version"));
         setNameRule(json.getString("name_rule"));
         setObjectSize(json.getLong("object_size"));
+        setOutputJsonName(json.has("output_json") ? json.getString("output_json") : "moecraft.json");
     }
 
     public void startScan() {
         searchFileItems("synced_dirs", MetaNodeType.SyncedDirectory, json);
         searchFileItems("synced_files", MetaNodeType.SyncedFile, json);
         searchFileItems("default_files", MetaNodeType.DefaultFile, json);
+        searchFileItems("default_dir", MetaNodeType.DefaultDirectory, json);
         searchRuleItems("excluded_files", excludedFileRule, json);
         searchRuleItems("excluded_dir", excludedDirectoryRule, json);
     }
@@ -184,6 +191,15 @@ public final class GeneratorConfig extends MetaResult implements Serializable {
             if (!Environment.isUpdater())
                 Environment.getLogger().log(Level.CONFIG, "Declaring a invalid field [" + ex.getMessage() + "] Skip...");
         }
+    }
+
+    public String getOutputJsonName() {
+        return outputJsonName;
+    }
+
+    public GeneratorConfig setOutputJsonName(String outputJsonName) {
+        this.outputJsonName = outputJsonName;
+        return this;
     }
 
     private void setNameRule(String nameRule) {
