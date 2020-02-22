@@ -63,6 +63,7 @@ class Init {
         ops.addOption("clean", false, "Clean unused objects");
         ops.addOption("o", "output", false, "[Generator] Output json file name or relative path. default moecraft.json");
         ops.addOption("h", "help", false, "Print help messages");
+        ops.addOption("no", "no-objects", false, "[Generator] Do not generate objects");
 
         DefaultParser parser = new DefaultParser();
         CommandLine cmd = parser.parse(ops, args);

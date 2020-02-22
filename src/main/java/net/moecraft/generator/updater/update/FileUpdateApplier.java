@@ -11,6 +11,7 @@ import net.moecraft.generator.meta.DirectoryNode;
 import net.moecraft.generator.meta.FileNode;
 import net.moecraft.generator.meta.MetaNodeType;
 import net.moecraft.generator.meta.MetaResult;
+import org.jetbrains.annotations.NotNull;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -28,11 +29,14 @@ public final class FileUpdateApplier {
         handleExcludedDirectoryNodes(task.getDirectoryNodesByType(MetaNodeType.ExcludedDirectory));
 
         task.getFileNodesByType(MetaNodeType.SyncedFile).getFileNodes().forEach(this::handleNewFiles);
+
         handleNewDirectoryNodes(task.getDirectoryNodesByType(MetaNodeType.SyncedDirectory));
+        handleNewDirectoryNodes(task.getDirectoryNodesByType(MetaNodeType.DefaultDirectory));
+
         task.getFileNodesByType(MetaNodeType.DefaultFile).getFileNodes().forEach(this::handleNewFiles);
     }
 
-    public void handleNewDirectoryNodes(List<DirectoryNode> directoryNodes) {
+    public void handleNewDirectoryNodes(@NotNull List<DirectoryNode> directoryNodes) {
         directoryNodes.forEach(directoryNode -> {
             DirectoryHandler.create(directoryNode.getPath());
 
@@ -43,7 +47,7 @@ public final class FileUpdateApplier {
         });
     }
 
-    public void handleExcludedDirectoryNodes(List<DirectoryNode> directoryNodes) {
+    public void handleExcludedDirectoryNodes(@NotNull List<DirectoryNode> directoryNodes) {
         directoryNodes.forEach(directoryNode -> {
             if (directoryNode.hasChildDirectory())
                 handleExcludedDirectoryNodes(directoryNode.getDirectoryNodes());

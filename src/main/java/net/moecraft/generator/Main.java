@@ -72,7 +72,7 @@ public class Main {
         result.setDescription(Environment.getUpdateDescription().isEmpty() ? config.getDescription() : Environment.getUpdateDescription());
         result.setVersion(Environment.getUpdateVersion().isEmpty() ? config.getVersion() : Environment.getUpdateVersion());
 
-        if (config.getObjectSize() > 0) {
+        if (config.getObjectSize() > 0 && !Environment.getCommandLine().hasOption("no")) {
             Environment.getLogger().info("Generating objects....");
             ObjectEngine objectEngine = new ObjectEngine(result);
             objectEngine.startMakeObjects();

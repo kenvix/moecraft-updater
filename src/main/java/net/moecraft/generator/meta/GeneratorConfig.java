@@ -26,6 +26,7 @@ public final class GeneratorConfig extends MetaResult implements Serializable {
     private String basePath;
     private String nameRule;
     private String outputJsonName;
+    private String moecraftDirectory;
     private Set<String> excludedFileRule = new HashSet<>();
     private Set<String> excludedDirectoryRule = new HashSet<>();
     private static GeneratorConfig instance = null;
@@ -136,14 +137,32 @@ public final class GeneratorConfig extends MetaResult implements Serializable {
         setVersion(json.getString("version"));
         setNameRule(json.getString("name_rule"));
         setObjectSize(json.getLong("object_size"));
-        setOutputJsonName(json.has("output_json") ? json.getString("output_json") : "moecraft.json");
+
+        if (Environment.getCommandLine().hasOption('o'))
+            setOutputJsonName(Environment.getCommandLine().getOptionValue('o'));
+        else
+            setOutputJsonName(json.has("output_json") ? json.getString("output_json") : "moecraft.json");
+
+        setMoecraftDirectory(json.has("moecraft_dir") ? json.getString("moecraft_dir") : Environment.getBaseMoeCraftDir().getPath());
+    }
+
+    public String getMoecraftDirectory() {
+        return moecraftDirectory;
+    }
+
+    public GeneratorConfig setMoecraftDirectory(String moecraftDirectory) {
+        this.moecraftDirectory = moecraftDirectory;
+        return this;
     }
 
     public void startScan() {
         searchFileItems("synced_dirs", MetaNodeType.SyncedDirectory, json);
         searchFileItems("synced_files", MetaNodeType.SyncedFile, json);
         searchFileItems("default_files", MetaNodeType.DefaultFile, json);
-        searchFileItems("default_dir", MetaNodeType.DefaultDirectory, json);
+
+        if (json.has("default_dirs"))
+            searchFileItems("default_dirs", MetaNodeType.DefaultDirectory, json);
+
         searchRuleItems("excluded_files", excludedFileRule, json);
         searchRuleItems("excluded_dir", excludedDirectoryRule, json);
     }

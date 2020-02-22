@@ -32,17 +32,18 @@ public class UpdateComparer {
     public MetaResult compare() {
         result = new MetaResult();
         List<FileNode> resultDefaultFiles = result.getFileNodesByType(MetaNodeType.DefaultFile).getFileNodes();
-        remote.getFileNodesByType(MetaNodeType.DefaultFile).getFileNodes().forEach(fileNode -> {
-            if (!fileNode.getFile().exists()) {
-                resultDefaultFiles.add(fileNode);
-                putObjectIfNeed(fileNode);
-            }
-        });
 
-        remote.getFileNodesByType(MetaNodeType.SyncedFile).getFileNodes().forEach(fileNode -> compareUpdateFile(result.getFileNodesByType(MetaNodeType.SyncedFile), fileNode));
+        remote.getFileNodesByType(MetaNodeType.DefaultFile).getFileNodes().
+                forEach(fileNode -> compareUpdateFile(result.getFileNodesByType(MetaNodeType.DefaultFile), fileNode, true));
+
+        remote.getFileNodesByType(MetaNodeType.SyncedFile).getFileNodes().
+                forEach(fileNode -> compareUpdateFile(result.getFileNodesByType(MetaNodeType.SyncedFile), fileNode, false));
 
         List<DirectoryNode> directoryNodes = result.getDirectoryNodesByType(MetaNodeType.SyncedDirectory);
-        compareUpdateDirectoryNodes(remote.getDirectoryNodesByType(MetaNodeType.SyncedDirectory), directoryNodes);
+        compareUpdateDirectoryNodes(remote.getDirectoryNodesByType(MetaNodeType.SyncedDirectory), directoryNodes, false);
+
+        List<DirectoryNode> defaultDirectoryNodes = result.getDirectoryNodesByType(MetaNodeType.DefaultDirectory);
+        compareUpdateDirectoryNodes(remote.getDirectoryNodesByType(MetaNodeType.DefaultDirectory), defaultDirectoryNodes, true);
 
         DirectoryNode excludedFiles = result.getFileNodesByType(MetaNodeType.ExcludedFile);
         List<DirectoryNode> excludedDirs = result.getDirectoryNodesByType(MetaNodeType.ExcludedDirectory);
@@ -73,9 +74,9 @@ public class UpdateComparer {
         }
     }
 
-    private void compareUpdateFile(DirectoryNode out, FileNode remote) {
+    private void compareUpdateFile(DirectoryNode out, FileNode remote, boolean existOnly) {
         String localFileMd5 = remote.getMD5();
-        if (!remote.getFile().exists() || localFileMd5 == null || !localFileMd5.equals(remote.getExpectedMd5())) {
+        if (!remote.getFile().exists() || localFileMd5 == null || (!existOnly && !localFileMd5.equals(remote.getExpectedMd5()))) {
             out.addFileNode(remote);
             Environment.getLogger().finest("+ Add " + remote.getFile().getPath());
 
@@ -94,13 +95,13 @@ public class UpdateComparer {
         }
     }
 
-    private void compareUpdateDirectoryNodes(List<DirectoryNode> from, List<DirectoryNode> result) {
+    private void compareUpdateDirectoryNodes(List<DirectoryNode> from, List<DirectoryNode> result, boolean existOnly) {
         for (DirectoryNode directoryNode : from) {
             DirectoryNode resultDirectoryNode = new DirectoryNode(directoryNode.getDirectory());
-            directoryNode.getFileNodes().forEach(fileNode -> compareUpdateFile(resultDirectoryNode, fileNode));
+            directoryNode.getFileNodes().forEach(fileNode -> compareUpdateFile(resultDirectoryNode, fileNode, existOnly));
 
             if (directoryNode.hasChildDirectory())
-                compareUpdateDirectoryNodes(directoryNode.getDirectoryNodes(), resultDirectoryNode.getDirectoryNodes());
+                compareUpdateDirectoryNodes(directoryNode.getDirectoryNodes(), resultDirectoryNode.getDirectoryNodes(), existOnly);
 
             result.add(resultDirectoryNode);
         }

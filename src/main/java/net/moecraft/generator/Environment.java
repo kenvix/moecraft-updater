@@ -8,6 +8,7 @@ package net.moecraft.generator;
 
 import net.moecraft.generator.jsonengine.engine.BalthildEngine;
 import net.moecraft.generator.jsonengine.engine.NewMoeEngine;
+import net.moecraft.generator.meta.GeneratorConfig;
 import net.moecraft.generator.meta.scanner.FileScanner;
 import net.moecraft.generator.updater.repo.*;
 import net.moecraft.generator.updater.ui.cli.CommandLineUI;
@@ -34,7 +35,7 @@ import java.util.logging.Logger;
 public final class Environment {
 
     private static CommandLine cmd;
-    private final static Class[] generatorEngines = {BalthildEngine.class, NewMoeEngine.class};
+    private final static Class[] generatorEngines = {NewMoeEngine.class};
     private static File baseMoeCraftDir;
     private final static Class[] parserEngines = {NewMoeEngine.class};
     private static File generatorConfigFile;
@@ -46,7 +47,6 @@ public final class Environment {
     private final static String dnsRepoDomain = "updater-repo.moecraft.net";
     private static final String repoManagerURL = "https://user.moecraft.net:8443/API/Updater/repo";
     private final static String appName = "MoeCraft Toolbox";
-    private final static String outJsonName = "moecraft.json";
     private static Class uiProvider;
     private static Repo[] repos;
     private final static int downloadMaxTries = 5;
@@ -232,8 +232,9 @@ public final class Environment {
         return dnsRepoDomain;
     }
 
+    @Deprecated
     public static String getOutJsonName() {
-        return outJsonName;
+        return GeneratorConfig.getInstance().getOutputJsonName();
     }
 
     public static Path getDeployPath() {

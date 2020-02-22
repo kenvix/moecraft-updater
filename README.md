@@ -1,3 +1,7 @@
+# MoeCraft 通用更新器
+
+**注意**：本软件为开源软件，但并非自由软件。使用须联系本人获得授权，否则不得使用本软件。
+
 # 如何将本项目部署在您自己的服务器
 
 ## 1.准备工作
@@ -18,8 +22,8 @@
     该文件应为json格式，且不应该有注释。地址则为您的网页服务器（即客户端文件存放服务器）
      */
     private static final String repoManagerURL = "https://modpack.qwq2333.top/repo";//节点仓库，如果你是群组服或者有非同一时间同步多个客户端需求，你也可以把他当做客户端列表。
-    private final static String appName = "KCraft Toolbox"; //应用名，你应该根据个人需求修改
-    private final static String outJsonName = "kcraft.json";//作为生成器使用时输出的json文件，可改可不改
+    private final static String appName = "MoeCraft Toolbox"; //应用名，你应该根据个人需求修改
+    private final static String outJsonName = "MoeCraft.json";//作为生成器使用时输出的json文件，可改可不改
 ...
 ```
 除此之外，该文件还有一处需要更改。
@@ -53,12 +57,12 @@ public class LocalIntegratedRepoManager implements RepoManager {
 					第三个逗号后的内容是填写Environment.java时里面的生成器输出json
 					第四个逗号后的内容是显示的信息
 					*/
-					new Repo(0, "https://modpack.qwq2333.top/tech", "tech", "tech.json", "[推荐] KCraft 格雷服")
+					new Repo(0, "https://accounts.moecraft.net/tech", "tech", "tech.json", "[推荐] MoeCraft 格雷服")
 					/*
 					如上面的示例
 					当未获取到节点列表时就会输出
 					[0] [推荐] KCraft 格雷服
-					并自动从https://modpack.qwq2333.top/tech下载tech.json与其他客户端文件
+					并自动从https://accounts.moecraft.net/tech下载tech.json与其他客户端文件
 					*/
 				};
 				}
@@ -80,17 +84,17 @@ public class LocalIntegratedRepoManager implements RepoManager {
 [
 	[
 		0,//显示的顺序和序号
-		"https:\/\/modpack.qwq2333.top\/tech\/",//客户端存放的目录
+		"https:\/\/moecraft.net\/tech\/",//客户端存放的目录
 		"tech",//名字
-		"kcraft.json",//填写Environment.java时里面的生成器输出json
-		"[\u65b0\u73a9\u5bb6\u63a8\u8350]KCraft \u79d1\u6280\u670d"//输出的内容，要注意的是中文必须转换成Unicode编码
+		"MoeCraft.json",//填写Environment.java时里面的生成器输出json
+		"[\u65b0\u73a9\u5bb6\u63a8\u8350]MoeCraft \u79d1\u6280\u670d"//输出的内容，要注意的是中文必须转换成Unicode编码
 	],//当这不是最后一个节点时需要填写逗号，若是，则必须删去逗号
 	[
 		1,//显示的顺序和序号
-		"https:\/\/modpack.qwq2333.top\/old\/",//客户端存放的目录
+		"https:\/\/moecraft.net\/old\/",//客户端存放的目录
 		"old",//名字
-		"kcraft.json",//填写Environment.java时里面的生成器输出json
-		"[\u767d\u540d\u5355]KCraft \u517b\u8001\u670d"//输出的内容，要注意的是中文必须转换成Unicode编码
+		"MoeCraft.json",//填写Environment.java时里面的生成器输出json
+		"[\u767d\u540d\u5355]MoeCraft \u517b\u8001\u670d"//输出的内容，要注意的是中文必须转换成Unicode编码
 	]//当这是最后一个节点时不应该填写逗号，若只有一个节点也如此。
 ]
 ```
@@ -104,10 +108,12 @@ public class LocalIntegratedRepoManager implements RepoManager {
 #### 生成配置文件说明
 ```json
 {
-  "description": "kcraft 5 / Update 1", //版本说明，可以书写任意内容。
+  "description": "MoeCraft", //版本说明，可以书写任意内容。
   "version": "5.1", //版本号，更新器不会将其作为检测依据，仅用作显示
   "object_size": 3145727, //文件对象分块阈值。超过此大小的文件将会被切成多个块，单位：字节
   "name_rule": "%s/%s-%d.txt", //object文件命名规则，请勿随意修改
+  "output_json": "../po3.json", //输出JSON路径
+  "moecraft_dir": "PO3", //游戏所在目录
   "synced_dirs": [ //强制同步的文件夹列表，位于这里的文件夹会被强制同步到与服务器相同的状态
     "HMCLData/Library", //请勿将 .minecraft/config 文件夹设为强制同步，否则用户运行更新器会丢失所有minecraft mod 设置。您应该单独设置需要同步哪些config文件
     ".minecraft/versions",
@@ -121,6 +127,9 @@ public class LocalIntegratedRepoManager implements RepoManager {
   ],
   "default_files": [ //默认文件，仅当客户端没有这些文件时才从服务器上下载
     "HMCLData/hmcl.json"
+  ],
+  "default_dirs": [  //默认目录，仅当客户端没有这些文件时才从服务器上下载
+    
   ],
   "excluded_files": [ //生成器会跳过符合这些特征的文件，可以使用通配符
     "*.class",
@@ -146,7 +155,17 @@ java -jar 构建出的jar文件 -g -c 指定的配置文件
 
 2. 打开 Deployment 文件夹，将此文件夹的内容直接全部上传到 填写repo时输入的目录
 
-# 作者<br />
- 编程：[kenvix](https://kenvix.com)<br />
- 界面：[newbieZBX](https://zbx1425.tk/)<br />
- 教程编写：[gao_cai_sheng](https://www.qwq2333.top)<br />
+**以PO3为例**
+
+1. 把游戏放到PO3目录    
+2. 单独编写gen_po3.json，可以看到json里有一行output_json，表示这个输出json的文件名    
+3. 启动生成器，参数 `java -jar generator-2.0-SNAPSHOT.jar -g -c gen_po3.json -p PO3`      
+      表示从PO3目录进行生成，配置文件为gen_po3.json
+4. 把Deployment目录和po3.json丢上去即可    
+
+如果要生成omni，同理    
+直接在这里建一个Omni目录，然后单独编写gen_omni.json，修改output_json    
+启动生成器，参数 java -jar generator-2.0-SNAPSHOT.jar -g -c gen_omni,json -p omni   
+Deployment里的文件可以共享，多个包只需下载一套文件     
+
+其中Deployment的内容只添加 不要覆盖
