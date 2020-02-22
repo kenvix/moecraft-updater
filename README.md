@@ -1,6 +1,6 @@
 # MoeCraft 通用更新器
 
-**注意**：本软件为开源软件，但并非自由软件。使用须联系本人获得授权，否则不得使用本软件。
+**注意**：本软件为开源软件，但并非自由软件。使用须联系本人获得授权，否则不得使用本软件或其任何组件。
 
 # 如何将本项目部署在您自己的服务器
 
@@ -12,7 +12,7 @@
 4.安装了Java Scene Builder(Javafx)<br />
 
 ## 2.修改文件
-#### 1.```src\main\java\net\kcraft\generator\Environment.java```
+#### 1.```src\main\java\net\moecraft\generator\Environment.java```
 ```java
 ...
     private final static Class[] repoManager = { AccountCenterRepoManager.class, LocalIntegratedRepoManager.class };
@@ -21,7 +21,7 @@
     节点仓库，如果你是群组服或者有非同一时间同步多个客户端需求，你也可以把他当做客户端列表。
     该文件应为json格式，且不应该有注释。地址则为您的网页服务器（即客户端文件存放服务器）
      */
-    private static final String repoManagerURL = "https://modpack.qwq2333.top/repo";//节点仓库，如果你是群组服或者有非同一时间同步多个客户端需求，你也可以把他当做客户端列表。
+    private static final String repoManagerURL = "https://accounts.moecraft.net/repo";//节点仓库，如果你是群组服或者有非同一时间同步多个客户端需求，你也可以把他当做客户端列表。
     private final static String appName = "MoeCraft Toolbox"; //应用名，你应该根据个人需求修改
     private final static String outJsonName = "MoeCraft.json";//作为生成器使用时输出的json文件，可改可不改
 ...
@@ -31,9 +31,9 @@
 ...
     static void loadEnvironment(final CommandLine cmd) throws IOException {
     ...
-        basekcraftDir = new File(cmd.hasOption('p') ? cmd.getOptionValue('p') : "./KCraft");//客户端输出文件夹，你应该按自己的需求修改它
+        basemoecraftDir = new File(cmd.hasOption('p') ? cmd.getOptionValue('p') : "./moecraft");//客户端输出文件夹，你应该按自己的需求修改它
         generatorConfigFile = new File(cmd.hasOption('c') ? cmd.getOptionValue('c') : "./generator_config.json");
-        basekcraftPath = basekcraftDir.getCanonicalPath().replace('\\', '/');
+        basemoecraftPath = basemoecraftDir.getCanonicalPath().replace('\\', '/');
         updateDescription = cmd.hasOption('i') ? cmd.getOptionValue('i') : "";
         isUpdater = !cmd.hasOption('g');
         updateVersion = cmd.hasOption('l') ? cmd.getOptionValue('l') : "1.0";
@@ -41,10 +41,10 @@
 ...
 ```
 
-#### 2.```src\main\java\net\kcraft\generator\updater\repo\LocalIntegratedRepoManager.java```
+#### 2.```src\main\java\net\moecraft\generator\updater\repo\LocalIntegratedRepoManager.java```
 
 ```java
-package net.kcraft.generator.updater.repo;
+package net.moecraft.generator.updater.repo;
 public class LocalIntegratedRepoManager implements RepoManager {
 	    @Override
 	        public Repo[] getRepos() throws Exception {
@@ -61,18 +61,18 @@ public class LocalIntegratedRepoManager implements RepoManager {
 					/*
 					如上面的示例
 					当未获取到节点列表时就会输出
-					[0] [推荐] KCraft 格雷服
+					[0] [推荐] moecraft 格雷服
 					并自动从https://accounts.moecraft.net/tech下载tech.json与其他客户端文件
 					*/
 				};
 				}
 		}
 ```
-#### 3.```src\main\java\net\kcraft\generator\updater\ui\cli\CommandLineUI```**（可选）**
+#### 3.```src\main\java\net\moecraft\generator\updater\ui\cli\CommandLineUI```**（可选）**
 
 此处为当以命令行模式(-cli)启动时输出的界面，一般用户不会用到此功能，根据个人需求修改即可。
 
-#### 4.```src\main\resources\net\kcraft\generator\updater\ui\gui\nodeselect.fxml```与该文件夹下的favicon.png
+#### 4.```src\main\resources\net\moecraft\generator\updater\ui\gui\nodeselect.fxml```与该文件夹下的favicon.png
 
 此处为当以GUI模式下启动时输出的界面，使用Java Scene Builder按照需求编辑即可。
 
