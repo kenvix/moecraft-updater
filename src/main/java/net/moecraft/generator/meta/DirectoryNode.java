@@ -74,6 +74,22 @@ public class DirectoryNode implements Cloneable {
         return fileNodes;
     }
 
+    /**
+     * 找到所有的子目录的文件输出
+     * @return
+     */
+    public List<FileNode> allContainFileNodes() {
+        List<FileNode> back = (List<FileNode>) ((ArrayList)fileNodes).clone();
+        directoryNodes.forEach(dn->{dfs(dn, back);});
+        return back;
+    }
+
+    private List<FileNode> dfs(DirectoryNode root, List<FileNode> back){
+        back.addAll(root.fileNodes);
+        directoryNodes.forEach(dn->{dfs(dn, back);});
+        return back;
+    }
+
     public boolean hasChildDirectory() {
         return !directoryNodes.isEmpty();
     }
