@@ -90,24 +90,17 @@ public final class GeneratorConfig extends MetaResult implements Serializable {
 
     public boolean isFileExcluded(File file) {
         boolean excluded = false;
-        for (String rule : excludedFileRule) {
-            if (StringTool.wildcardMatch(rule, file.getName()))
+        for (String rule : excludedFileRule)
+            if ((new File(basePath, rule).getAbsolutePath().equals(file.getAbsolutePath())))
                 excluded = true;
-        }
         return excluded;
     }
 
     public boolean isDirectoryExcluded(File dir) {
         boolean excluded = false;
-        try {
-            for (String rule : excludedDirectoryRule) {
-                if (StringTool.wildcardMatch(rule, FileTool.getRelativePath(basePath, dir.getCanonicalPath())))
-                    excluded = true;
-            }
-        } catch (IOException ex) {
-            Environment.getLogger().info("Failed to detect whether directory is excluded: " + dir.getName());
-            ex.printStackTrace();
-        }
+        for (String rule : excludedDirectoryRule)
+            if ((new File(basePath, rule).getAbsolutePath().equals(dir.getAbsolutePath())))
+                excluded = true;
         return excluded;
     }
 
@@ -159,12 +152,9 @@ public final class GeneratorConfig extends MetaResult implements Serializable {
         searchFileItems("synced_dirs", MetaNodeType.SyncedDirectory, json);
         searchFileItems("synced_files", MetaNodeType.SyncedFile, json);
         searchFileItems("default_files", MetaNodeType.DefaultFile, json);
-
-        if (json.has("default_dirs"))
-            searchFileItems("default_dirs", MetaNodeType.DefaultDirectory, json);
-
+        searchFileItems("default_dirs", MetaNodeType.DefaultDirectory, json);
         searchRuleItems("excluded_files", excludedFileRule, json);
-        searchRuleItems("excluded_dir", excludedDirectoryRule, json);
+        searchRuleItems("excluded_dirs", excludedDirectoryRule, json);
     }
 
     public JSONObject getJsonObject() {
@@ -172,7 +162,7 @@ public final class GeneratorConfig extends MetaResult implements Serializable {
     }
 
     private void searchRuleItems(String key, Set<String> target, JSONObject json) {
-        for (Object item : json.getJSONArray("excluded_files")) {
+        for (Object item : json.getJSONArray(key)) {
             if (item instanceof String) {
                 target.add(((String) item).replace('\\', '/'));
             } else {
